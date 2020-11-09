@@ -261,6 +261,14 @@ def read_requirements(req_file: PathLike) -> Tuple[Set[ComparableRequirement], L
 
 class RequirementsManager(ABC):
 	"""
+	Abstract base class for managing requirements files.
+
+	When invoked with run, the methods are called in the following order:
+
+	#. :meth:`~.compile_target_requirements`
+	#. :meth:`~.merge_requirements`
+	#. :meth:`~.remove_library_requirements`
+	#. :meth:`~.write_requirements`
 
 	:param repo_path: Path to the repository root.
 	"""
@@ -292,6 +300,8 @@ class RequirementsManager(ABC):
 		"""
 		Add and remove requirements depending on the configuration
 		by modifying the ``target_requirements`` attribute.
+
+		This method may not return anything.
 		"""  # noqa: D400
 
 	def get_target_requirement_names(self) -> Set[str]:
@@ -323,6 +333,8 @@ class RequirementsManager(ABC):
 	def remove_library_requirements(self) -> None:
 		"""
 		Remove requirements given in the library requirements.txt file.
+
+		This method may not return anything.
 		"""
 
 		lib_requirements, _ = read_requirements(self.repo_path / "requirements.txt")
@@ -334,6 +346,8 @@ class RequirementsManager(ABC):
 		Write the list of requirements to the file.
 
 		:param comments: List of commented lines.
+
+		This method may not return anything.
 		"""
 
 		buf = StringList(comments)

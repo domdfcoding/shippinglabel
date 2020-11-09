@@ -122,6 +122,7 @@ Installation
 	:caption: API Reference
 	:glob:
 
+	api/shippinglabel
 	api/*
 
 .. toctree::
