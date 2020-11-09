@@ -248,3 +248,9 @@ def test_check_dependencies(capsys):
 	assert isinstance(missing_deps, list)
 	assert len(missing_deps) == 0
 	assert missing_deps == []
+
+
+def test_comparable_requirement():
+	assert ComparableRequirement("foo") != ComparableRequirement("bar")
+	assert ComparableRequirement("foo") == ComparableRequirement("foo")
+	assert ComparableRequirement("foo>=1.2.3") == ComparableRequirement("foo >= 1.2.3")

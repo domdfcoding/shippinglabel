@@ -98,7 +98,7 @@ def bind_requirements(filename: PathLike, specifier: str = ">=") -> int:
 
 	ret = 0
 	filename = PathPlus(filename)
-	requirements, invalid_lines, comments = read_requirements(filename, include_invalid=True)
+	requirements, comments, invalid_lines = read_requirements(filename, include_invalid=True)
 
 	for req in requirements:
 		if not req.specifier:
