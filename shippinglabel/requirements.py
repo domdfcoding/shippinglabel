@@ -50,6 +50,7 @@ __all__ = [
 		"read_requirements",
 		"RequirementsManager",
 		"list_requirements",
+		"check_dependencies",
 		]
 
 

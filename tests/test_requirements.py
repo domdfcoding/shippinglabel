@@ -11,6 +11,7 @@ from pytest_regressions.file_regression import FileRegressionFixture
 # this package
 from shippinglabel.requirements import (
 		ComparableRequirement,
+		check_dependencies,
 		combine_requirements,
 		read_requirements,
 		resolve_specifiers
@@ -218,3 +219,32 @@ def test_sort_mixed_requirements():
 			ComparableRequirement("six==1.15.0"),
 			"urllib3",
 			]
+
+
+def test_check_dependencies(capsys):
+	deps = ["pytest", "domdf_python_tools", "madeup_module"]
+
+	missing_deps = check_dependencies(deps, False)
+	assert isinstance(missing_deps, list)
+	assert len(missing_deps) == 1
+	assert missing_deps == ["madeup_module"]
+
+	missing_deps = check_dependencies(deps)
+	captured = capsys.readouterr()
+	stdout = captured.out.split("\n")
+	assert stdout[0] == "The following modules are missing:"
+	assert stdout[1] == "['madeup_module']"
+	assert stdout[2] == "Please check the documentation."
+	assert stdout[3] == ''
+	assert isinstance(missing_deps, list)
+	assert len(missing_deps) == 1
+	assert missing_deps == ["madeup_module"]
+
+	missing_deps = check_dependencies(["pytest"])
+	captured = capsys.readouterr()
+	stdout = captured.out.split("\n")
+	assert stdout[0] == "All modules installed"
+	assert stdout[1] == ''
+	assert isinstance(missing_deps, list)
+	assert len(missing_deps) == 0
+	assert missing_deps == []
