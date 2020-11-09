@@ -29,7 +29,7 @@ Utilities for working with :pep:`508` requirements.
 # stdlib
 import warnings
 from abc import ABC
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union, overload
 
 # 3rd party
 from domdf_python_tools.compat import importlib_metadata
@@ -39,6 +39,7 @@ from domdf_python_tools.typing import PathLike
 from packaging.markers import default_environment
 from packaging.requirements import InvalidRequirement, Requirement
 from packaging.specifiers import Specifier, SpecifierSet
+from typing_extensions import Literal
 
 # this package
 from shippinglabel import normalize
@@ -231,16 +232,44 @@ def combine_requirements(
 	return merged_requirements
 
 
-def read_requirements(req_file: PathLike) -> Tuple[Set[ComparableRequirement], List[str]]:
+_read_requirements_ret_invalid = Tuple[Set[ComparableRequirement], List[str], List[str]]
+_read_requirements_ret_valid = Tuple[Set[ComparableRequirement], List[str]]
+_read_requirements_ret = Union[_read_requirements_ret_invalid, _read_requirements_ret_valid]
+
+
+@overload
+def read_requirements(
+		req_file: PathLike,
+		include_invalid: Literal[True],
+		) -> _read_requirements_ret_invalid:
+	...  # pragma: no cover
+
+
+@overload
+def read_requirements(
+		req_file: PathLike,
+		include_invalid: Literal[False] = ...,
+		) -> _read_requirements_ret_valid:
+	...  # pragma: no cover
+
+
+def read_requirements(
+		req_file: PathLike,
+		include_invalid: bool = False,
+		) -> _read_requirements_ret:
 	"""
 	Reads :pep:`508` requirements from the given file.
 
 	:param req_file:
+	:param include_invalid: If :py:obj:`True`, include invalid lines as the third element of the tuple.
 
 	:return: The requirements, and a list of commented lines.
+
+	.. versionchanged:: 0.2.0 Added the ``include_invalid`` option.
 	"""
 
 	comments = []
+	invalid_lines: List[str] = []
 	requirements: Set[ComparableRequirement] = set()
 
 	for line in PathPlus(req_file).read_lines():
@@ -254,9 +283,12 @@ def read_requirements(req_file: PathLike) -> Tuple[Set[ComparableRequirement], L
 					requirements.add(req)
 			except InvalidRequirement:
 				warnings.warn(f"Ignored invalid requirement {line!r}")
-				pass
+				invalid_lines.append(line)
 
-	return requirements, comments
+	if include_invalid:
+		return requirements, comments, invalid_lines
+	else:
+		return requirements, comments
 
 
 class RequirementsManager(ABC):
