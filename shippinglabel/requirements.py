@@ -408,8 +408,9 @@ def list_requirements(name: str, depth: int = 1) -> Iterator[Union[str, List[str
 		if not req.extras and requirement.marker:
 			continue
 
-		if req.extras and requirement.marker and not requirement.marker.evaluate(
-				marker_environment(list(req.extras)[0])
+		if (
+				req.extras and requirement.marker
+				and not requirement.marker.evaluate(marker_environment(list(req.extras)[0]))
 				):
 			continue
 
