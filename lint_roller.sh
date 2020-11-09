@@ -8,13 +8,13 @@ if [ -z "$(git status --porcelain --untracked-files=no)" ] || [ "$1" == "-f" ]; 
 
   echo "Running autopep8"
 
-  autopep8 --in-place --select "$errors" -a --recursive packing_tape/
+  autopep8 --in-place --select "$errors" -a --recursive shippinglabel/
 
   autopep8 --in-place --select "$errors" -a --recursive tests/
 
   echo "Running flake8"
 
-    >&2 flake8 packing_tape/
+    >&2 flake8 shippinglabel/
 
     >&2 flake8 tests/
 

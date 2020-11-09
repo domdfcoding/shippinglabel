@@ -2,7 +2,7 @@
 from consolekit.terminal_colours import Fore
 
 # this package
-from packing_tape.classifiers import validate_classifiers
+from shippinglabel.classifiers import validate_classifiers
 
 
 class TestValidateClassifiers:

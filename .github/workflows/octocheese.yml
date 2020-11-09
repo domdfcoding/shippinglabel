@@ -13,6 +13,6 @@ jobs:
     steps:
       - uses: domdfcoding/octocheese@master
         with:
-          pypi_name: "packing-tape"
+          pypi_name: "shippinglabel"
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

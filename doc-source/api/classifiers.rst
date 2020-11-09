@@ -1,5 +1,5 @@
 ==================================
-:mod:`packing_tape.classifiers`
+:mod:`shippinglabel.classifiers`
 ==================================
 
-.. automodule:: packing_tape.classifiers
+.. automodule:: shippinglabel.classifiers

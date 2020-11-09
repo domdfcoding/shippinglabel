@@ -41,7 +41,7 @@ from packaging.requirements import InvalidRequirement, Requirement
 from packaging.specifiers import Specifier, SpecifierSet
 
 # this package
-from packing_tape import normalize
+from shippinglabel import normalize
 
 __all__ = [
 		"ComparableRequirement",

@@ -1,5 +1,5 @@
 #############
-packing-tape
+shippinglabel
 #############
 
 .. start short_desc
@@ -26,7 +26,7 @@ packing-tape
 	  - |license| |language| |requires| |pre_commit|
 
 .. |docs| rtfd-shield::
-	:project: packing-tape
+	:project: shippinglabel
 	:alt: Documentation Build Status
 
 .. |docs_check| actions-shield::
@@ -55,22 +55,22 @@ packing-tape
 	:alt: CodeFactor Grade
 
 .. |pypi-version| pypi-shield::
-	:project: packing-tape
+	:project: shippinglabel
 	:version:
 	:alt: PyPI - Package Version
 
 .. |supported-versions| pypi-shield::
-	:project: packing-tape
+	:project: shippinglabel
 	:py-versions:
 	:alt: PyPI - Supported Python Versions
 
 .. |supported-implementations| pypi-shield::
-	:project: packing-tape
+	:project: shippinglabel
 	:implementations:
 	:alt: PyPI - Supported Implementations
 
 .. |wheel| pypi-shield::
-	:project: packing-tape
+	:project: shippinglabel
 	:wheel:
 	:alt: PyPI - Wheel
 
@@ -106,7 +106,7 @@ Installation
 
 .. start installation
 
-.. installation:: packing-tape
+.. installation:: shippinglabel
 	:pypi:
 	:github:
 
@@ -135,6 +135,6 @@ Installation
 
 View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.
 
-`Browse the GitHub Repository <https://github.com/domdfcoding/packing-tape>`__
+`Browse the GitHub Repository <https://github.com/domdfcoding/shippinglabel>`__
 
 .. end links

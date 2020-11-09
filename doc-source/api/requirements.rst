@@ -1,5 +1,5 @@
 ==================================
-:mod:`packing_tape.requirements`
+:mod:`shippinglabel.requirements`
 ==================================
 
-.. automodule:: packing_tape.requirements
+.. automodule:: shippinglabel.requirements

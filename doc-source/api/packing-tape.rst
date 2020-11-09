@@ -1,5 +1,5 @@
 ======================
-:mod:`packing_tape`
+:mod:`shippinglabel`
 ======================
 
-.. automodule:: packing_tape
+.. automodule:: shippinglabel

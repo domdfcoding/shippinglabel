@@ -20,7 +20,7 @@ assignees: domdfcoding
 
   * Operating System:
   * Python:
-  * packing-tape:
+  * shippinglabel:
 
 
 ## Other Additional Information:

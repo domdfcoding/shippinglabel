@@ -1,5 +1,5 @@
 #############
-packing-tape
+shippinglabel
 #############
 
 .. start short_desc
@@ -26,67 +26,67 @@ packing-tape
 	* - Other
 	  - |license| |language| |requires| |pre_commit|
 
-.. |docs| image:: https://img.shields.io/readthedocs/packing-tape/latest?logo=read-the-docs
-	:target: https://packing-tape.readthedocs.io/en/latest/?badge=latest
+.. |docs| image:: https://img.shields.io/readthedocs/shippinglabel/latest?logo=read-the-docs
+	:target: https://shippinglabel.readthedocs.io/en/latest/?badge=latest
 	:alt: Documentation Build Status
 
-.. |docs_check| image:: https://github.com/domdfcoding/packing-tape/workflows/Docs%20Check/badge.svg
-	:target: https://github.com/domdfcoding/packing-tape/actions?query=workflow%3A%22Docs+Check%22
+.. |docs_check| image:: https://github.com/domdfcoding/shippinglabel/workflows/Docs%20Check/badge.svg
+	:target: https://github.com/domdfcoding/shippinglabel/actions?query=workflow%3A%22Docs+Check%22
 	:alt: Docs Check Status
 
-.. |travis| image:: https://img.shields.io/travis/com/domdfcoding/packing-tape/master?logo=travis
-	:target: https://travis-ci.com/domdfcoding/packing-tape
+.. |travis| image:: https://img.shields.io/travis/com/domdfcoding/shippinglabel/master?logo=travis
+	:target: https://travis-ci.com/domdfcoding/shippinglabel
 	:alt: Travis Build Status
 
-.. |actions_windows| image:: https://github.com/domdfcoding/packing-tape/workflows/Windows%20Tests/badge.svg
-	:target: https://github.com/domdfcoding/packing-tape/actions?query=workflow%3A%22Windows+Tests%22
+.. |actions_windows| image:: https://github.com/domdfcoding/shippinglabel/workflows/Windows%20Tests/badge.svg
+	:target: https://github.com/domdfcoding/shippinglabel/actions?query=workflow%3A%22Windows+Tests%22
 	:alt: Windows Tests Status
 
-.. |actions_macos| image:: https://github.com/domdfcoding/packing-tape/workflows/macOS%20Tests/badge.svg
-	:target: https://github.com/domdfcoding/packing-tape/actions?query=workflow%3A%22macOS+Tests%22
+.. |actions_macos| image:: https://github.com/domdfcoding/shippinglabel/workflows/macOS%20Tests/badge.svg
+	:target: https://github.com/domdfcoding/shippinglabel/actions?query=workflow%3A%22macOS+Tests%22
 	:alt: macOS Tests Status
 
-.. |requires| image:: https://requires.io/github/domdfcoding/packing-tape/requirements.svg?branch=master
-	:target: https://requires.io/github/domdfcoding/packing-tape/requirements/?branch=master
+.. |requires| image:: https://requires.io/github/domdfcoding/shippinglabel/requirements.svg?branch=master
+	:target: https://requires.io/github/domdfcoding/shippinglabel/requirements/?branch=master
 	:alt: Requirements Status
 
-.. |coveralls| image:: https://img.shields.io/coveralls/github/domdfcoding/packing-tape/master?logo=coveralls
-	:target: https://coveralls.io/github/domdfcoding/packing-tape?branch=master
+.. |coveralls| image:: https://img.shields.io/coveralls/github/domdfcoding/shippinglabel/master?logo=coveralls
+	:target: https://coveralls.io/github/domdfcoding/shippinglabel?branch=master
 	:alt: Coverage
 
-.. |codefactor| image:: https://img.shields.io/codefactor/grade/github/domdfcoding/packing-tape?logo=codefactor
-	:target: https://www.codefactor.io/repository/github/domdfcoding/packing-tape
+.. |codefactor| image:: https://img.shields.io/codefactor/grade/github/domdfcoding/shippinglabel?logo=codefactor
+	:target: https://www.codefactor.io/repository/github/domdfcoding/shippinglabel
 	:alt: CodeFactor Grade
 
-.. |pypi-version| image:: https://img.shields.io/pypi/v/packing-tape
-	:target: https://pypi.org/project/packing-tape/
+.. |pypi-version| image:: https://img.shields.io/pypi/v/shippinglabel
+	:target: https://pypi.org/project/shippinglabel/
 	:alt: PyPI - Package Version
 
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/packing-tape?logo=python&logoColor=white
-	:target: https://pypi.org/project/packing-tape/
+.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/shippinglabel?logo=python&logoColor=white
+	:target: https://pypi.org/project/shippinglabel/
 	:alt: PyPI - Supported Python Versions
 
-.. |supported-implementations| image:: https://img.shields.io/pypi/implementation/packing-tape
-	:target: https://pypi.org/project/packing-tape/
+.. |supported-implementations| image:: https://img.shields.io/pypi/implementation/shippinglabel
+	:target: https://pypi.org/project/shippinglabel/
 	:alt: PyPI - Supported Implementations
 
-.. |wheel| image:: https://img.shields.io/pypi/wheel/packing-tape
-	:target: https://pypi.org/project/packing-tape/
+.. |wheel| image:: https://img.shields.io/pypi/wheel/shippinglabel
+	:target: https://pypi.org/project/shippinglabel/
 	:alt: PyPI - Wheel
 
-.. |license| image:: https://img.shields.io/github/license/domdfcoding/packing-tape
-	:target: https://github.com/domdfcoding/packing-tape/blob/master/LICENSE
+.. |license| image:: https://img.shields.io/github/license/domdfcoding/shippinglabel
+	:target: https://github.com/domdfcoding/shippinglabel/blob/master/LICENSE
 	:alt: License
 
-.. |language| image:: https://img.shields.io/github/languages/top/domdfcoding/packing-tape
+.. |language| image:: https://img.shields.io/github/languages/top/domdfcoding/shippinglabel
 	:alt: GitHub top language
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/packing-tape/v0.0.0
-	:target: https://github.com/domdfcoding/packing-tape/pulse
+.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/shippinglabel/v0.0.0
+	:target: https://github.com/domdfcoding/shippinglabel/pulse
 	:alt: GitHub commits since tagged version
 
-.. |commits-latest| image:: https://img.shields.io/github/last-commit/domdfcoding/packing-tape
-	:target: https://github.com/domdfcoding/packing-tape/commit/master
+.. |commits-latest| image:: https://img.shields.io/github/last-commit/domdfcoding/shippinglabel
+	:target: https://github.com/domdfcoding/shippinglabel/commit/master
 	:alt: GitHub last commit
 
 .. |maintained| image:: https://img.shields.io/maintenance/yes/2020
@@ -96,8 +96,8 @@ packing-tape
 	:target: https://github.com/pre-commit/pre-commit
 	:alt: pre-commit
 
-.. |pre_commit_ci| image:: https://results.pre-commit.ci/badge/github/domdfcoding/packing-tape/master.svg
-	:target: https://results.pre-commit.ci/latest/github/domdfcoding/packing-tape/master
+.. |pre_commit_ci| image:: https://results.pre-commit.ci/badge/github/domdfcoding/shippinglabel/master.svg
+	:target: https://results.pre-commit.ci/latest/github/domdfcoding/shippinglabel/master
 	:alt: pre-commit.ci status
 
 .. end shields
@@ -107,12 +107,12 @@ Installation
 
 .. start installation
 
-``packing-tape`` can be installed from PyPI.
+``shippinglabel`` can be installed from PyPI.
 
 To install with ``pip``:
 
 .. code-block:: bash
 
-	$ python -m pip install packing-tape
+	$ python -m pip install shippinglabel
 
 .. end installation

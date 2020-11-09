@@ -9,7 +9,7 @@ from packaging.specifiers import Specifier, SpecifierSet
 from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
-from packing_tape.requirements import (
+from shippinglabel.requirements import (
 		ComparableRequirement,
 		combine_requirements,
 		read_requirements,

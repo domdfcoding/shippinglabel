@@ -2,5 +2,5 @@ include __pkginfo__.py
 include LICENSE
 include requirements.txt
 prune **/__pycache__
-recursive-include packing_tape *.pyi
-include packing_tape/py.typed
+recursive-include shippinglabel *.pyi
+include shippinglabel/py.typed

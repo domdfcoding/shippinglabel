@@ -14,21 +14,21 @@ sys.path.append(os.path.abspath('..'))
 from __pkginfo__ import __version__
 
 github_username = "domdfcoding"
-github_repository = "packing-tape"
+github_repository = "shippinglabel"
 github_url = f"https://github.com/{github_username}/{github_repository}"
 
-rst_prolog = f""".. |pkgname| replace:: packing-tape
-.. |pkgname2| replace:: ``packing-tape``
+rst_prolog = f""".. |pkgname| replace:: shippinglabel
+.. |pkgname2| replace:: ``shippinglabel``
 .. |browse_github| replace:: `Browse the GitHub Repository <{github_url}>`__
 """
 
 author = "Dominic Davis-Foster"
-project = "packing-tape"
+project = "shippinglabel"
 slug = re.sub(r'\W+', '-', project.lower())
 release = version = __version__
 copyright = "2020 Dominic Davis-Foster"  # pylint: disable=redefined-builtin
 language = 'en'
-package_root = "packing_tape"
+package_root = "shippinglabel"
 
 extensions = [
 		'sphinx_toolbox',
@@ -76,7 +76,7 @@ html_show_sourcelink = True  # True will show link to source
 html_context = {
 		'display_github': True,
 		'github_user': 'domdfcoding',
-		'github_repo': 'packing-tape',
+		'github_repo': 'shippinglabel',
 		'github_version': 'master',
 		'conf_py_path': '/doc-source/',
 		}

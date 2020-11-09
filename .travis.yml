@@ -59,7 +59,7 @@ jobs:
       deploy:
         on:
           tags: true
-          repo: domdfcoding/packing-tape
+          repo: domdfcoding/shippinglabel
         provider: pypi
         user: "DomDF"
         password:

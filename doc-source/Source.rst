@@ -2,15 +2,15 @@
 Downloading source code
 =========================
 
-The ``packing-tape`` source code is available on GitHub,
-and can be accessed from the following URL: https://github.com/domdfcoding/packing-tape"
+The ``shippinglabel`` source code is available on GitHub,
+and can be accessed from the following URL: https://github.com/domdfcoding/shippinglabel"
 
 If you have ``git`` installed, you can clone the repository with the following command:
 
 .. code-block:: bash
 
-    $ git clone https://github.com/domdfcoding/packing-tape"
-    > Cloning into 'packing-tape'...
+    $ git clone https://github.com/domdfcoding/shippinglabel"
+    > Cloning into 'shippinglabel'...
     > remote: Enumerating objects: 47, done.
     > remote: Counting objects: 100% (47/47), done.
     > remote: Compressing objects: 100% (41/41), done.
@@ -30,7 +30,7 @@ If you have ``git`` installed, you can clone the repository with the following c
 Building from source
 -----------------------
 
-The recommended way to build ``packing-tape`` is to use `tox <https://tox.readthedocs.io/en/latest/>`_:
+The recommended way to build ``shippinglabel`` is to use `tox <https://tox.readthedocs.io/en/latest/>`_:
 
 .. prompt:: bash
 
