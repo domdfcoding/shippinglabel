@@ -1,5 +1,5 @@
-=============
-packing_tape
-=============
+======================
+:mod:`packing_tape`
+======================
 
 .. automodule:: packing_tape

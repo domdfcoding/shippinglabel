@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 #
-#  __init__.py
+#  classifiers.py
 """
-Utilities for handling packages.
+Utilities for working with trove classifiers.
 """
 #
 #  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
@@ -27,38 +27,31 @@ Utilities for handling packages.
 #
 
 # stdlib
-import re
-from typing import Iterable, List
+from typing import Iterable
 
-__all__ = ["no_dev_versions", "normalize"]
+# 3rd party
+import trove_classifiers  # type: ignore
+from consolekit.terminal_colours import Fore
+from domdf_python_tools.utils import stderr_writer
 
-__author__: str = "Dominic Davis-Foster"
-__copyright__: str = "2020 Dominic Davis-Foster"
-__license__: str = "MIT License"
-__version__: str = "0.0.0"
-__email__: str = "dominic@davis-foster.co.uk"
+__all__ = ["validate_classifiers"]
 
 
-def no_dev_versions(versions: Iterable[str]) -> List[str]:
+def validate_classifiers(classifiers: Iterable[str]) -> bool:
 	"""
-	Returns the subset of ``versions`` which does not end with ``-dev``.
+	Validate a list of `trove classifiers <https://pypi.org/classifiers/>`_.
 
-	:param versions:
+	:param classifiers:
 	"""
 
-	return [v for v in versions if not v.endswith("-dev")]
+	invalid_classifier = False
 
+	for classifier in classifiers:
+		if classifier in trove_classifiers.deprecated_classifiers:
+			stderr_writer(Fore.YELLOW(f"Classifier '{classifier}' is deprecated!"))
 
-_normalize_pattern = re.compile(r"[-_.]+")
+		elif classifier not in trove_classifiers.classifiers:
+			stderr_writer(Fore.RED(f"Unknown Classifier '{classifier}'!"))
+			invalid_classifier = True
 
-
-def normalize(name: str) -> str:
-	"""
-	Normalize the given name for PyPI et al.
-
-	From :pep:`503` (public domain).
-
-	:param name: The project name.
-	"""
-
-	return _normalize_pattern.sub("-", name).lower()
+	return invalid_classifier
