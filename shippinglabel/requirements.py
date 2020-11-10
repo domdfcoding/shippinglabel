@@ -244,6 +244,8 @@ _read_requirements_ret = Union[_read_requirements_ret_invalid, _read_requirement
 def read_requirements(
 		req_file: PathLike,
 		include_invalid: Literal[True],
+		*,
+		normalize_func: Callable[[str], str] = ...
 		) -> _read_requirements_ret_invalid:
 	...  # pragma: no cover
 
@@ -252,6 +254,8 @@ def read_requirements(
 def read_requirements(
 		req_file: PathLike,
 		include_invalid: Literal[False] = ...,
+		*,
+		normalize_func: Callable[[str], str] = ...
 		) -> _read_requirements_ret_valid:
 	...  # pragma: no cover
 
