@@ -30,7 +30,7 @@ Utilities for handling packages.
 import re
 from typing import Iterable, List
 
-__all__ = ["no_dev_versions", "normalize"]
+__all__ = ["no_dev_versions", "normalize", "normalize_keep_dot"]
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
@@ -50,6 +50,7 @@ def no_dev_versions(versions: Iterable[str]) -> List[str]:
 
 
 _normalize_pattern = re.compile(r"[-_.]+")
+_normalize_keep_dot_pattern = re.compile(r"[-_]+")
 
 
 def normalize(name: str) -> str:
@@ -62,3 +63,15 @@ def normalize(name: str) -> str:
 	"""
 
 	return _normalize_pattern.sub("-", name).lower()
+
+
+def normalize_keep_dot(name: str) -> str:
+	"""
+	Normalize the given name for PyPI et al., but keep dots in namespace packages.
+
+	:param name: The project name.
+
+	.. versionadded:: 0.2.1
+	"""
+
+	return _normalize_keep_dot_pattern.sub("-", name).lower()

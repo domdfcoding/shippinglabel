@@ -29,7 +29,7 @@ Utilities for working with :pep:`508` requirements.
 # stdlib
 import warnings
 from abc import ABC
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union, overload
+from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union, overload
 
 # 3rd party
 from domdf_python_tools.compat import importlib_metadata
@@ -194,12 +194,15 @@ _Requirement = Union[str, Requirement]
 def combine_requirements(
 		requirement: Union[_Requirement, Iterable[_Requirement]],
 		*requirements: _Requirement,
+		normalize_func: Callable[[str], str] = normalize
 		) -> List[ComparableRequirement]:
 	"""
 	Combine duplicated requirements in a list.
 
 	:param requirement: A single requirement, or an iterable of requirements.
 	:param requirements: Additional requirements.
+
+	.. versionchanged:: 0.2.1 Added the ``normalize_func`` keyword-only argument.
 
 	.. TODO:: Markers
 	"""
@@ -215,7 +218,7 @@ def combine_requirements(
 		if not isinstance(req, ComparableRequirement):
 			req = ComparableRequirement(str(req))
 
-		req.name = normalize(req.name)
+		req.name = normalize_func(req.name)
 
 		if req.name in merged_requirements:
 			other_req = merged_requirements[merged_requirements.index(req.name)]  # type: ignore
@@ -256,16 +259,21 @@ def read_requirements(
 def read_requirements(
 		req_file: PathLike,
 		include_invalid: bool = False,
+		*,
+		normalize_func: Callable[[str], str] = normalize
 		) -> _read_requirements_ret:
 	"""
 	Reads :pep:`508` requirements from the given file.
 
 	:param req_file:
 	:param include_invalid: If :py:obj:`True`, include invalid lines as the third element of the tuple.
+	:param normalize_func: Function to use to normalize the names of requirements.
 
 	:return: The requirements, and a list of commented lines.
 
 	.. versionchanged:: 0.2.0 Added the ``include_invalid`` option.
+
+	.. versionchanged:: 0.2.1 Added the ``normalize_func`` keyword-only argument.
 	"""
 
 	comments = []
@@ -278,8 +286,8 @@ def read_requirements(
 		elif line:
 			try:
 				req = ComparableRequirement(line)
-				req.name = normalize(req.name)
-				if req.name not in [normalize(r.name) for r in requirements]:
+				req.name = normalize_func(req.name)
+				if req.name not in [normalize_func(r.name) for r in requirements]:
 					requirements.add(req)
 			except InvalidRequirement:
 				warnings.warn(f"Ignored invalid requirement {line!r}")
@@ -336,6 +344,17 @@ class RequirementsManager(ABC):
 		This method may not return anything.
 		"""  # noqa: D400
 
+	def normalize(self, name: str) -> str:
+		"""
+		Normalize the given name for PyPI et al.
+
+		:param name: The project name.
+
+		.. versionadded:: 0.2.1
+		"""
+
+		return normalize(name)
+
 	def get_target_requirement_names(self) -> Set[str]:
 		"""
 		Returns a list of normalized names for the target requirements,
@@ -344,7 +363,7 @@ class RequirementsManager(ABC):
 
 		names = set()
 		for req in self.target_requirements:
-			req.name = normalize(req.name)
+			req.name = self.normalize(req.name)
 			names.add(req.name)
 		return names
 
@@ -370,7 +389,7 @@ class RequirementsManager(ABC):
 		"""
 
 		lib_requirements, _ = read_requirements(self.repo_path / "requirements.txt")
-		lib_requirements_names = [normalize(r.name) for r in lib_requirements]
+		lib_requirements_names = [self.normalize(r.name) for r in lib_requirements]
 		self.target_requirements = {r for r in self.target_requirements if r.name not in lib_requirements_names}
 
 	def write_requirements(self, comments: List[str]) -> None:
