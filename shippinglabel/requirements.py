@@ -201,6 +201,7 @@ def combine_requirements(
 
 	:param requirement: A single requirement, or an iterable of requirements.
 	:param requirements: Additional requirements.
+	:param normalize_func: Function to use to normalize the names of requirements.
 
 	.. versionchanged:: 0.2.1 Added the ``normalize_func`` keyword-only argument.
 

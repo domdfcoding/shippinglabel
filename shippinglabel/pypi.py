@@ -29,7 +29,7 @@ Utilities for working with the Python Package Index (PyPI).
 #
 
 # stdlib
-from typing import Any, Dict, List, Set
+from typing import Any, Callable, Dict, List
 
 # 3rd party
 from apeye.requests_url import RequestsURL
@@ -39,6 +39,7 @@ from packaging.requirements import InvalidRequirement
 from packaging.specifiers import SpecifierSet
 
 # this package
+from shippinglabel import normalize
 from shippinglabel.requirements import operator_symbols, read_requirements
 
 __all__ = ["get_metadata", "get_latest", "bind_requirements", "PYPI_API"]
@@ -81,16 +82,23 @@ def get_latest(pypi_name: str) -> str:
 	return str(get_metadata(pypi_name)['info']['version'])
 
 
-def bind_requirements(filename: PathLike, specifier: str = ">=") -> int:
+def bind_requirements(
+		filename: PathLike,
+		specifier: str = ">=",
+		normalize_func: Callable[[str], str] = normalize,
+		) -> int:
 	"""
 	Bind unbound requirements in the given file to the latest version on PyPI, and any later versions.
 
 	:param filename: The requirements.txt file to bind requirements in.
 	:param specifier: The requirement specifier symbol to use.
+	:param normalize_func: Function to use to normalize the names of requirements.
 
 	:return: ``1`` if the file was changed; ``0`` otherwise.
 
 	.. versionadded:: 0.2.0
+
+	.. versionchanged:: 0.2.3 Added the ``normalize_func`` keyword-only argument.
 	"""
 
 	if specifier not in operator_symbols:
@@ -98,7 +106,11 @@ def bind_requirements(filename: PathLike, specifier: str = ">=") -> int:
 
 	ret = 0
 	filename = PathPlus(filename)
-	requirements, comments, invalid_lines = read_requirements(filename, include_invalid=True)
+	requirements, comments, invalid_lines = read_requirements(
+		filename,
+		include_invalid=True,
+		normalize_func=normalize_func,
+		)
 
 	for req in requirements:
 		if not req.specifier:
