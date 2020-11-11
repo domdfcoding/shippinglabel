@@ -20,6 +20,8 @@ shippinglabel
 	  - |travis| |actions_windows| |actions_macos| |coveralls| |codefactor| |pre_commit_ci|
 	* - PyPI
 	  - |pypi-version| |supported-versions| |supported-implementations| |wheel|
+	* - Anaconda
+	  - |conda-version| |conda-platform|
 	* - Activity
 	  - |commits-latest| |commits-since| |maintained|
 	* - Other
@@ -74,6 +76,14 @@ shippinglabel
 	:wheel:
 	:alt: PyPI - Wheel
 
+.. |conda-version| image:: https://img.shields.io/conda/v/domdfcoding/shippinglabel?logo=anaconda
+	:target: https://anaconda.org/domdfcoding/shippinglabel
+	:alt: Conda - Package Version
+
+.. |conda-platform| image:: https://img.shields.io/conda/pn/domdfcoding/shippinglabel?label=conda%7Cplatform
+	:target: https://anaconda.org/domdfcoding/shippinglabel
+	:alt: Conda - Platform
+
 .. |license| github-shield::
 	:license:
 	:alt: License
@@ -109,6 +119,8 @@ Installation
 .. installation:: shippinglabel
 	:pypi:
 	:github:
+	:anaconda:
+	:conda-channels: conda-forge, domdfcoding
 
 .. end installation
 
