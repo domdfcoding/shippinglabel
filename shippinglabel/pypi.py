@@ -42,7 +42,7 @@ from packaging.specifiers import SpecifierSet
 from shippinglabel import normalize
 from shippinglabel.requirements import operator_symbols, read_requirements
 
-__all__ = ["get_metadata", "get_latest", "bind_requirements", "PYPI_API"]
+__all__ = ["PYPI_API", "get_metadata", "get_latest", "bind_requirements", "get_pypi_releases"]
 
 PYPI_API = SlumberURL("https://pypi.org/pypi/", timeout=10)
 """
