@@ -32,7 +32,7 @@ Utilities for working with the Python Package Index (PyPI).
 from typing import Any, Callable, Dict, List
 
 # 3rd party
-from apeye.requests_url import RequestsURL
+from apeye.slumber_url import HttpNotFoundError, SlumberURL
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
 from packaging.requirements import InvalidRequirement
@@ -44,8 +44,12 @@ from shippinglabel.requirements import operator_symbols, read_requirements
 
 __all__ = ["get_metadata", "get_latest", "bind_requirements", "PYPI_API"]
 
-#: Instance of :class:`apeye.requests_url.RequestsURL` which points to the PyPI REST API.
-PYPI_API = RequestsURL("https://pypi.org/pypi/")
+PYPI_API = SlumberURL("https://pypi.org/pypi/", timeout=10)
+"""
+Instance of :class:`apeye.slumber_url.SlumberURL` which points to the PyPI REST API.
+
+.. versionchanged:: 0.3.0  Now an instance of :class:`apeye.slumber_url.SlumberURL`
+"""
 
 
 def get_metadata(pypi_name: str) -> Dict[str, Any]:
@@ -55,17 +59,19 @@ def get_metadata(pypi_name: str) -> Dict[str, Any]:
 	:param pypi_name:
 
 	:raises: :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
+	:raises: :exc:`apeye.slumber_url.HttpServerError` if an error occurs in PyPI.
 
 	.. versionadded:: 0.2.0
 	"""
 
-	query_url = PYPI_API / pypi_name / "json"
-	response = query_url.get(timeout=10)
+	query_url: SlumberURL = PYPI_API / pypi_name / "json"
 
-	if response.status_code != 200:
+	try:
+		response = query_url.get()
+	except HttpNotFoundError:
 		raise InvalidRequirement(f"No such project {pypi_name!r}")
 
-	return response.json()
+	return response
 
 
 def get_latest(pypi_name: str) -> str:
@@ -75,6 +81,7 @@ def get_latest(pypi_name: str) -> str:
 	:param pypi_name:
 
 	:raises: :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
+	:raises: :exc:`apeye.slumber_url.HttpServerError` if an error occurs in PyPI.
 
 	.. versionadded:: 0.2.0
 	"""
@@ -126,3 +133,28 @@ def bind_requirements(
 		filename.write_lines(buf)
 
 	return ret
+
+
+def get_pypi_releases(pypi_name: str) -> Dict[str, List[str]]:
+	"""
+	Returns a dictionary mapping PyPI release versions to download URLs.
+
+	:param pypi_name: The name of the project on PyPI.
+
+	:raises: :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
+	:raises: :exc:`apeye.slumber_url.HttpServerError` if an error occurs in PyPI.
+
+	.. versionadded:: 0.3.0
+	"""
+
+	pypi_releases = {}
+
+	for release, release_data in get_metadata(pypi_name)["releases"].items():
+
+		release_urls: List[str] = []
+
+		for file in release_data:
+			release_urls.append(file["url"])
+		pypi_releases[release] = release_urls
+
+	return pypi_releases
