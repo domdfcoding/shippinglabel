@@ -62,7 +62,7 @@ def normalize(name: str) -> str:
 	:param name: The project name.
 	"""
 
-	return _normalize_pattern.sub("-", name).lower()
+	return _normalize_pattern.sub('-', name).lower()
 
 
 def normalize_keep_dot(name: str) -> str:
@@ -74,4 +74,4 @@ def normalize_keep_dot(name: str) -> str:
 	.. versionadded:: 0.2.3
 	"""
 
-	return _normalize_keep_dot_pattern.sub("-", name).lower()
+	return _normalize_keep_dot_pattern.sub('-', name).lower()

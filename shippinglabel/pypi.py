@@ -86,7 +86,7 @@ def get_latest(pypi_name: str) -> str:
 	.. versionadded:: 0.2.0
 	"""
 
-	return str(get_metadata(pypi_name)['info']['version'])
+	return str(get_metadata(pypi_name)["info"]["version"])
 
 
 def bind_requirements(

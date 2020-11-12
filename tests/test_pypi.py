@@ -10,8 +10,8 @@ from shippinglabel.pypi import bind_requirements, get_pypi_releases
 
 
 @pytest.mark.parametrize(
-		('input_s', 'expected_retval', 'output'),
-		(
+		"input_s, expected_retval, output",
+		[
 				('', 0, ''),
 				('\n', 0, '\n'),
 				('# intentionally empty\n', 0, '# intentionally empty\n'),
@@ -20,25 +20,13 @@ from shippinglabel.pypi import bind_requirements, get_pypi_releases
 				('bar\nfoo\n', 1, 'bar>=0.2.1\nfoo>=.1\n'),
 				('a\nc\nb\n', 1, 'a>=1.0\nb>=1.0.0\nc>=0.1.0\n'),
 				('a\nb\nc', 1, 'a>=1.0\nb>=1.0.0\nc>=0.1.0\n'),
-				(
-						'#comment1\nfoo\n#comment2\nbar\n',
-						1,
-						'#comment1\n#comment2\nbar>=0.2.1\nfoo>=.1\n',
-						),
-				(
-						'#comment1\nbar\n#comment2\nfoo\n',
-						1,
-						'#comment1\n#comment2\nbar>=0.2.1\nfoo>=.1\n',
-						),
+				('#comment1\nfoo\n#comment2\nbar\n', 1, '#comment1\n#comment2\nbar>=0.2.1\nfoo>=.1\n'),
+				('#comment1\nbar\n#comment2\nfoo\n', 1, '#comment1\n#comment2\nbar>=0.2.1\nfoo>=.1\n'),
 				('#comment\n\nfoo\nbar\n', 1, '#comment\nbar>=0.2.1\nfoo>=.1\n'),
 				('#comment\n\nbar\nfoo\n', 1, '#comment\nbar>=0.2.1\nfoo>=.1\n'),
 				('\nfoo\nbar\n', 1, 'bar>=0.2.1\nfoo>=.1\n'),
 				('\nbar\nfoo\n', 1, 'bar>=0.2.1\nfoo>=.1\n'),
-				(
-						'pyramid-foo==1\npyramid>=2\n',
-						1,
-						'pyramid>=2\npyramid-foo==1\n',
-						),
+				('pyramid-foo==1\npyramid>=2\n', 1, 'pyramid>=2\npyramid-foo==1\n'),
 				(
 						'a==1\n'
 						'c>=1\n'
@@ -62,10 +50,10 @@ from shippinglabel.pypi import bind_requirements, get_pypi_releases
 				('bar\npkg-resources==0.0.0\nfoo\n', 1, 'bar>=0.2.1\nfoo>=.1\npkg-resources==0.0.0\n'),
 				('foo\npkg-resources==0.0.0\nbar\n', 1, 'bar>=0.2.1\nfoo>=.1\npkg-resources==0.0.0\n'),
 				('foo???1.2.3\nbar\n', 1, 'foo???1.2.3\nbar>=0.2.1\n'),
-				),
+				]
 		)
 def test_bind_requirements(input_s, expected_retval, output, tmp_pathplus):
-	path = tmp_pathplus / 'requirements.txt'
+	path = tmp_pathplus / "requirements.txt"
 	path.write_text(input_s)
 
 	assert bind_requirements(path) == expected_retval

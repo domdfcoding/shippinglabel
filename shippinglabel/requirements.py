@@ -286,7 +286,7 @@ def read_requirements(
 	requirements: Set[ComparableRequirement] = set()
 
 	for line in PathPlus(req_file).read_lines():
-		if line.startswith("#"):
+		if line.startswith('#'):
 			comments.append(line)
 		elif line:
 			try:
