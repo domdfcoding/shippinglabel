@@ -1,8 +1,12 @@
+# stdlib
+from urllib.parse import urlparse
+
 # 3rd party
 import pytest
+from pytest_regressions.data_regression import DataRegressionFixture
 
 # this package
-from shippinglabel.pypi import bind_requirements
+from shippinglabel.pypi import bind_requirements, get_pypi_releases
 
 
 @pytest.mark.parametrize(
@@ -67,3 +71,25 @@ def test_bind_requirements(input_s, expected_retval, output, tmp_pathplus):
 	assert bind_requirements(path) == expected_retval
 
 	assert path.read_text() == output
+
+
+def uri_validator(x):
+	# Based on https://stackoverflow.com/a/38020041
+	# By https://stackoverflow.com/users/1668293/alemol and https://stackoverflow.com/users/953553/andilabs
+	result = urlparse(x)
+	return all([result.scheme, result.netloc, result.path])
+
+
+def test_get_pypi_releases(data_regression: DataRegressionFixture):
+	releases = get_pypi_releases("octocheese")
+	assert isinstance(releases, dict)
+
+	release_url_list = releases["0.0.2"]
+	assert isinstance(release_url_list, list)
+
+	for url in release_url_list:
+		print(url)
+		assert isinstance(url, str)
+		assert uri_validator(url)
+
+	data_regression.check(release_url_list)
