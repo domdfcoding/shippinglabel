@@ -327,6 +327,7 @@ class RequirementsManager(ABC):
 	def __init__(self, repo_path: PathLike):
 		self.repo_path = PathPlus(repo_path)
 		self.req_file = self.prep_req_file()
+		self.target_requirements = set(self.target_requirements)
 
 	def prep_req_file(self):
 		"""
