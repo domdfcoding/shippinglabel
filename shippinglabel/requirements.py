@@ -394,8 +394,18 @@ class RequirementsManager(ABC):
 		"""
 
 		lib_requirements, _ = read_requirements(self.repo_path / "requirements.txt")
-		lib_requirements_names = [self.normalize(r.name) for r in lib_requirements]
-		self.target_requirements = {r for r in self.target_requirements if r.name not in lib_requirements_names}
+		lib_requirements_names_extras = {normalize(r.name): r.extras for r in lib_requirements}
+
+		non_library_requirements = set()
+
+		for req in self.target_requirements:
+			if req.name in lib_requirements_names_extras:
+				if req.extras != lib_requirements_names_extras[req.name]:
+					non_library_requirements.add(req)
+			else:
+				non_library_requirements.add(req)
+
+		self.target_requirements = non_library_requirements
 
 	def write_requirements(self, comments: List[str]) -> None:
 		"""
