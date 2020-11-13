@@ -154,6 +154,7 @@ def resolve_specifiers(specifiers: Iterable[Specifier]) -> SpecifierSet:
 	final_specifier_set = SpecifierSet()
 
 	operator_lookup: Dict[str, List[Specifier]] = {s: [] for s in operator_symbols}
+	spec: Specifier
 
 	for spec in specifiers:
 		if spec.operator in operator_lookup:
@@ -223,13 +224,13 @@ def combine_requirements(
 
 		if req.name in merged_requirements:
 			other_req = merged_requirements[merged_requirements.index(req.name)]  # type: ignore
-			other_req.specifier &= req.specifier
-			other_req.extras &= req.extras
-			other_req.specifier = resolve_specifiers(other_req.specifier)
-			if req.marker and other_req.marker:
-				raise NotImplementedError
-			elif req.marker and not other_req.marker:
-				other_req.marker = req.marker
+
+			if req.marker != other_req.marker:
+				merged_requirements.append(req)
+			else:
+				other_req.specifier &= req.specifier
+				other_req.extras &= req.extras
+				other_req.specifier = resolve_specifiers(other_req.specifier)
 		else:
 			merged_requirements.append(req)
 

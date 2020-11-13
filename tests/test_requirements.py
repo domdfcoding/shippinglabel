@@ -133,6 +133,35 @@ def test_combine_requirements():
 	assert str(combine_requirements(reqs)[0].specifier) == "==3.2.1,==3.2.3,==3.2.5,>2.5"
 
 
+def test_combine_requirements_markers():
+	reqs = [
+			ComparableRequirement('numpy==1.19.3; platform_system == "Windows"'),
+			ComparableRequirement('numpy>=1.19.1; platform_system != "Windows"'),
+			]
+
+	assert combine_requirements(reqs) == [
+			ComparableRequirement('numpy==1.19.3; platform_system == "Windows"'),
+			ComparableRequirement('numpy>=1.19.1; platform_system != "Windows"'),
+			]
+
+	reqs = [
+			ComparableRequirement('numpy==1.19.3; platform_system == "Windows"'),
+			ComparableRequirement("numpy>=1.19.1"),
+			]
+
+	assert combine_requirements(reqs) == [
+			ComparableRequirement('numpy==1.19.3; platform_system == "Windows"'),
+			ComparableRequirement("numpy>=1.19.1"),
+			]
+
+	reqs = [
+			ComparableRequirement("numpy==1.19.3"),
+			ComparableRequirement("numpy>=1.19.1"),
+			]
+
+	assert combine_requirements(reqs) == [ComparableRequirement("numpy==1.19.3,>=1.19.1")]
+
+
 @pytest.mark.parametrize(
 		"specifiers, resolved",
 		[([
