@@ -195,8 +195,8 @@ def test_resolve_specifiers(specifiers, resolved):
 	assert resolve_specifiers(specifiers) == resolved
 
 
-def test_read_requirements(tmp_pathplus, file_regression: FileRegressionFixture):
-	(tmp_pathplus / "requirements.txt").write_lines([
+
+requirements_a = [
 			"autodocsumm>=0.2.0",
 			"default-values>=0.2.0",
 			"domdf-sphinx-theme>=0.1.0",
@@ -214,11 +214,48 @@ def test_read_requirements(tmp_pathplus, file_regression: FileRegressionFixture)
 			"sphinxcontrib-httpdomain>=1.7.0",
 			"sphinxemoji>=0.1.6",
 			"toctree-plus>=0.0.4",
-			])
+			]
 
+requirements_b = [
+			"autodocsumm>=0.2.0",
+			"default-values>=0.2.0",
+			"domdf-sphinx-theme>=0.1.0",
+			"domdf-sphinx-theme>=0.1.0",
+			"extras-require>=0.2.0",
+			"repo-helper-sphinx-theme>=0.0.2",
+			"seed-intersphinx-mapping>=0.1.1",
+			"sphinx>=3.0.3",
+			"sphinx-click>=2.5.0",
+			"sphinx-copybutton>=0.2.12",
+			"sphinx-copybutton>=0.2.12",
+			"sphinx-notfound-page>=0.5",
+			"sphinx-prompt>=1.1.0",
+			"sphinx-tabs>=1.1.13",
+			"sphinx-toolbox>=1.7.1",
+			"sphinxcontrib-autoprogram>=0.1.5",
+			"sphinxcontrib-autoprogram>=0.1.5",
+			"sphinxcontrib-httpdomain>=1.7.0",
+			"sphinxemoji>=0.1.6",
+			"toctree-plus>=0.0.4",
+			"toctree-plus>=0.0.3",
+			]
+
+
+requirements_c = [
+			'numpy==1.19.3; platform_system == "Windows"',
+			'numpy>=1.19.1; platform_system != "Windows"',
+			]
+
+
+@pytest.mark.parametrize("requirements", [
+		pytest.param(requirements_a, id="a"),
+		pytest.param(requirements_b, id="b"),
+		pytest.param(requirements_c, id="c"),
+		])
+def test_read_requirements(tmp_pathplus, file_regression: FileRegressionFixture, requirements):
+	(tmp_pathplus / "requirements.txt").write_lines(requirements)
 	requirements, comments = read_requirements(tmp_pathplus / "requirements.txt")
-
-	check_file_regression('\n'.join(str(x) for x in sorted(requirements)), file_regression, extension="._txt")
+	check_file_regression('\n'.join(str(x) for x in sorted(requirements)), file_regression)
 
 
 def test_read_requirements_invalid(tmp_pathplus, file_regression: FileRegressionFixture):
