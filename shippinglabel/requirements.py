@@ -54,7 +54,6 @@ __all__ = [
 		"check_dependencies",
 		]
 
-
 operator_symbols = ("<=", '<', "!=", "==", ">=", '>', "~=", "===")
 _Requirement = Union[str, Requirement]
 
@@ -190,8 +189,8 @@ def resolve_specifiers(specifiers: Iterable[Specifier]) -> SpecifierSet:
 		operator_lookup['>'] = [Specifier(f">{max(spec.version for spec in operator_lookup['>'])}")]
 
 	# merge e.g. >1.2.3 and >=1.2.2 into >1.2.3
-	if operator_lookup[">="] and operator_lookup[">"]:
-		gt_version = operator_lookup[">"][0].version
+	if operator_lookup[">="] and operator_lookup['>']:
+		gt_version = operator_lookup['>'][0].version
 		ge_version = operator_lookup[">="][0].version
 
 		if gt_version > ge_version:
@@ -205,8 +204,8 @@ def resolve_specifiers(specifiers: Iterable[Specifier]) -> SpecifierSet:
 			del operator_lookup[">="]
 
 	# merge e.g. <=1.2.3 and <1.2.2 into <1.2.2
-	if operator_lookup["<="] and operator_lookup["<"]:
-		lt_version = operator_lookup["<"][0].version
+	if operator_lookup["<="] and operator_lookup['<']:
+		lt_version = operator_lookup['<'][0].version
 		le_version = operator_lookup["<="][0].version
 
 		if lt_version < le_version:
