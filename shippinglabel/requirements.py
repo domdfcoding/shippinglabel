@@ -29,7 +29,6 @@ Utilities for working with :pep:`508` requirements.
 # stdlib
 import warnings
 from abc import ABC
-from functools import total_ordering
 from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union, overload
 
 # 3rd party
@@ -59,7 +58,6 @@ operator_symbols = ("<=", '<', "!=", "==", ">=", '>', "~=", "===")
 _Requirement = Union[str, Requirement]
 
 
-@total_ordering
 class ComparableRequirement(Requirement):
 	"""
 	Represents a :pep:`508` requirement.
@@ -112,6 +110,31 @@ class ComparableRequirement(Requirement):
 				return str(self.specifier or '') > str(other.specifier or '')
 		elif isinstance(other, str):
 			return self.name < other
+		else:  # pragma: no cover
+			return NotImplemented
+
+	def __le__(self, other) -> bool:
+		if not isinstance(other, (Requirement, str)):  # pragma: no cover
+			return NotImplemented
+		if self < other or self == other:
+			return True
+		return False
+
+	def __ge__(self, other) -> bool:
+		if not isinstance(other, (Requirement, str)):  # pragma: no cover
+			return NotImplemented
+		if self > other or self == other:
+			return True
+		return False
+
+	def __gt__(self, other) -> bool:
+		if isinstance(other, Requirement):
+			if self.name != other.name:
+				return self.name > other.name
+			else:
+				return str(self.specifier or '') < str(other.specifier or '')
+		elif isinstance(other, str):
+			return self.name > other
 		else:  # pragma: no cover
 			return NotImplemented
 
