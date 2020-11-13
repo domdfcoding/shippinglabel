@@ -34,7 +34,7 @@ from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Set,
 # 3rd party
 from domdf_python_tools.compat import importlib_metadata
 from domdf_python_tools.paths import PathPlus
-from domdf_python_tools.stringlist import StringList
+from domdf_python_tools.stringlist import DelimitedList, StringList
 from domdf_python_tools.typing import PathLike
 from packaging.markers import default_environment
 from packaging.requirements import InvalidRequirement, Requirement
@@ -55,19 +55,8 @@ __all__ = [
 		]
 
 
-def _check_equal_not_none(left: Optional[Any], right: Optional[Any]):
-	if not left or not right:
-		return True
-	else:
-		return left == right
-
-
-def _check_marker_equality(left: Optional[Any], right: Optional[Any]):
-	if left is not None and right is not None:
-		for left_mark, right_mark in zip(left._markers, right._markers):
-			if str(left_mark) != str(right_mark):
-				return False
-	return True
+operator_symbols = ("<=", '<', "!=", "==", ">=", '>', "~=", "===")
+_Requirement = Union[str, Requirement]
 
 
 class ComparableRequirement(Requirement):
@@ -77,6 +66,21 @@ class ComparableRequirement(Requirement):
 	Can be compared to other requirements.
 	A list of :class:`~.ComparableRequirement` objects can be sorted alphabetically.
 	"""
+
+	@staticmethod
+	def _check_equal_not_none(left: Optional[Any], right: Optional[Any]):
+		if not left or not right:
+			return True
+		else:
+			return left == right
+
+	@staticmethod
+	def _check_marker_equality(left: Optional[Any], right: Optional[Any]):
+		if left is not None and right is not None:
+			for left_mark, right_mark in zip(left._markers, right._markers):
+				if str(left_mark) != str(right_mark):
+					return False
+		return True
 
 	def __eq__(self, other) -> bool:
 
@@ -90,11 +94,11 @@ class ComparableRequirement(Requirement):
 
 		elif isinstance(other, Requirement):
 			return all((
-					_check_equal_not_none(self.name, other.name),
-					_check_equal_not_none(self.url, other.url),
-					_check_equal_not_none(self.extras, other.extras),
-					_check_equal_not_none(self.specifier, other.specifier),
-					_check_marker_equality(self.marker, other.marker),
+					self._check_equal_not_none(self.name, other.name),
+					self._check_equal_not_none(self.url, other.url),
+					self._check_equal_not_none(self.extras, other.extras),
+					self._check_equal_not_none(self.specifier, other.specifier),
+					self._check_marker_equality(self.marker, other.marker),
 					))
 		else:  # pragma: no cover
 			return NotImplemented
@@ -141,7 +145,22 @@ class ComparableRequirement(Requirement):
 				))
 
 
-operator_symbols = ("<=", '<', "!=", "==", ">=", '>', "~=", "===")
+class _OperatorLookup(Dict[str, DelimitedList[Specifier]]):
+
+	def __setitem__(self, key: str, value):
+		if key not in operator_symbols:
+			raise KeyError(f"Invalid operator symbol {key!r}")
+
+		if isinstance(value, DelimitedList):
+			super().__setitem__(key, value)
+		else:
+			super().__setitem__(key, DelimitedList(value))
+
+	def __getitem__(self, item: str) -> DelimitedList[Specifier]:
+		if item not in self and item in operator_symbols:
+			self[item] = DelimitedList()
+
+		return super().__getitem__(item)
 
 
 def resolve_specifiers(specifiers: Iterable[Specifier]) -> SpecifierSet:
@@ -151,45 +170,82 @@ def resolve_specifiers(specifiers: Iterable[Specifier]) -> SpecifierSet:
 	:param specifiers:
 	"""
 
-	final_specifier_set = SpecifierSet()
-
-	operator_lookup: Dict[str, List[Specifier]] = {s: [] for s in operator_symbols}
+	operator_lookup = _OperatorLookup()
 	spec: Specifier
 
 	for spec in specifiers:
-		if spec.operator in operator_lookup:
+		if spec.operator in operator_symbols:
 			operator_lookup[spec.operator].append(spec)
 
 	if operator_lookup["<="]:
-		final_specifier_set &= SpecifierSet(f"<={min(spec.version for spec in operator_lookup['<='])}")
+		operator_lookup["<="] = [Specifier(f"<={min(spec.version for spec in operator_lookup['<='])}")]
 
 	if operator_lookup['<']:
-		final_specifier_set &= SpecifierSet(f"<{min(spec.version for spec in operator_lookup['<'])}")
-
-	for spec in operator_lookup["!="]:
-		final_specifier_set &= SpecifierSet(f"!={spec.version}")
-
-	for spec in operator_lookup["=="]:
-		final_specifier_set &= SpecifierSet(f"=={spec.version}")
+		operator_lookup['<'] = [Specifier(f"<{min(spec.version for spec in operator_lookup['<'])}")]
 
 	if operator_lookup[">="]:
-		final_specifier_set &= SpecifierSet(f">={max(spec.version for spec in operator_lookup['>='])}")
+		operator_lookup[">="] = [Specifier(f">={max(spec.version for spec in operator_lookup['>='])}")]
 
 	if operator_lookup['>']:
-		final_specifier_set &= SpecifierSet(f">{max(spec.version for spec in operator_lookup['>'])}")
+		operator_lookup['>'] = [Specifier(f">{max(spec.version for spec in operator_lookup['>'])}")]
+
+	# merge e.g. >1.2.3 and >=1.2.2 into >1.2.3
+	if operator_lookup[">="] and operator_lookup[">"]:
+		gt_version = operator_lookup[">"][0].version
+		ge_version = operator_lookup[">="][0].version
+
+		if gt_version > ge_version:
+			del operator_lookup[">="]
+
+	# merge e.g. >=1.2.2 and ==1.2.3 into ==1.2.3
+	if operator_lookup[">="] and operator_lookup["=="]:
+		ge_version = operator_lookup[">="][0].version
+
+		if any([eq_version.version >= ge_version for eq_version in operator_lookup["=="]]):
+			del operator_lookup[">="]
+
+	# merge e.g. <=1.2.3 and <1.2.2 into <1.2.2
+	if operator_lookup["<="] and operator_lookup["<"]:
+		lt_version = operator_lookup["<"][0].version
+		le_version = operator_lookup["<="][0].version
+
+		if lt_version < le_version:
+			del operator_lookup["<="]
+
+	# merge e.g. <=1.2.3 and ==1.2.2 into ==1.2.2
+	if operator_lookup["<="] and operator_lookup["=="]:
+		le_version = operator_lookup["<="][0].version
+
+		if any([eq_version.version <= le_version for eq_version in operator_lookup["=="]]):
+			del operator_lookup["<="]
+
+	specifier_set = SpecifierSet()
+
+	if operator_lookup["<="]:
+		specifier_set &= SpecifierSet(f"{operator_lookup['<=']:,}")
+
+	if operator_lookup['<']:
+		specifier_set &= SpecifierSet(f"{operator_lookup['<']:,}")
+
+	for spec in operator_lookup["!="]:
+		specifier_set &= SpecifierSet(f"!={spec.version}")
+
+	for spec in operator_lookup["=="]:
+		specifier_set &= SpecifierSet(f"=={spec.version}")
+
+	if operator_lookup[">="]:
+		specifier_set &= SpecifierSet(f"{operator_lookup['>=']:,}")
+
+	if operator_lookup['>']:
+		specifier_set &= SpecifierSet(f"{operator_lookup['>']:,}")
 
 	for spec in operator_lookup["~="]:
-		final_specifier_set &= SpecifierSet(f"~={spec.version}")
+		specifier_set &= SpecifierSet(f"~={spec.version}")
 
 	for spec in operator_lookup["==="]:
-		final_specifier_set &= SpecifierSet(f"==={spec.version}")
+		specifier_set &= SpecifierSet(f"==={spec.version}")
 
-	# TODO: merge e.g. >1.2.3 and >=1.2.2 (into >1.2.3)
-
-	return final_specifier_set
-
-
-_Requirement = Union[str, Requirement]
+	return specifier_set
 
 
 def combine_requirements(
@@ -204,9 +260,9 @@ def combine_requirements(
 	:param requirements: Additional requirements.
 	:param normalize_func: Function to use to normalize the names of requirements.
 
-	.. versionchanged:: 0.2.1 Added the ``normalize_func`` keyword-only argument.
+	.. versionchanged:: 0.2.1  Added the ``normalize_func`` keyword-only argument.
 
-	.. TODO:: Markers
+	.. versionchanged:: 0.3.1  Requirements are no longer combined if their markers differ.
 	"""
 
 	if isinstance(requirement, Iterable):

@@ -159,16 +159,42 @@ def test_combine_requirements_markers():
 			ComparableRequirement("numpy>=1.19.1"),
 			]
 
-	assert combine_requirements(reqs) == [ComparableRequirement("numpy==1.19.3,>=1.19.1")]
+	assert combine_requirements(reqs) == [ComparableRequirement("numpy==1.19.3")]
 
 
-@pytest.mark.parametrize(
-		"specifiers, resolved",
-		[([
-				Specifier(">1.2.3"),
-				Specifier(">=1.2.2"),
-				Specifier("<2"),
-				], SpecifierSet(">1.2.3,>=1.2.2,<2"))]
+	reqs = [
+			ComparableRequirement("numpy<=1.19.3"),
+			ComparableRequirement("numpy==1.19.1"),
+			]
+
+	assert combine_requirements(reqs) == [ComparableRequirement("numpy==1.19.1")]
+
+	reqs = [
+			ComparableRequirement("numpy<=1.19.3"),
+			ComparableRequirement("numpy<1.19.1"),
+			]
+
+	assert combine_requirements(reqs) == [ComparableRequirement("numpy<1.19.1")]
+
+
+	reqs = [
+			ComparableRequirement("numpy>1.2.3"),
+			ComparableRequirement("numpy>=1.2.2"),
+			]
+
+	assert combine_requirements(reqs) == [ComparableRequirement("numpy>1.2.3")]
+
+
+@pytest.mark.parametrize("specifiers, resolved", [
+		([Specifier(">1.2.3"), Specifier(">=1.2.2"), Specifier("<2")], SpecifierSet(">1.2.3,<2")),
+		([Specifier(">1.2.3"), Specifier(">=1.2.2")], SpecifierSet(">1.2.3")),
+		([Specifier(">=1.2.2"), Specifier("<2")], SpecifierSet(">=1.2.2,<2")),
+		([Specifier(">1.2.3"), Specifier("<2")], SpecifierSet(">1.2.3,<2")),
+		([Specifier("<1.2.2"), Specifier("<=1.2.3"), Specifier(">2")], SpecifierSet("<1.2.2,>2")),
+		([Specifier("<1.2.2"), Specifier("<=1.2.3")], SpecifierSet("<1.2.2")),
+		([Specifier("<=1.2.3"), Specifier(">2")], SpecifierSet("<=1.2.3,>2")),
+		([Specifier("<1.2.2"), Specifier(">2")], SpecifierSet("<1.2.2,>2")),
+		]
 		)
 def test_resolve_specifiers(specifiers, resolved):
 	assert resolve_specifiers(specifiers) == resolved
