@@ -329,8 +329,7 @@ def read_requirements(
 			try:
 				req = ComparableRequirement(line)
 				req.name = normalize_func(req.name)
-				if req.name not in [normalize_func(r.name) for r in requirements]:
-					requirements.add(req)
+				requirements.add(req)
 			except InvalidRequirement:
 				warnings.warn(f"Ignored invalid requirement {line!r}")
 				invalid_lines.append(line)
