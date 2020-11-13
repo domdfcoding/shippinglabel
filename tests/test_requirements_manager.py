@@ -121,3 +121,31 @@ def test_requirements_manager(tmp_pathplus):
 			"toctree-plus>=0.0.4",
 			'',
 			]
+
+
+def test_requirements_manager_extras(tmp_pathplus):
+
+	(tmp_pathplus / "requirements.txt").write_text("domdf_python_tools>=1.5.0")
+	(tmp_pathplus / "doc-source").mkdir()
+	(tmp_pathplus / "doc-source" / "requirements.txt").write_text("domdf_python_tools[testing]>=1.5.0")
+
+	DocRequirementsManager(tmp_pathplus).run()
+
+	assert (tmp_pathplus / "doc-source" / "requirements.txt").read_lines() == [
+			"alabaster>=0.7.12",
+			"autodocsumm>=0.2.0",
+			"default-values>=0.2.0",
+			"domdf-python-tools[testing]>=1.5.0",
+			"extras-require>=0.2.0",
+			"seed-intersphinx-mapping>=0.1.1",
+			"sphinx>=3.0.3",
+			"sphinx-copybutton>=0.2.12",
+			"sphinx-notfound-page>=0.5",
+			"sphinx-prompt>=1.1.0",
+			"sphinx-tabs>=1.1.13",
+			"sphinx-toolbox>=1.7.1",
+			"sphinxcontrib-httpdomain>=1.7.0",
+			"sphinxemoji>=0.1.6",
+			"toctree-plus>=0.0.4",
+			'',
+			]

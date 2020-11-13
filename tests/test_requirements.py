@@ -1,6 +1,5 @@
 # stdlib
-from collections import Sequence
-from typing import Union
+from typing import Sequence, Union
 
 # 3rd party
 import pytest
