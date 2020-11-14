@@ -260,7 +260,7 @@ requirements_c = [
 def test_read_requirements(tmp_pathplus, file_regression: FileRegressionFixture, requirements):
 	(tmp_pathplus / "requirements.txt").write_lines(requirements)
 	requirements, comments = read_requirements(tmp_pathplus / "requirements.txt")
-	check_file_regression('\n'.join(str(x) for x in sorted(requirements)), file_regression)
+	check_file_regression('\n'.join(str(x) for x in sorted(requirements)), file_regression, extension="._txt")
 
 
 def test_read_requirements_invalid(tmp_pathplus, file_regression: FileRegressionFixture):
