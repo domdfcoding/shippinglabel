@@ -4,26 +4,30 @@ from typing import List
 
 # 3rd party
 from domdf_python_tools.typing import PathLike
-from packaging.requirements import Requirement
 
 # this package
 from shippinglabel import normalize
-from shippinglabel.requirements import RequirementsManager, combine_requirements, read_requirements
+from shippinglabel.requirements import (
+		ComparableRequirement,
+		RequirementsManager,
+		combine_requirements,
+		read_requirements
+		)
 
 
 class DocRequirementsManager(RequirementsManager):
 	target_requirements = {
-			Requirement("sphinxcontrib-httpdomain>=1.7.0"),
-			Requirement("sphinxemoji>=0.1.6"),
-			Requirement("sphinx-notfound-page>=0.5"),
-			Requirement("sphinx-tabs>=1.1.13"),
-			Requirement("autodocsumm>=0.2.0"),
-			# Requirement("sphinx-gitstamp"),
-			# Requirement("gitpython"),
-			# Requirement("sphinx_autodoc_typehints>=1.11.0"),
-			Requirement("sphinx-copybutton>=0.2.12"),
-			Requirement("sphinx-prompt>=1.1.0"),
-			Requirement("sphinx>=3.0.3"),
+			ComparableRequirement("sphinxcontrib-httpdomain>=1.7.0"),
+			ComparableRequirement("sphinxemoji>=0.1.6"),
+			ComparableRequirement("sphinx-notfound-page>=0.5"),
+			ComparableRequirement("sphinx-tabs>=1.1.13"),
+			ComparableRequirement("autodocsumm>=0.2.0"),
+			# ComparableRequirement("sphinx-gitstamp"),
+			# ComparableRequirement("gitpython"),
+			# ComparableRequirement("sphinx_autodoc_typehints>=1.11.0"),
+			ComparableRequirement("sphinx-copybutton>=0.2.12"),
+			ComparableRequirement("sphinx-prompt>=1.1.0"),
+			ComparableRequirement("sphinx>=3.0.3"),
 			}
 
 	def __init__(self, repo_path: PathLike):
@@ -41,10 +45,10 @@ class DocRequirementsManager(RequirementsManager):
 
 		for name, specifier in theme_versions.items():
 			if name == "alabaster":
-				self.target_requirements.add(Requirement(f"{name}{specifier}"))
+				self.target_requirements.add(ComparableRequirement(f"{name}{specifier}"))
 				break
 		else:
-			self.target_requirements.add(Requirement("alabaster>=0.7.12"))
+			self.target_requirements.add(ComparableRequirement("alabaster>=0.7.12"))
 
 		# Mapping of pypi_name to version specifier
 		my_sphinx_extensions = {
@@ -57,7 +61,7 @@ class DocRequirementsManager(RequirementsManager):
 
 		for name, specifier in my_sphinx_extensions.items():
 			if name != "shippinglabel":
-				self.target_requirements.add(Requirement(f"{name}{specifier}"))
+				self.target_requirements.add(ComparableRequirement(f"{name}{specifier}"))
 
 	def merge_requirements(self) -> List[str]:
 		current_requirements, comments = read_requirements(self.req_file)

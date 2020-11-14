@@ -387,8 +387,12 @@ class RequirementsManager(ABC):
 	:param repo_path: Path to the repository root.
 	"""
 
-	#: The static target requirements
-	target_requirements: Set[Requirement]
+	target_requirements: Set[ComparableRequirement]
+	"""
+	The static target requirements
+
+	.. versionchanged:: 0.4.0  Previously this was a set of :class:`packaging.requirements.Requirement`.
+	"""
 
 	#: The path of the requirements file, relative to the repository root.
 	filename: PathLike
