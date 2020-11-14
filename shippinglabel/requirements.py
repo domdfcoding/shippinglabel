@@ -107,7 +107,11 @@ class ComparableRequirement(Requirement):
 			if self.name != other.name:
 				return self.name < other.name
 			else:
-				return str(self.specifier or '') > str(other.specifier or '')
+				if str(self.specifier or '') != str(other.specifier or ''):
+					return str(self.specifier or '') > str(other.specifier or '')
+				else:
+					return str(self.marker or '') > str(other.marker or '')
+
 		elif isinstance(other, str):
 			return self.name < other
 		else:  # pragma: no cover
@@ -132,7 +136,11 @@ class ComparableRequirement(Requirement):
 			if self.name != other.name:
 				return self.name > other.name
 			else:
-				return str(self.specifier or '') < str(other.specifier or '')
+				if str(self.specifier or '') != str(other.specifier or ''):
+					return str(self.specifier or '') < str(other.specifier or '')
+				else:
+					return str(self.marker or '') < str(other.marker or '')
+
 		elif isinstance(other, str):
 			return self.name > other
 		else:  # pragma: no cover
