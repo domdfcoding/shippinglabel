@@ -488,7 +488,7 @@ class RequirementsManager(ABC):
 
 		buf = StringList(comments)
 
-		for req in sorted(self.target_requirements, key=lambda r: r.name.casefold()):
+		for req in sorted(self.target_requirements):
 			buf.append(str(req))
 
 		self.req_file.write_lines(buf)

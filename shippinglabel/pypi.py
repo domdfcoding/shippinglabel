@@ -124,7 +124,7 @@ def bind_requirements(
 			ret |= 1
 			req.specifier = SpecifierSet(f"{specifier}{get_latest(req.name)}")
 
-	sorted_requirements = sorted(requirements, key=lambda r: r.name.casefold())
+	sorted_requirements = sorted(requirements)
 
 	buf: List[str] = [*comments, *invalid_lines, *(str(req) for req in sorted_requirements)]
 
