@@ -8,7 +8,6 @@ shippinglabel
 
 .. end short_desc
 
-
 .. start shields
 
 .. list-table::

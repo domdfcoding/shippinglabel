@@ -22,3 +22,6 @@ travis_pypi_secure: "xIsk6BX28wggT0HKz3aJBufmtq7YGGyBR8z3E3fFuj6lLGbQFJDvkzxbMt8
 conda_channels:
  - conda-forge
  - domdfcoding
+
+sphinx_conf_epilogue:
+ - html_logo = "../shippinglabel.png"
