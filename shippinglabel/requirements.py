@@ -33,6 +33,7 @@ from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Set,
 
 # 3rd party
 from domdf_python_tools.compat import importlib_metadata
+from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import DelimitedList, StringList
 from domdf_python_tools.typing import PathLike
@@ -58,6 +59,7 @@ operator_symbols = ("<=", '<', "!=", "==", ">=", '>', "~=", "===")
 _Requirement = Union[str, Requirement]
 
 
+@prettify_docstrings
 class ComparableRequirement(Requirement):
 	"""
 	Represents a :pep:`508` requirement.
