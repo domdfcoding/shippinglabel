@@ -27,14 +27,17 @@ Utilities for working with trove classifiers.
 #
 
 # stdlib
-from typing import Iterable
+from typing import Collection, Iterable, Iterator
 
 # 3rd party
 import trove_classifiers  # type: ignore
 from consolekit.terminal_colours import Fore
 from domdf_python_tools.utils import stderr_writer
 
-__all__ = ["validate_classifiers"]
+# this package
+from shippinglabel.requirements import ComparableRequirement
+
+__all__ = ["validate_classifiers", "classifiers_from_requirements"]
 
 
 def validate_classifiers(classifiers: Iterable[str]) -> bool:
@@ -55,3 +58,60 @@ def validate_classifiers(classifiers: Iterable[str]) -> bool:
 			invalid_classifier = True
 
 	return invalid_classifier
+
+
+def classifiers_from_requirements(requirements: Collection[ComparableRequirement]) -> Iterator[str]:
+	"""
+	Returns an iterator over suggested trove classifiers based on the given requirements.
+
+	:param requirements:
+
+	:rtype:
+
+	.. versionadded:: 0.5.0
+	"""
+
+	if "dash" in requirements:
+		yield "Framework :: Dash"
+	if "jupyter" in requirements:
+		yield "Framework :: Jupyter"
+	if "matplotlib" in requirements:
+		yield "Framework :: Matplotlib"
+	if "pygame" in requirements:
+		yield "Topic :: Software Development :: Libraries :: pygame"
+		yield "Topic :: Games/Entertainment"
+	if "arcade" in requirements:
+		yield "Topic :: Games/Entertainment"
+	if "flake8" in requirements:
+		yield "Framework :: Flake8"
+		yield "Intended Audience :: Developers"
+	if "flask" in requirements:
+		yield "Framework :: Flask"
+		yield "Topic :: Internet :: WWW/HTTP :: WSGI :: Application"
+		yield "Topic :: Internet :: WWW/HTTP :: Dynamic Content"
+	if "werkzeug" in requirements:
+		yield "Topic :: Internet :: WWW/HTTP :: WSGI :: Application"
+	if "click" in requirements or "typer" in requirements:
+		yield "Environment :: Console"
+	if "pytest" in requirements:
+		# TODO: pytest-*
+		yield "Framework :: Pytest"
+		yield "Topic :: Software Development :: Quality Assurance"
+		yield "Topic :: Software Development :: Testing"
+		yield "Topic :: Software Development :: Testing :: Unit"
+		yield "Intended Audience :: Developers"
+	if "tox" in requirements:
+		# TODO: tox-*
+		yield "Framework :: tox"
+		yield "Topic :: Software Development :: Quality Assurance"
+		yield "Topic :: Software Development :: Testing"
+		yield "Topic :: Software Development :: Testing :: Unit"
+		yield "Intended Audience :: Developers"
+	if "sphinx" in requirements:
+		# TODO: sphinx-*
+		yield "Framework :: Sphinx :: Extension"
+		# TODO: yield "Framework :: Sphinx :: Theme"
+		yield "Topic :: Documentation"
+		yield "Topic :: Documentation :: Sphinx"
+		yield "Topic :: Software Development :: Documentation"
+		yield "Intended Audience :: Developers"
