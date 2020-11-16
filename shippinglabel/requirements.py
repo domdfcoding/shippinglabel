@@ -364,12 +364,14 @@ def read_requirements(
 				req.name = normalize_func(req.name)
 				requirements.add(req)
 			except InvalidRequirement:
-				warnings.warn(f"Ignored invalid requirement {line!r}")
 				invalid_lines.append(line)
 
 	if include_invalid:
 		return requirements, comments, invalid_lines
 	else:
+		for line in invalid_lines:
+			warnings.warn(f"Ignored invalid requirement {line!r}")
+
 		return requirements, comments
 
 
