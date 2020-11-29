@@ -5,6 +5,7 @@ from typing import Sequence, Union
 import pytest
 from packaging.requirements import Requirement
 from packaging.specifiers import Specifier, SpecifierSet
+from pytest_regressions.data_regression import DataRegressionFixture
 from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
@@ -12,6 +13,7 @@ from shippinglabel.requirements import (
 		ComparableRequirement,
 		check_dependencies,
 		combine_requirements,
+		list_requirements,
 		read_requirements,
 		resolve_specifiers
 		)
@@ -285,10 +287,10 @@ def test_read_requirements_invalid(tmp_pathplus, file_regression: FileRegression
 	# check that the message matches
 
 	for idx, warning in enumerate([
-			"Creating a LegacyVersion has been deprecated and will be removed in the next major release",
-			"Ignored invalid requirement 'domdf-sphinx-theme!!!0.1.0'",
-			"Ignored invalid requirement 'https://bbc.co.uk'",
-			]):
+		"Creating a LegacyVersion has been deprecated and will be removed in the next major release",
+		"Ignored invalid requirement 'domdf-sphinx-theme!!!0.1.0'",
+		"Ignored invalid requirement 'https://bbc.co.uk'",
+		]):
 		assert record[idx].message.args[0] == warning  # type: ignore
 
 	check_file_regression('\n'.join(str(x) for x in sorted(requirements)), file_regression, extension="._txt")
@@ -350,3 +352,17 @@ def test_comparable_requirement():
 	assert ComparableRequirement("foo") != ComparableRequirement("bar")
 	assert ComparableRequirement("foo") == ComparableRequirement("foo")
 	assert ComparableRequirement("foo>=1.2.3") == ComparableRequirement("foo >= 1.2.3")
+
+
+@pytest.mark.parametrize(
+		"library", [
+				"shippinglabel",
+				"pytest",
+				"apeye",
+				"domdf-python-tools",
+				"domdf_python_tools",
+				]
+		)
+@pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
+def test_list_requirements(data_regression: DataRegressionFixture, library, depth):
+	data_regression.check(list(list_requirements(library, depth=depth)))

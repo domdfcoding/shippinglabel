@@ -35,6 +35,7 @@ from consolekit.terminal_colours import Fore
 from domdf_python_tools.utils import stderr_writer
 
 # this package
+from shippinglabel import normalize
 from shippinglabel.requirements import ComparableRequirement
 
 __all__ = ["validate_classifiers", "classifiers_from_requirements"]
@@ -71,43 +72,46 @@ def classifiers_from_requirements(requirements: Collection[ComparableRequirement
 	.. versionadded:: 0.5.0
 	"""
 
-	if "dash" in requirements:
+	# Normalize requirement names
+	requirement_names = [normalize(req.name) for req in requirements]
+
+	if "dash" in requirement_names:
 		yield "Framework :: Dash"
-	if "jupyter" in requirements:
+	if "jupyter" in requirement_names:
 		yield "Framework :: Jupyter"
-	if "matplotlib" in requirements:
+	if "matplotlib" in requirement_names:
 		yield "Framework :: Matplotlib"
-	if "pygame" in requirements:
+	if "pygame" in requirement_names:
 		yield "Topic :: Software Development :: Libraries :: pygame"
 		yield "Topic :: Games/Entertainment"
-	if "arcade" in requirements:
+	if "arcade" in requirement_names:
 		yield "Topic :: Games/Entertainment"
-	if "flake8" in requirements:
+	if "flake8" in requirement_names:
 		yield "Framework :: Flake8"
 		yield "Intended Audience :: Developers"
-	if "flask" in requirements:
+	if "flask" in requirement_names:
 		yield "Framework :: Flask"
 		yield "Topic :: Internet :: WWW/HTTP :: WSGI :: Application"
 		yield "Topic :: Internet :: WWW/HTTP :: Dynamic Content"
-	if "werkzeug" in requirements:
+	if "werkzeug" in requirement_names:
 		yield "Topic :: Internet :: WWW/HTTP :: WSGI :: Application"
-	if "click" in requirements or "typer" in requirements:
+	if "click" in requirement_names or "typer" in requirement_names:
 		yield "Environment :: Console"
-	if "pytest" in requirements:
+	if "pytest" in requirement_names:
 		# TODO: pytest-*
 		yield "Framework :: Pytest"
 		yield "Topic :: Software Development :: Quality Assurance"
 		yield "Topic :: Software Development :: Testing"
 		yield "Topic :: Software Development :: Testing :: Unit"
 		yield "Intended Audience :: Developers"
-	if "tox" in requirements:
+	if "tox" in requirement_names:
 		# TODO: tox-*
 		yield "Framework :: tox"
 		yield "Topic :: Software Development :: Quality Assurance"
 		yield "Topic :: Software Development :: Testing"
 		yield "Topic :: Software Development :: Testing :: Unit"
 		yield "Intended Audience :: Developers"
-	if "sphinx" in requirements:
+	if "sphinx" in requirement_names:
 		# TODO: sphinx-*
 		yield "Framework :: Sphinx :: Extension"
 		# TODO: yield "Framework :: Sphinx :: Theme"

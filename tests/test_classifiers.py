@@ -1,8 +1,10 @@
 # 3rd party
+import pytest
 from consolekit.terminal_colours import Fore
 
 # this package
-from shippinglabel.classifiers import validate_classifiers
+from shippinglabel.classifiers import classifiers_from_requirements, validate_classifiers
+from shippinglabel.requirements import ComparableRequirement
 
 
 class TestValidateClassifiers:
@@ -30,3 +32,33 @@ class TestValidateClassifiers:
 		captured = capsys.readouterr()
 		assert not captured.out
 		assert not captured.err
+
+
+@pytest.mark.parametrize(
+		"requirements",
+		[
+				pytest.param(["dash"], id="dash_upper"),
+				pytest.param(["Dash"], id="dash_lower"),
+				pytest.param(["jupyter"], id="jupyter_upper"),
+				pytest.param(["Jupyter"], id="jupyter_lower"),
+				pytest.param(["matplotlib"], id="matplotlib_upper"),
+				pytest.param(["Matplotlib"], id="matplotlib_lower"),
+				pytest.param(["pygame"], id="pygame"),
+				pytest.param(["arcade"], id="arcade"),
+				pytest.param(["flake8"], id="flake8"),
+				pytest.param(["flask"], id="flask"),
+				pytest.param(["werkzeug"], id="werkzeug"),
+				pytest.param(["click>=2.0,!=2.0.1"], id="click"),
+				pytest.param(["pytest"], id="pytest"),
+				pytest.param(["tox"], id="tox"),
+				pytest.param(["Tox==1.2.3"], id="Tox==1.2.3"),
+				pytest.param(["sphinx"], id="sphinx"),
+				pytest.param(["Sphinx>=1.3"], id="Sphinx>=1.3"),
+				pytest.param(["jupyter", "matplotlib>=3"], id="jupyter_matplotlib"),
+				pytest.param(["dash", "flask"], id="dash_flask"),
+				pytest.param(["pytest", "flake8"], id="pytest_flake8"),
+				]
+		)
+def test_classifiers_from_requirements(tmp_pathplus, requirements, data_regression):
+	requirements = [ComparableRequirement(req) for req in requirements]
+	data_regression.check(list(classifiers_from_requirements(requirements)))
