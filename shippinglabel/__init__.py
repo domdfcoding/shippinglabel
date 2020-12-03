@@ -35,7 +35,7 @@ __all__ = ["no_dev_versions", "normalize", "normalize_keep_dot"]
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
 __license__: str = "MIT License"
-__version__: str = "0.5.1"
+__version__: str = "0.5.2"
 __email__: str = "dominic@davis-foster.co.uk"
 
 
@@ -71,7 +71,7 @@ def normalize_keep_dot(name: str) -> str:
 
 	:param name: The project name.
 
-	.. versionadded:: 0.5.1
+	.. versionadded:: 0.5.2
 	"""
 
 	return _normalize_keep_dot_pattern.sub('-', name).lower()
