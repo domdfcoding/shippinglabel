@@ -139,6 +139,16 @@ def test_combine_requirements():
 	assert str(combine_requirements(reqs)[0].specifier) == "==3.2.1,==3.2.3,==3.2.5,>2.5"
 
 
+def test_combine_requirements_differing_precision():
+	reqs = [
+			ComparableRequirement("lockfile>=0.9"),
+			ComparableRequirement("lockfile>=0.9"),
+			ComparableRequirement("lockfile>=0.12.2"),
+			]
+
+	assert combine_requirements(reqs) == [Requirement("lockfile>=0.12.2")]
+
+
 @pytest.mark.parametrize(
 		"reqs, combined",
 		[

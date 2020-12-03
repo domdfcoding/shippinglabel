@@ -34,6 +34,7 @@ from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Set,
 # 3rd party
 from domdf_python_tools.compat import importlib_metadata
 from domdf_python_tools.doctools import prettify_docstrings
+from domdf_python_tools.iterative import natmax, natmin
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import DelimitedList, StringList
 from domdf_python_tools.typing import PathLike
@@ -191,16 +192,16 @@ def resolve_specifiers(specifiers: Iterable[Specifier]) -> SpecifierSet:
 			operator_lookup[spec.operator].append(spec)
 
 	if operator_lookup["<="]:
-		operator_lookup["<="] = [Specifier(f"<={min(spec.version for spec in operator_lookup['<='])}")]
+		operator_lookup["<="] = [Specifier(f"<={natmin(spec.version for spec in operator_lookup['<='])}")]
 
 	if operator_lookup['<']:
-		operator_lookup['<'] = [Specifier(f"<{min(spec.version for spec in operator_lookup['<'])}")]
+		operator_lookup['<'] = [Specifier(f"<{natmin(spec.version for spec in operator_lookup['<'])}")]
 
 	if operator_lookup[">="]:
-		operator_lookup[">="] = [Specifier(f">={max(spec.version for spec in operator_lookup['>='])}")]
+		operator_lookup[">="] = [Specifier(f">={natmax(spec.version for spec in operator_lookup['>='])}")]
 
 	if operator_lookup['>']:
-		operator_lookup['>'] = [Specifier(f">{max(spec.version for spec in operator_lookup['>'])}")]
+		operator_lookup['>'] = [Specifier(f">{natmax(spec.version for spec in operator_lookup['>'])}")]
 
 	# merge e.g. >1.2.3 and >=1.2.2 into >1.2.3
 	if operator_lookup[">="] and operator_lookup['>']:
