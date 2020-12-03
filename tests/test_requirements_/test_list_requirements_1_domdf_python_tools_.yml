@@ -1,5 +1,6 @@
 - colorama>=0.4.3
 - deprecation>=2.1.0
+- natsort>=7.1.0
 - packaging>=20.4
 - pydash>=4.7.4
 - typing-extensions>=3.7.4.3

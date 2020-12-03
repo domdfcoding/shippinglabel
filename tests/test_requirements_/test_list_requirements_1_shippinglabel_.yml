@@ -1,6 +1,6 @@
-- apeye>=0.3.0
+- apeye>=0.4.0
 - consolekit>=0.1.2
-- domdf-python-tools>=1.5.0
+- domdf-python-tools>=1.8.0
 - packaging>=20.7
 - trove-classifiers>=2020.10.21
 - typing-extensions>=3.7.4.3
