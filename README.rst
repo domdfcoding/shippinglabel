@@ -28,7 +28,7 @@ shippinglabel
 	  - |license| |language| |requires| |pre_commit|
 
 .. |docs| image:: https://img.shields.io/readthedocs/shippinglabel/latest?logo=read-the-docs
-	:target: https://shippinglabel.readthedocs.io/en/latest/?badge=latest
+	:target: https://shippinglabel.readthedocs.io/en/latest
 	:alt: Documentation Build Status
 
 .. |docs_check| image:: https://github.com/domdfcoding/shippinglabel/workflows/Docs%20Check/badge.svg
