@@ -46,7 +46,7 @@ from shippinglabel.pypi import bind_requirements, get_pypi_releases
 						'f<=2\n'
 						'g<2\n',
 						),
-				('ocflib\nDjango\nPyMySQL\n', 1, 'django>=3.1.3\nocflib>=2020.10.9.8.6\npymysql>=0.10.1\n'),
+				('ocflib\nDjango\nPyMySQL\n', 1, 'django>=3.1.4\nocflib>=2020.10.9.8.6\npymysql>=0.10.1\n'),
 				('bar\npkg-resources==0.0.0\nfoo\n', 1, 'bar>=0.2.1\nfoo>=.1\npkg-resources==0.0.0\n'),
 				('foo\npkg-resources==0.0.0\nbar\n', 1, 'bar>=0.2.1\nfoo>=.1\npkg-resources==0.0.0\n'),
 				('foo???1.2.3\nbar\n', 1, 'foo???1.2.3\nbar>=0.2.1\n'),
