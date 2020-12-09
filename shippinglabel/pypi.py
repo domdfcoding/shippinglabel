@@ -29,9 +29,11 @@ Utilities for working with the Python Package Index (PyPI).
 #
 
 # stdlib
-from typing import Any, Callable, Dict, List
+import pathlib
+from typing import Any, Callable, Dict, List, Union
 
 # 3rd party
+from apeye import URL, RequestsURL
 from apeye.slumber_url import HttpNotFoundError, SlumberURL
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
@@ -42,7 +44,15 @@ from packaging.specifiers import SpecifierSet
 from shippinglabel import normalize
 from shippinglabel.requirements import operator_symbols, read_requirements
 
-__all__ = ["PYPI_API", "get_metadata", "get_latest", "bind_requirements", "get_pypi_releases"]
+__all__ = [
+		"PYPI_API",
+		"get_metadata",
+		"get_latest",
+		"bind_requirements",
+		"get_pypi_releases",
+		"get_releases_with_digests",
+		"get_file_from_pypi",
+		]
 
 PYPI_API = SlumberURL("https://pypi.org/pypi/", timeout=10)
 """
@@ -178,3 +188,25 @@ def get_releases_with_digests(pypi_name: str) -> Dict[str, List[Dict[str, str]]]
 		pypi_releases[release] = release_urls
 
 	return pypi_releases
+
+
+def get_file_from_pypi(url: Union[URL, str], tmpdir: PathLike):
+	"""
+	Download the file with the given URL into the given (temporary) directory.
+
+	:param url: The URL to download the file from.
+	:param tmpdir: The (temporary) directory to store the downloaded file in.
+
+	.. versionadded:: 0.6.0
+	"""
+
+	if not isinstance(url, RequestsURL):
+		url = RequestsURL(url)
+
+	filename = url.name
+
+	r = url.get()
+	if r.status_code != 200:  # pragma: no cover
+		raise OSError(f"Unable to download '{filename}' from PyPI.")
+
+	(pathlib.Path(tmpdir) / filename).write_bytes(r.content)

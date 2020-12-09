@@ -1,6 +1,8 @@
 # stdlib
 import os
+import pathlib
 import tempfile
+import urllib.parse
 from typing import Iterator
 
 # 3rd party
@@ -10,6 +12,7 @@ from domdf_python_tools.paths import PathPlus
 
 # this package
 from shippinglabel.checksum import check_sha256_hash, get_record_entry, get_sha256_hash
+from shippinglabel.pypi import get_file_from_pypi, get_releases_with_digests
 
 
 @pytest.fixture(scope="session")
@@ -43,3 +46,14 @@ def test_check_sha256_hash(reference_file_a: PathPlus):
 def test_get_record_entry(reference_file_a: PathPlus):
 	entry = get_record_entry(reference_file_a, relative_to=reference_file_a.parent)
 	assert entry == f"{os.path.basename(reference_file_a)},sha256=gwZe_e3TgdqUObhaJw6pYp8bpG2cfXsYWLtw5U1fZkw,154911"
+
+
+def test_checksum_from_pypi(tmp_pathplus):
+	for idx, (release, files) in enumerate(get_releases_with_digests("shippinglabel").items()):
+		for file in files:
+			get_file_from_pypi(file["url"], tmp_pathplus)
+			filename = pathlib.PurePosixPath(urllib.parse.urlparse(file["url"]).path).name
+			check_sha256_hash(tmp_pathplus / filename, file["digest"])
+
+		if idx == 3:
+			return
