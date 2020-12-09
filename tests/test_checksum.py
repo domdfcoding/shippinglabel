@@ -20,7 +20,7 @@ def reference_file_a() -> tempfile.NamedTemporaryFile:
 
 
 def test_get_sha256_hash(reference_file_a):
-	hash = get_sha256_hash(reference_file_a.name)
+	hash = get_sha256_hash(reference_file_a.name)  # noqa: A001
 	assert hash.hexdigest() == "83065efdedd381da9439b85a270ea9629f1ba46d9c7d7b1858bb70e54d5f664c"
 	assert hash.digest(
 	) == b"\x83\x06^\xfd\xed\xd3\x81\xda\x949\xb8Z'\x0e\xa9b\x9f\x1b\xa4m\x9c}{\x18X\xbbp\xe5M_fL"

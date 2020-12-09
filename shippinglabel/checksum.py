@@ -66,7 +66,11 @@ def get_sha256_hash(filename: PathLike, blocksize: int = 1 << 20) -> "_Hash":
 	return sha256_hash
 
 
-def check_sha256_hash(filename: PathLike, hash: Union["_HASH", str], blocksize: int = 1 << 20):
+def check_sha256_hash(
+		filename: PathLike,
+		hash: Union["_HASH", str],  # noqa: A002
+		blocksize: int = 1 << 20,
+		) -> bool:
 	"""
 	Returns whether the sha256 hash for the file matches ``hash``.
 
@@ -78,7 +82,7 @@ def check_sha256_hash(filename: PathLike, hash: Union["_HASH", str], blocksize: 
 	"""
 
 	if isinstance(hash, _HashType):
-		hash = hash.hexdigest()
+		hash = hash.hexdigest()  # noqa: A001
 
 	return hash == get_sha256_hash(filename, blocksize).hexdigest()
 
@@ -94,8 +98,8 @@ def get_record_entry(filename: PathLike, blocksize: int = 1 << 20, relative_to: 
 	.. versionadded:: 0.6.0
 	"""
 
-	digest = "sha256=" + urlsafe_b64encode(get_sha256_hash(filename, blocksize).digest()
-											).decode("latin1").rstrip('=')
+	hash = get_sha256_hash(filename, blocksize).digest()  # noqa: A001
+	digest = "sha256=" + urlsafe_b64encode(hash).decode("latin1").rstrip('=')
 
 	filename = PathPlus(filename)
 
