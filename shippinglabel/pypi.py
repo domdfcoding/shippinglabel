@@ -149,12 +149,32 @@ def get_pypi_releases(pypi_name: str) -> Dict[str, List[str]]:
 
 	pypi_releases = {}
 
+	for release, release_data in get_releases_with_digests(pypi_name).items():
+		pypi_releases[release] = [file["url"] for file in release_data]
+
+	return pypi_releases
+
+
+def get_releases_with_digests(pypi_name: str) -> Dict[str, List[Dict[str, str]]]:
+	"""
+	Returns a dictionary mapping PyPI release versions to download URLs and the sha256sum of the file contents.
+
+	:param pypi_name: The name of the project on PyPI.
+
+	:raises: :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
+	:raises: :exc:`apeye.slumber_url.HttpServerError` if an error occurs in PyPI.
+
+	.. versionadded:: 0.6.0
+	"""
+
+	pypi_releases = {}
+
 	for release, release_data in get_metadata(pypi_name)["releases"].items():
 
-		release_urls: List[str] = []
+		release_urls: List[Dict[str, str]] = []
 
 		for file in release_data:
-			release_urls.append(file["url"])
+			release_urls.append({"url": file["url"], "digest": file["digests"]["sha256"]})
 		pypi_releases[release] = release_urls
 
 	return pypi_releases
