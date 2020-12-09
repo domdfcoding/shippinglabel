@@ -35,4 +35,4 @@ def test_check_sha256_hash(reference_file_a):
 
 def test_get_record_entry(reference_file_a):
 	entry = get_record_entry(reference_file_a.name, relative_to=os.path.dirname(reference_file_a.name))
-	assert entry == f"{os.path.basename(reference_file_a.name)},sha256=sha256=gwZe_e3TgdqUObhaJw6pYp8bpG2cfXsYWLtw5U1fZkw,154911"
+	assert entry == f"{os.path.basename(reference_file_a.name)},sha256=gwZe_e3TgdqUObhaJw6pYp8bpG2cfXsYWLtw5U1fZkw,154911"
