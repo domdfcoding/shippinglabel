@@ -24,3 +24,8 @@ conda_channels:
 
 sphinx_conf_epilogue:
  - html_logo = "../shippinglabel.png"
+
+keywords:
+ - packaging
+ - requirements
+ - pypi
