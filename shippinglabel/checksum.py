@@ -68,7 +68,7 @@ def get_sha256_hash(filename: PathLike, blocksize: int = 1 << 20) -> "_Hash":
 
 def check_sha256_hash(
 		filename: PathLike,
-		hash: Union["_HASH", str],  # noqa: A002
+		hash: Union["_Hash", str],  # noqa: A002
 		blocksize: int = 1 << 20,
 		) -> bool:
 	"""
