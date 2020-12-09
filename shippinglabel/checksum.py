@@ -108,4 +108,4 @@ def get_record_entry(filename: PathLike, blocksize: int = 1 << 20, relative_to: 
 	if relative_to:
 		filename = filename.relative_to(relative_to)
 
-	return ','.join([filename.as_posix(), digest, length])
+	return ','.join([filename.as_posix(), digest, str(length)])
