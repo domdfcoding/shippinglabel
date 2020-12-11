@@ -39,6 +39,7 @@ from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
 from packaging.requirements import InvalidRequirement
 from packaging.specifiers import SpecifierSet
+from typing_extensions import TypedDict
 
 # this package
 from shippinglabel import normalize
@@ -52,6 +53,7 @@ __all__ = [
 		"get_pypi_releases",
 		"get_releases_with_digests",
 		"get_file_from_pypi",
+		"FileURL",
 		]
 
 PYPI_API = SlumberURL("https://pypi.org/pypi/", timeout=10)
@@ -60,6 +62,15 @@ Instance of :class:`apeye.slumber_url.SlumberURL` which points to the PyPI REST 
 
 .. versionchanged:: 0.3.0  Now an instance of :class:`apeye.slumber_url.SlumberURL`.
 """
+
+
+class FileURL(TypedDict):
+	"""
+	:class:`typing.TypedDict` representing the output of :func:`~.get_releases_with_digests`.
+	"""
+
+	url: str
+	digest: str
 
 
 def get_metadata(pypi_name: str) -> Dict[str, Any]:
@@ -165,7 +176,7 @@ def get_pypi_releases(pypi_name: str) -> Dict[str, List[str]]:
 	return pypi_releases
 
 
-def get_releases_with_digests(pypi_name: str) -> Dict[str, List[Dict[str, str]]]:
+def get_releases_with_digests(pypi_name: str) -> Dict[str, List[FileURL]]:
 	"""
 	Returns a dictionary mapping PyPI release versions to download URLs and the sha256sum of the file contents.
 
@@ -181,7 +192,7 @@ def get_releases_with_digests(pypi_name: str) -> Dict[str, List[Dict[str, str]]]
 
 	for release, release_data in get_metadata(pypi_name)["releases"].items():
 
-		release_urls: List[Dict[str, str]] = []
+		release_urls: List[FileURL] = []
 
 		for file in release_data:
 			release_urls.append({"url": file["url"], "digest": file["digests"]["sha256"]})
