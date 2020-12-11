@@ -67,6 +67,8 @@ Instance of :class:`apeye.slumber_url.SlumberURL` which points to the PyPI REST 
 class FileURL(TypedDict):
 	"""
 	:class:`typing.TypedDict` representing the output of :func:`~.get_releases_with_digests`.
+
+	.. versionadded:: 0.6.1
 	"""
 
 	url: str
