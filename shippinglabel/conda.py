@@ -31,6 +31,7 @@ Functions to aid building of conda packages.
 # stdlib
 import difflib
 from datetime import datetime, timedelta
+from pathlib import Path
 from typing import Iterable, List
 
 # 3rd party
@@ -54,7 +55,7 @@ __all__ = [
 
 CONDA_API = SlumberURL("https://conda.anaconda.org", append_slash=False)
 """
-Instance of :class:`apeye.slumber_url.SlumberURL` for accessing the conda API.
+Instance of :class:`apeye.slumber_url.SlumberURL` for accessing the Conda API.
 
 .. versionadded:: 0.7.0
 """
@@ -70,7 +71,7 @@ cache_dir = PathPlus(
 
 def clear_cache(*channel_name: str):
 	r"""
-	Clear the cached conda channel listings.
+	Clear the cached Conda channel listings.
 
 	:param \*channel_name: The name(s) of the channels to clear the cache for.
 		If omitted the cache is cleared for all channels.
@@ -78,10 +79,12 @@ def clear_cache(*channel_name: str):
 	.. versionadded:: 0.7.0
 	"""
 
+	filenames: Iterable[Path]
+
 	if channel_name:
-		filenames = [cache_dir / f"{channel}.json" for channel in channel_name]
+		filenames = (cache_dir / f"{channel}.json" for channel in channel_name)
 	else:
-		filenames = list(cache_dir.glob("*.json"))
+		filenames = cache_dir.glob("*.json")
 
 	for filename in filenames:
 		try:
@@ -92,9 +95,9 @@ def clear_cache(*channel_name: str):
 
 def get_channel_listing(channel_name: str) -> List[str]:
 	"""
-	Obtain the list of packages in the given Conda channel, either from the cache or from the conda API.
+	Obtain the list of packages in the given Conda channel, either from the cache or from the Conda API.
 
-	Responses are cached for 48 hours.
+	Responses are cached for 48 hours. The cache can be cleared manually with :func:`~.clear_cache`.
 
 	:param channel_name:
 
@@ -129,13 +132,15 @@ def compile_requirements(
 		extras: Iterable[str] = (),
 		) -> List[ComparableRequirement]:
 	"""
-	Compile a list of requirements for the package from the requirements.txt file and any extra dependencies.
+	Compile a list of requirements for the package from the :file:`requirements.txt` file,
+	and any extra dependencies.
 
 	:param repo_dir:
-	:param extras: Mapping of "extras" names to lists of requirements.
+	:param extras: A list of additional, optional requirements.
+		These would be specified in "extras_require" for setuptools.
 
 	.. versionadded:: 0.7.0
-	"""
+	"""  # noqa: D400
 
 	all_requirements: List[ComparableRequirement] = []
 	extra_requirements = [ComparableRequirement(r) for r in extras]
@@ -165,8 +170,8 @@ def validate_requirements(
 		conda_channels: Iterable[str],
 		) -> List[ComparableRequirement]:
 	"""
-	Ensure that all requirements are available from the given conda channels,
-	and normalize the names to those in the conda channel.
+	Ensure that all requirements are available from the given Conda channels,
+	and normalize the names to those in the Conda channel.
 
 	:param requirements:
 	:param conda_channels:
@@ -213,7 +218,7 @@ def validate_requirements(
 
 alias_mapping = {"ruamel-yaml": "ruamel.yaml"}
 """
-Mapping of normalised names to names on conda, if they differ for some reason.
+Mapping of normalised names to names on Conda, if they differ for some reason.
 
 .. versionadded:: 0.7.0
 """
