@@ -5,6 +5,7 @@
   - lockfile>=0.12.2
   - requests>=2.24.0
   - tldextract>=2.2.0
+- appdirs>=1.4.4
 - consolekit>=0.1.2
 - - click>=7.1.2
   - colorama>=0.4.3
