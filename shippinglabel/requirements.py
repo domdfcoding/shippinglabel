@@ -545,17 +545,17 @@ def list_requirements(name: str, depth: int = 1) -> Iterator[Union[str, List[str
 	try:
 		raw_deps = importlib_metadata.requires(req.name) or []
 	except importlib_metadata.PackageNotFoundError:
-		return ''
+		return
 
 	for requirement in [ComparableRequirement(r) for r in raw_deps]:
-		if not req.extras and requirement.marker:
-			continue
+		if requirement.marker:
+			if req.extras:
+				extras = list(req.extras)[0]
+			else:
+				extras = ''
 
-		if (
-				req.extras and requirement.marker
-				and not requirement.marker.evaluate(marker_environment(list(req.extras)[0]))
-				):
-			continue
+			if not requirement.marker.evaluate(marker_environment(extras)):
+				continue
 
 		if depth:
 			yield str(requirement)
