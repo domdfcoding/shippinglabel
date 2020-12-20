@@ -1,7 +1,13 @@
-- attrs>=17.4.0
+- attrs>=19.2.0
 - iniconfig
 - packaging
 - - pyparsing>=2.0.2
-- pluggy<1.0,>=0.12
+- pluggy<1.0.0a1,>=0.12
+- - importlib-metadata>=0.12; python_version < "3.8"
+  - - zipp>=0.5
+    - typing-extensions>=3.6.4; python_version < "3.8"
 - py>=1.8.2
 - toml
+- importlib-metadata>=0.12; python_version < "3.8"
+- - zipp>=0.5
+  - typing-extensions>=3.6.4; python_version < "3.8"
