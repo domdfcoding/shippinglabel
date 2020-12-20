@@ -1,8 +1,10 @@
 # stdlib
+import sys
 from typing import Sequence, Union
 
 # 3rd party
 import pytest
+from domdf_python_tools.testing import min_version
 from packaging.requirements import Requirement
 from packaging.specifiers import Specifier, SpecifierSet
 from pytest_regressions.data_regression import DataRegressionFixture
@@ -364,15 +366,40 @@ def test_comparable_requirement():
 	assert ComparableRequirement("foo>=1.2.3") == ComparableRequirement("foo >= 1.2.3")
 
 
+
+version_specific = pytest.mark.parametrize(
+		"py_version",
+		[
+				pytest.param(
+						"3.6",
+						marks=pytest.mark.skipif(
+								condition=sys.version_info[:2] != (3, 6),
+								reason="Output differs on Python 3.6",
+								)
+						),
+				pytest.param(
+						"3.7",
+						marks=pytest.mark.skipif(
+								condition=sys.version_info[:2] != (3, 7),
+								reason="Output differs on Python 3.7",
+								)
+						),
+				pytest.param("3.8+", marks=min_version(3.8, "Output differs on Python 3.8+")),
+				]
+		)
+
+@version_specific
 @pytest.mark.parametrize(
 		"library", [
 				"shippinglabel",
 				"pytest",
 				"apeye",
+				"cachecontrol[filecache]",
 				"domdf-python-tools",
 				"domdf_python_tools",
 				]
 		)
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
-def test_list_requirements(data_regression: DataRegressionFixture, library, depth):
+# @pytest.mark.parametrize("depth", [3])
+def test_list_requirements(data_regression: DataRegressionFixture, library, depth, py_version,):
 	data_regression.check(list(list_requirements(library, depth=depth)))

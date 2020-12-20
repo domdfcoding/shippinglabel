@@ -1,0 +1,35 @@
+- appdirs>=1.4.4
+- cachecontrol[filecache]>=0.12.6
+- - requests
+  - - chardet<4,>=3.0.2
+    - idna<3,>=2.5
+    - urllib3<1.27,>=1.21.1
+    - certifi>=2017.4.17
+  - msgpack>=0.5.2
+  - lockfile>=0.9; extra == "filecache"
+- domdf-python-tools>=0.9.0
+- - colorama>=0.4.3
+  - deprecation>=2.1.0
+  - - packaging
+  - natsort>=7.1.0
+  - packaging>=20.4
+  - - pyparsing>=2.0.2
+  - pydash>=4.7.4
+  - typing-extensions>=3.7.4.3
+- lockfile>=0.12.2
+- requests>=2.24.0
+- - chardet<4,>=3.0.2
+  - idna<3,>=2.5
+  - urllib3<1.27,>=1.21.1
+  - certifi>=2017.4.17
+- tldextract>=2.2.0
+- - idna
+  - requests>=2.1.0
+  - - chardet<4,>=3.0.2
+    - idna<3,>=2.5
+    - urllib3<1.27,>=1.21.1
+    - certifi>=2017.4.17
+  - requests-file>=1.4
+  - - requests>=1.0.0
+    - six
+  - filelock>=3.0.8
