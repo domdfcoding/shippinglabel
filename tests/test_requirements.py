@@ -364,7 +364,33 @@ def test_comparable_requirement():
 	assert ComparableRequirement("foo") != ComparableRequirement("bar")
 	assert ComparableRequirement("foo") == ComparableRequirement("foo")
 	assert ComparableRequirement("foo>=1.2.3") == ComparableRequirement("foo >= 1.2.3")
+	assert ComparableRequirement('importlib-metadata>=1.5.0; python_version < "3.8"') == ComparableRequirement('importlib-metadata>=1.5.0; python_version < "3.8"')
 
+	def req_with_marker():
+		return ComparableRequirement('importlib-metadata>=1.5.0; python_version < "3.8"')
+
+	def req_without_marker():
+		return ComparableRequirement('importlib-metadata>=1.5.0')
+
+	assert req_with_marker() is not req_with_marker()
+	assert req_without_marker() is not req_without_marker()
+
+	assert "importlib-metadata" in [req_with_marker()]
+	assert req_without_marker() in [req_with_marker()]
+	assert req_with_marker() in [req_with_marker()]
+
+	assert "importlib-metadata" in (req_with_marker(), )
+	assert req_without_marker() in (req_with_marker(), )
+	assert req_with_marker() in (req_with_marker(), )
+
+	assert {req_without_marker(), req_without_marker()} == {req_without_marker()}
+	assert {req_with_marker(), req_with_marker()} == {req_with_marker()}
+
+	assert hash(req_with_marker()) == hash(req_with_marker())
+	assert hash(req_with_marker()) != hash(req_without_marker())
+
+	assert req_without_marker() not in {req_with_marker()}
+	assert req_with_marker() in {req_with_marker()}
 
 
 version_specific = pytest.mark.parametrize(
@@ -392,7 +418,8 @@ version_specific = pytest.mark.parametrize(
 @not_windows("Output differs on Windows")
 @version_specific
 @pytest.mark.parametrize(
-		"library", [
+		"library",
+		[
 				"shippinglabel",
 				"pytest",
 				"apeye",
@@ -403,14 +430,20 @@ version_specific = pytest.mark.parametrize(
 		)
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
 # @pytest.mark.parametrize("depth", [3])
-def test_list_requirements(data_regression: DataRegressionFixture, library, depth, py_version,):
+def test_list_requirements(
+		data_regression: DataRegressionFixture,
+		library,
+		depth,
+		py_version,
+		):
 	data_regression.check(list(list_requirements(library, depth=depth)))
 
 
 @only_windows("Output differs on Windows")
 @version_specific
 @pytest.mark.parametrize(
-		"library", [
+		"library",
+		[
 				"shippinglabel",
 				"pytest",
 				"apeye",
@@ -421,5 +454,10 @@ def test_list_requirements(data_regression: DataRegressionFixture, library, dept
 		)
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
 # @pytest.mark.parametrize("depth", [3])
-def test_list_requirements_win(data_regression: DataRegressionFixture, library, depth, py_version,):
+def test_list_requirements_win(
+		data_regression: DataRegressionFixture,
+		library,
+		depth,
+		py_version,
+		):
 	data_regression.check(list(list_requirements(library, depth=depth)))

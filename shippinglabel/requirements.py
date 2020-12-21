@@ -153,8 +153,8 @@ class ComparableRequirement(Requirement):
 		return hash((
 				self.name or '',
 				self.url or '',
-				self.specifier or '',
-				self.marker or '',
+				str(self.specifier) or '',
+				str(self.marker) or '',
 				*(self.extras or ()),
 				))
 
@@ -295,7 +295,7 @@ def combine_requirements(
 		if req.name in merged_requirements:
 			other_req = merged_requirements[merged_requirements.index(req.name)]  # type: ignore
 
-			if req.marker != other_req.marker:
+			if str(req.marker) != str(other_req.marker):
 				merged_requirements.append(req)
 			else:
 				other_req.specifier &= req.specifier
