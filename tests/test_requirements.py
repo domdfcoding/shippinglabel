@@ -4,7 +4,7 @@ from typing import Sequence, Union
 
 # 3rd party
 import pytest
-from domdf_python_tools.testing import min_version
+from domdf_python_tools.testing import min_version, not_windows, only_windows
 from packaging.requirements import Requirement
 from packaging.specifiers import Specifier, SpecifierSet
 from pytest_regressions.data_regression import DataRegressionFixture
@@ -388,6 +388,8 @@ version_specific = pytest.mark.parametrize(
 				]
 		)
 
+
+@not_windows("Output differs on Windows")
 @version_specific
 @pytest.mark.parametrize(
 		"library", [
@@ -402,4 +404,22 @@ version_specific = pytest.mark.parametrize(
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
 # @pytest.mark.parametrize("depth", [3])
 def test_list_requirements(data_regression: DataRegressionFixture, library, depth, py_version,):
+	data_regression.check(list(list_requirements(library, depth=depth)))
+
+
+@only_windows("Output differs on Windows")
+@version_specific
+@pytest.mark.parametrize(
+		"library", [
+				"shippinglabel",
+				"pytest",
+				"apeye",
+				"cachecontrol[filecache]",
+				"domdf-python-tools",
+				"domdf_python_tools",
+				]
+		)
+@pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
+# @pytest.mark.parametrize("depth", [3])
+def test_list_requirements_win(data_regression: DataRegressionFixture, library, depth, py_version,):
 	data_regression.check(list(list_requirements(library, depth=depth)))

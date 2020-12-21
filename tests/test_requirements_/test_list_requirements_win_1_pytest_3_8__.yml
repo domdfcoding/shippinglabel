@@ -1,0 +1,8 @@
+- attrs>=19.2.0
+- iniconfig
+- packaging
+- pluggy<1.0.0a1,>=0.12
+- py>=1.8.2
+- toml
+- atomicwrites>=1.0; sys_platform == "win32"
+- colorama; sys_platform == "win32"
