@@ -79,12 +79,12 @@ def get_metadata(pypi_name: str) -> Dict[str, Any]:
 	"""
 	Returns metadata for the given project on PyPI.
 
+	.. versionadded:: 0.2.0
+
 	:param pypi_name:
 
 	:raises: :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
 	:raises: :exc:`apeye.slumber_url.HttpServerError` if an error occurs in PyPI.
-
-	.. versionadded:: 0.2.0
 	"""
 
 	query_url: SlumberURL = PYPI_API / pypi_name / "json"
@@ -101,12 +101,12 @@ def get_latest(pypi_name: str) -> str:
 	"""
 	Returns the version number of the latest release on PyPI for the given project.
 
+	.. versionadded:: 0.2.0
+
 	:param pypi_name:
 
 	:raises: :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
 	:raises: :exc:`apeye.slumber_url.HttpServerError` if an error occurs in PyPI.
-
-	.. versionadded:: 0.2.0
 	"""
 
 	return str(get_metadata(pypi_name)["info"]["version"])
@@ -120,15 +120,15 @@ def bind_requirements(
 	"""
 	Bind unbound requirements in the given file to the latest version on PyPI, and any later versions.
 
+	.. versionadded:: 0.2.0
+
 	:param filename: The requirements.txt file to bind requirements in.
 	:param specifier: The requirement specifier symbol to use.
 	:param normalize_func: Function to use to normalize the names of requirements.
 
-	:return: ``1`` if the file was changed; ``0`` otherwise.
-
-	.. versionadded:: 0.2.0
-
 	.. versionchanged:: 0.2.3 Added the ``normalize_func`` keyword-only argument.
+
+	:return: ``1`` if the file was changed; ``0`` otherwise.
 	"""
 
 	if specifier not in operator_symbols:
@@ -162,12 +162,12 @@ def get_pypi_releases(pypi_name: str) -> Dict[str, List[str]]:
 	"""
 	Returns a dictionary mapping PyPI release versions to download URLs.
 
+	.. versionadded:: 0.3.0
+
 	:param pypi_name: The name of the project on PyPI.
 
 	:raises: :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
 	:raises: :exc:`apeye.slumber_url.HttpServerError` if an error occurs in PyPI.
-
-	.. versionadded:: 0.3.0
 	"""
 
 	pypi_releases = {}
@@ -182,12 +182,12 @@ def get_releases_with_digests(pypi_name: str) -> Dict[str, List[FileURL]]:
 	"""
 	Returns a dictionary mapping PyPI release versions to download URLs and the sha256sum of the file contents.
 
+	.. versionadded:: 0.6.0
+
 	:param pypi_name: The name of the project on PyPI.
 
 	:raises: :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
 	:raises: :exc:`apeye.slumber_url.HttpServerError` if an error occurs in PyPI.
-
-	.. versionadded:: 0.6.0
 	"""
 
 	pypi_releases = {}
@@ -207,10 +207,10 @@ def get_file_from_pypi(url: Union[URL, str], tmpdir: PathLike):
 	"""
 	Download the file with the given URL into the given (temporary) directory.
 
+	.. versionadded:: 0.6.0
+
 	:param url: The URL to download the file from.
 	:param tmpdir: The (temporary) directory to store the downloaded file in.
-
-	.. versionadded:: 0.6.0
 	"""
 
 	if not isinstance(url, RequestsURL):

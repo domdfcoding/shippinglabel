@@ -270,13 +270,12 @@ def combine_requirements(
 	"""
 	Combine duplicated requirements in a list.
 
+	.. versionchanged:: 0.2.1  Added the ``normalize_func`` keyword-only argument.
+	.. versionchanged:: 0.3.1  Requirements are no longer combined if their markers differ.
+
 	:param requirement: A single requirement, or an iterable of requirements.
 	:param requirements: Additional requirements.
 	:param normalize_func: Function to use to normalize the names of requirements.
-
-	.. versionchanged:: 0.2.1  Added the ``normalize_func`` keyword-only argument.
-
-	.. versionchanged:: 0.3.1  Requirements are no longer combined if their markers differ.
 	"""
 
 	if isinstance(requirement, Iterable):
@@ -341,15 +340,14 @@ def read_requirements(
 	"""
 	Reads :pep:`508` requirements from the given file.
 
+	.. versionchanged:: 0.2.0 Added the ``include_invalid`` option.
+	.. versionchanged:: 0.2.1 Added the ``normalize_func`` keyword-only argument.
+
 	:param req_file:
 	:param include_invalid: If :py:obj:`True`, include invalid lines as the third element of the tuple.
 	:param normalize_func: Function to use to normalize the names of requirements.
 
 	:return: The requirements, and a list of commented lines.
-
-	.. versionchanged:: 0.2.0 Added the ``include_invalid`` option.
-
-	.. versionchanged:: 0.2.1 Added the ``normalize_func`` keyword-only argument.
 	"""
 
 	comments = []
@@ -430,9 +428,9 @@ class RequirementsManager(ABC):
 		"""
 		Normalize the given name for PyPI et al.
 
-		:param name: The project name.
-
 		.. versionadded:: 0.2.1
+
+		:param name: The project name.
 		"""
 
 		return normalize(name)

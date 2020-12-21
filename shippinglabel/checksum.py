@@ -50,10 +50,10 @@ def get_sha256_hash(filename: PathLike, blocksize: int = 1 << 20) -> "_Hash":
 	"""
 	Returns the sha256 hash object for the given file.
 
+	.. versionadded:: 0.6.0
+
 	:param filename:
 	:param blocksize: The blocksize to read the file with.
-
-	.. versionadded:: 0.6.0
 	"""
 
 	sha256_hash = sha256()
@@ -75,11 +75,11 @@ def check_sha256_hash(
 	"""
 	Returns whether the sha256 hash for the file matches ``hash``.
 
+	.. versionadded:: 0.6.0
+
 	:param filename:
 	:param hash:
 	:param blocksize: The blocksize to read the file with.
-
-	.. versionadded:: 0.6.0
 	"""
 
 	if isinstance(hash, _HashType):
@@ -92,11 +92,11 @@ def get_record_entry(filename: PathLike, blocksize: int = 1 << 20, relative_to: 
 	"""
 	Constructs an entry for the file in a :pep:`376` ``RECORD`` file.
 
+	.. versionadded:: 0.6.0
+
 	:param filename:
 	:param blocksize: The blocksize to read the file with.
 	:param relative_to:
-
-	.. versionadded:: 0.6.0
 	"""
 
 	hash = get_sha256_hash(filename, blocksize).digest()  # noqa: A001

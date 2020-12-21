@@ -69,9 +69,9 @@ def normalize_keep_dot(name: str) -> str:
 	"""
 	Normalize the given name for PyPI et al., but keep dots in namespace packages.
 
-	:param name: The project name.
-
 	.. versionadded:: 0.7.0
+
+	:param name: The project name.
 	"""
 
 	return _normalize_keep_dot_pattern.sub('-', name).lower()

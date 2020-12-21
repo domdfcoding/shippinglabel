@@ -65,11 +65,9 @@ def classifiers_from_requirements(requirements: Collection[ComparableRequirement
 	"""
 	Returns an iterator over suggested trove classifiers based on the given requirements.
 
-	:param requirements:
-
-	:rtype:
-
 	.. versionadded:: 0.5.0
+
+	:param requirements:
 	"""
 
 	# Normalize requirement names

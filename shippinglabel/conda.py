@@ -74,10 +74,10 @@ def clear_cache(*channel_name: str):
 	r"""
 	Clear the cached Conda channel listings.
 
+	.. versionadded:: 0.7.0
+
 	:param \*channel_name: The name(s) of the channels to clear the cache for.
 		If omitted the cache is cleared for all channels.
-
-	.. versionadded:: 0.7.0
 	"""
 
 	filenames: Iterable[Path]
@@ -100,9 +100,9 @@ def get_channel_listing(channel_name: str) -> List[str]:
 
 	Responses are cached for 48 hours. The cache can be cleared manually with :func:`~.clear_cache`.
 
-	:param channel_name:
-
 	.. versionadded:: 0.7.0
+
+	:param channel_name:
 	"""
 
 	cache_dir.maybe_make(parents=True)
@@ -136,11 +136,11 @@ def compile_requirements(
 	Compile a list of requirements for the package from the :file:`requirements.txt` file,
 	and any extra dependencies.
 
+	.. versionadded:: 0.7.0
+
 	:param repo_dir:
 	:param extras: A list of additional, optional requirements.
 		These would be specified in "extras_require" for setuptools.
-
-	.. versionadded:: 0.7.0
 	"""  # noqa: D400
 
 	all_requirements: List[ComparableRequirement] = []
@@ -174,10 +174,10 @@ def validate_requirements(
 	Ensure that all requirements are available from the given Conda channels,
 	and normalize the names to those in the Conda channel.
 
+	.. versionadded:: 0.7.0
+
 	:param requirements:
 	:param conda_channels:
-
-	.. versionadded:: 0.7.0
 	"""  # noqa: D400
 
 	validated_requirements = []
@@ -238,10 +238,10 @@ def make_conda_description(summary: str, conda_channels: Iterable[str] = ()) -> 
 
 		Before installing please ensure you have added the following channels: conda-forge, bioconda
 
+	.. versionadded:: 0.8.0
+
 	:param summary:
 	:param conda_channels:
-
-	.. versionadded:: 0.8.0
 	"""
 
 	conda_description = summary
