@@ -51,6 +51,7 @@ __all__ = [
 		"get_channel_listing",
 		"compile_requirements",
 		"validate_requirements",
+		"make_conda_description",
 		]
 
 CONDA_API = SlumberURL("https://conda.anaconda.org", append_slash=False)
@@ -224,3 +225,32 @@ Mapping of normalised names to names on Conda, if they differ for some reason.
 """
 
 # Really just due to https://github.com/conda-forge/ruamel.yaml-feedstock/issues/7
+
+
+def make_conda_description(summary: str, conda_channels: Iterable[str] = ()) -> str:
+	"""
+	Create a description for the Conda package from its summary and a list of channels required to install it.
+
+	The description will look like::
+
+		This is my fancy Conda package. Hope you like it 😉.
+
+
+		Before installing please ensure you have added the following channels: conda-forge, bioconda
+
+	:param summary:
+	:param conda_channels:
+
+	.. versionadded:: 0.8.0
+	"""
+
+	conda_description = summary
+	conda_channels = tuple(conda_channels)
+
+	if conda_channels:
+		conda_description += "\n\n\n"
+		conda_description += "Before installing please ensure you have added the following channels: "
+		conda_description += ", ".join(conda_channels)
+		conda_description += '\n'
+
+	return conda_description

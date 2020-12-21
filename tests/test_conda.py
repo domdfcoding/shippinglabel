@@ -3,8 +3,11 @@ import pytest
 from consolekit.utils import coloured_diff
 
 # this package
+from domdf_python_tools.testing import check_file_regression
+from pytest_regressions.file_regression import FileRegressionFixture
+
 from shippinglabel import conda
-from shippinglabel.conda import compile_requirements, get_channel_listing, validate_requirements
+from shippinglabel.conda import compile_requirements, get_channel_listing, make_conda_description, validate_requirements
 from shippinglabel.requirements import ComparableRequirement
 
 
@@ -128,3 +131,18 @@ def test_validate_requirements():
 						)
 				)
 		raise AssertionError(actual)
+
+
+@pytest.mark.parametrize("summary", [
+		pytest.param("A summary.", id="summary-a"),
+		pytest.param("Ma awesome package!", id="summary-b"),
+		])
+@pytest.mark.parametrize("channels", [
+		pytest.param(["conda-forge"], id="channels-a"),
+		pytest.param(["conda-forge", "domdfcoding"], id="channels-b"),
+		pytest.param(["conda-forge", "bioconda"], id="channels-c"),
+		pytest.param(("conda-forge", "bioconda"), id="channels-d"),
+		pytest.param(["conda-forge", "domdfcoding", "bioconda"], id="channels - e"),
+		])
+def test_make_conda_description(file_regression: FileRegressionFixture, summary, channels):
+	check_file_regression(make_conda_description(summary, channels), file_regression, extension=".md")
