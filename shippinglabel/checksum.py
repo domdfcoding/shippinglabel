@@ -37,11 +37,11 @@ from typing import TYPE_CHECKING, Optional, Union
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
 
-__all__ = ["check_sha256_hash", "get_record_entry", "get_sha256_hash"]
-
 if TYPE_CHECKING:
 	# stdlib
 	from hashlib import _Hash
+
+__all__ = ["check_sha256_hash", "get_record_entry", "get_sha256_hash"]
 
 _HashType = type(sha256())
 
@@ -57,6 +57,7 @@ def get_sha256_hash(filename: PathLike, blocksize: int = 1 << 20) -> "_Hash":
 	"""
 
 	sha256_hash = sha256()
+
 	with open(filename, "rb") as f:
 		fb = f.read(blocksize)
 		while len(fb):

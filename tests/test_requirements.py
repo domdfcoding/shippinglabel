@@ -364,14 +364,14 @@ def test_comparable_requirement():
 	assert ComparableRequirement("foo") != ComparableRequirement("bar")
 	assert ComparableRequirement("foo") == ComparableRequirement("foo")
 	assert ComparableRequirement("foo>=1.2.3") == ComparableRequirement("foo >= 1.2.3")
-	assert ComparableRequirement('importlib-metadata>=1.5.0; python_version < "3.8"') == ComparableRequirement('importlib-metadata>=1.5.0; python_version < "3.8"')
 
 	def req_with_marker():
 		return ComparableRequirement('importlib-metadata>=1.5.0; python_version < "3.8"')
 
 	def req_without_marker():
-		return ComparableRequirement('importlib-metadata>=1.5.0')
+		return ComparableRequirement("importlib-metadata>=1.5.0")
 
+	assert req_with_marker() == req_with_marker()
 	assert req_with_marker() is not req_with_marker()
 	assert req_without_marker() is not req_without_marker()
 
