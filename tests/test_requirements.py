@@ -437,27 +437,3 @@ def test_list_requirements(
 		py_version,
 		):
 	data_regression.check(list(list_requirements(library, depth=depth)))
-
-
-@only_windows("Output differs on Windows")
-@version_specific
-@pytest.mark.parametrize(
-		"library",
-		[
-				"shippinglabel",
-				"pytest",
-				"apeye",
-				"cachecontrol[filecache]",
-				"domdf-python-tools",
-				"domdf_python_tools",
-				]
-		)
-@pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
-# @pytest.mark.parametrize("depth", [3])
-def test_list_requirements_win(
-		data_regression: DataRegressionFixture,
-		library,
-		depth,
-		py_version,
-		):
-	data_regression.check(list(list_requirements(library, depth=depth)))

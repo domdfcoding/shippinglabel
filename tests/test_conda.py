@@ -1,5 +1,7 @@
 # 3rd party
 import pytest
+from _pytest.fixtures import FixtureRequest
+from betamax import Betamax
 from consolekit.utils import coloured_diff
 from domdf_python_tools.testing import check_file_regression
 from pytest_regressions.file_regression import FileRegressionFixture
@@ -7,6 +9,7 @@ from pytest_regressions.file_regression import FileRegressionFixture
 # this package
 from shippinglabel import conda
 from shippinglabel.conda import (
+		CONDA_API,
 		compile_requirements,
 		get_channel_listing,
 		make_conda_description,
@@ -15,7 +18,20 @@ from shippinglabel.conda import (
 from shippinglabel.requirements import ComparableRequirement
 
 
-def test_compile_requirements(tmp_pathplus):
+@pytest.fixture()
+def conda_cassette(request: FixtureRequest):
+	"""
+	Provides a Betamax cassette scoped to the test module
+	which record and plays back interactions with the Conda API.
+	"""  # noqa: D400
+
+	with Betamax(CONDA_API._store["session"]) as vcr:
+		vcr.use_cassette(request.node.name, record="once")
+
+		yield CONDA_API
+
+
+def test_compile_requirements(tmp_pathplus, conda_cassette):
 	(tmp_pathplus / "requirements.txt").write_lines([
 			"apeye>=0.3.0",
 			"click==7.1.2",
@@ -49,7 +65,7 @@ def test_compile_requirements(tmp_pathplus):
 			]
 
 
-def test_compile_requirements_markers_url_extras(tmp_pathplus):
+def test_compile_requirements_markers_url_extras(tmp_pathplus, conda_cassette):
 	(tmp_pathplus / "requirements.txt").write_lines([
 			'apeye>=0.3.0; python_version <= "3.9"',
 			"pip @ https://github.com/pypa/pip/archive/1.3.1.zip#sha1=da9234ee9982d4bbb3c72346a6de940a148ea686",
@@ -70,7 +86,7 @@ def test_compile_requirements_markers_url_extras(tmp_pathplus):
 		"conda-forge",
 		True,
 		])
-def test_get_channel_listing(clear_cache):
+def test_get_channel_listing(clear_cache, conda_cassette):
 
 	if clear_cache:
 		if isinstance(clear_cache, str):
@@ -90,7 +106,7 @@ def test_get_channel_listing(clear_cache):
 	assert "typing_extensions" in listing
 
 
-def test_validate_requirements():
+def test_validate_requirements(conda_cassette):
 	requirements = [
 			ComparableRequirement("apeye>=0.3.0"),
 			ComparableRequirement("attrs>=20.2.0"),
