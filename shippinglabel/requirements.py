@@ -5,7 +5,7 @@
 Utilities for working with :pep:`508` requirements.
 """
 #
-#  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+#  Copyright © 2020-2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -469,13 +469,15 @@ class RequirementsManager(ABC):
 		"""
 
 		lib_requirements, _ = read_requirements(self.repo_path / "requirements.txt")
-		lib_requirements_names_extras = {normalize(r.name): r.extras for r in lib_requirements}
+		lib_requirements_names_extras = {normalize(r.name): r.extras for r in lib_requirements if not r.marker}
 
 		non_library_requirements = set()
 
 		for req in self.target_requirements:
 			if req.name in lib_requirements_names_extras:
 				if req.extras != lib_requirements_names_extras[req.name]:
+					non_library_requirements.add(req)
+				if req.marker:
 					non_library_requirements.add(req)
 			else:
 				non_library_requirements.add(req)
