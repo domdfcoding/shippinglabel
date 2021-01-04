@@ -1,7 +1,7 @@
 - appdirs>=1.4.4
 - cachecontrol[filecache]>=0.12.6
 - - requests
-  - - chardet<4,>=3.0.2
+  - - chardet<5,>=3.0.2
     - idna<3,>=2.5
     - urllib3<1.27,>=1.21.1
     - certifi>=2017.4.17
@@ -16,14 +16,14 @@
   - typing-extensions>=3.7.4.3
 - lockfile>=0.12.2
 - requests>=2.24.0
-- - chardet<4,>=3.0.2
+- - chardet<5,>=3.0.2
   - idna<3,>=2.5
   - urllib3<1.27,>=1.21.1
   - certifi>=2017.4.17
 - tldextract>=2.2.0
 - - idna
   - requests>=2.1.0
-  - - chardet<4,>=3.0.2
+  - - chardet<5,>=3.0.2
     - idna<3,>=2.5
     - urllib3<1.27,>=1.21.1
     - certifi>=2017.4.17
