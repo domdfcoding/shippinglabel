@@ -1,7 +1,5 @@
 # 3rd party
 import pytest
-from _pytest.fixtures import FixtureRequest
-from betamax import Betamax  # type: ignore
 from consolekit.utils import coloured_diff
 from domdf_python_tools.testing import check_file_regression
 from pytest_regressions.file_regression import FileRegressionFixture
@@ -9,7 +7,6 @@ from pytest_regressions.file_regression import FileRegressionFixture
 # this package
 from shippinglabel import conda
 from shippinglabel.conda import (
-		CONDA_API,
 		compile_requirements,
 		get_channel_listing,
 		make_conda_description,
@@ -18,20 +15,7 @@ from shippinglabel.conda import (
 from shippinglabel.requirements import ComparableRequirement
 
 
-@pytest.fixture()
-def conda_cassette(request: FixtureRequest):
-	"""
-	Provides a Betamax cassette scoped to the test module
-	which record and plays back interactions with the Conda API.
-	"""  # noqa: D400
-
-	with Betamax(CONDA_API._store["session"]) as vcr:
-		vcr.use_cassette(request.node.name, record="once")
-
-		yield CONDA_API
-
-
-def test_compile_requirements(tmp_pathplus, conda_cassette):
+def test_compile_requirements(tmp_pathplus):
 	(tmp_pathplus / "requirements.txt").write_lines([
 			"apeye>=0.3.0",
 			"click==7.1.2",
@@ -86,7 +70,7 @@ def test_compile_requirements_markers_url_extras(tmp_pathplus, conda_cassette):
 		"conda-forge",
 		True,
 		])
-def test_get_channel_listing(clear_cache, conda_cassette):
+def test_get_channel_listing(clear_cache):
 
 	if clear_cache:
 		if isinstance(clear_cache, str):
@@ -106,7 +90,7 @@ def test_get_channel_listing(clear_cache, conda_cassette):
 	assert "typing_extensions" in listing
 
 
-def test_validate_requirements(conda_cassette):
+def test_validate_requirements():
 	requirements = [
 			ComparableRequirement("apeye>=0.3.0"),
 			ComparableRequirement("attrs>=20.2.0"),
