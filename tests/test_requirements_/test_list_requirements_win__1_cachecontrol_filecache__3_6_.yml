@@ -1,7 +1,0 @@
-- requests
-- - chardet<4,>=3.0.2
-  - idna<3,>=2.5
-  - urllib3<1.27,>=1.21.1
-  - certifi>=2017.4.17
-- msgpack>=0.5.2
-- lockfile>=0.9; extra == "filecache"

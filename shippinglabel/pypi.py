@@ -90,11 +90,9 @@ def get_metadata(pypi_name: str) -> Dict[str, Any]:
 	query_url: SlumberURL = PYPI_API / pypi_name / "json"
 
 	try:
-		response = query_url.get()
+		return query_url.get()
 	except HttpNotFoundError:
-		raise InvalidRequirement(f"No such project {pypi_name!r}")
-
-	return response
+		raise InvalidRequirement(f"No such project {pypi_name!r}") from None
 
 
 def get_latest(pypi_name: str) -> str:
