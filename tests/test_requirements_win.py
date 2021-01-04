@@ -7,20 +7,22 @@ from pytest_regressions.data_regression import DataRegressionFixture
 from shippinglabel.requirements import (
 		list_requirements,
 		)
-from tests.test_requirements import version_specific
+from tests.test_requirements import min_38, only_36, only_37
 
 
 @only_windows("Output differs on Windows")
-@version_specific
+@pytest.mark.parametrize(
+		"py_version",
+		[
+				only_36,
+				only_37,
+				min_38,
+				]
+		)
 @pytest.mark.parametrize(
 		"library",
 		[
-				"shippinglabel",
 				"pytest",
-				"apeye",
-				"cachecontrol[filecache]",
-				"domdf-python-tools",
-				"domdf_python_tools",
 				]
 		)
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])

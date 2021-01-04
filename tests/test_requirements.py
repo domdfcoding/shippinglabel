@@ -1,5 +1,5 @@
 # stdlib
-import sys
+from domdf_python_tools.testing import only_version
 from typing import Sequence, Union
 
 # 3rd party
@@ -393,35 +393,29 @@ def test_comparable_requirement():
 	assert req_with_marker() in {req_with_marker()}
 
 
-version_specific = pytest.mark.parametrize(
-		"py_version",
-		[
-				pytest.param(
-						"3.6",
-						marks=pytest.mark.skipif(
-								condition=sys.version_info[:2] != (3, 6),
-								reason="Output differs on Python 3.6",
-								)
-						),
-				pytest.param(
-						"3.7",
-						marks=pytest.mark.skipif(
-								condition=sys.version_info[:2] != (3, 7),
-								reason="Output differs on Python 3.7",
-								)
-						),
-				pytest.param("3.8+", marks=min_version(3.8, "Output differs on Python 3.8+")),
-				]
-		)
+only_36 = pytest.param("3.6", marks=only_version((3, 6), reason="Output differs on Python 3.6"))
+only_37 = pytest.param("3.7", marks=only_version((3, 7), reason="Output differs on Python 3.7"))
+only_38 = pytest.param("3.8", marks=only_version((3, 8), reason="Output differs on Python 3.8"))
+min_38 = pytest.param("3.8+", marks=min_version((3, 8), reason="Output differs on Python 3.8+"))
+only_39 = pytest.param("3.9", marks=only_version((3, 9), reason="Output differs on Python 3.9"))
+only_310 = pytest.param("3.10", marks=only_version((3, 10), reason="Output differs on Python 3.10"))
 
 
 @not_windows("Output differs on Windows")
-@version_specific
+@pytest.mark.parametrize(
+		"py_version",
+		[
+				only_36,
+				only_37,
+				only_38,
+				only_39,
+				only_310,
+				]
+		)
 @pytest.mark.parametrize(
 		"library",
 		[
 				"shippinglabel",
-				"pytest",
 				"apeye",
 				"cachecontrol[filecache]",
 				"domdf-python-tools",
@@ -437,3 +431,22 @@ def test_list_requirements(
 		py_version,
 		):
 	data_regression.check(list(list_requirements(library, depth=depth)))
+
+
+@not_windows("Output differs on Windows")
+@pytest.mark.parametrize(
+		"py_version",
+		[
+				only_36,
+				only_37,
+				min_38,
+				]
+		)
+@pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
+# @pytest.mark.parametrize("depth", [3])
+def test_list_requirements_pytest(
+		data_regression: DataRegressionFixture,
+		depth,
+		py_version,
+		):
+	data_regression.check(list(list_requirements("pytest", depth=depth)))

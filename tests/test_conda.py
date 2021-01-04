@@ -49,7 +49,7 @@ def test_compile_requirements(tmp_pathplus):
 			]
 
 
-def test_compile_requirements_markers_url_extras(tmp_pathplus, conda_cassette):
+def test_compile_requirements_markers_url_extras(tmp_pathplus):
 	(tmp_pathplus / "requirements.txt").write_lines([
 			'apeye>=0.3.0; python_version <= "3.9"',
 			"pip @ https://github.com/pypa/pip/archive/1.3.1.zip#sha1=da9234ee9982d4bbb3c72346a6de940a148ea686",

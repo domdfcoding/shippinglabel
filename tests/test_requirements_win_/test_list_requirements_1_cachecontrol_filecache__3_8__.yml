@@ -1,3 +1,0 @@
-- requests
-- msgpack>=0.5.2
-- lockfile>=0.9; extra == "filecache"
