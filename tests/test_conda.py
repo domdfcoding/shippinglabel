@@ -1,7 +1,7 @@
 # 3rd party
 import pytest
 from _pytest.fixtures import FixtureRequest
-from betamax import Betamax
+from betamax import Betamax  # type: ignore
 from consolekit.utils import coloured_diff
 from domdf_python_tools.testing import check_file_regression
 from pytest_regressions.file_regression import FileRegressionFixture
