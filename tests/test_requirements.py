@@ -1,10 +1,9 @@
 # stdlib
-from domdf_python_tools.testing import only_version
 from typing import Sequence, Union
 
 # 3rd party
 import pytest
-from domdf_python_tools.testing import min_version, not_windows, only_windows
+from domdf_python_tools.testing import min_version, not_windows, only_version, only_windows
 from packaging.requirements import Requirement
 from packaging.specifiers import Specifier, SpecifierSet
 from pytest_regressions.data_regression import DataRegressionFixture
@@ -402,19 +401,15 @@ only_310 = pytest.param("3.10", marks=only_version((3, 10), reason="Output diffe
 
 
 @not_windows("Output differs on Windows")
+@pytest.mark.parametrize("py_version", [
+		only_36,
+		only_37,
+		only_38,
+		only_39,
+		only_310,
+		])
 @pytest.mark.parametrize(
-		"py_version",
-		[
-				only_36,
-				only_37,
-				only_38,
-				only_39,
-				only_310,
-				]
-		)
-@pytest.mark.parametrize(
-		"library",
-		[
+		"library", [
 				"shippinglabel",
 				"apeye",
 				"cachecontrol[filecache]",
@@ -434,14 +429,11 @@ def test_list_requirements(
 
 
 @not_windows("Output differs on Windows")
-@pytest.mark.parametrize(
-		"py_version",
-		[
-				only_36,
-				only_37,
-				min_38,
-				]
-		)
+@pytest.mark.parametrize("py_version", [
+		only_36,
+		only_37,
+		min_38,
+		])
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
 # @pytest.mark.parametrize("depth", [3])
 def test_list_requirements_pytest(
