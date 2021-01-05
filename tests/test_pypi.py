@@ -89,7 +89,6 @@ from shippinglabel.pypi import (
 				pytest.param('foo???1.2.3\nbar\n', 1, 'foo???1.2.3\nbar>=0.2.1\n', id="bad_specifiers"),
 				]
 		)
-# @pytest.mark.flaky(reruns=2, reruns_delay=5)
 def test_bind_requirements(input_s, expected_retval, output, tmp_pathplus, cassette):
 	path = tmp_pathplus / "requirements.txt"
 	path.write_text(input_s)
