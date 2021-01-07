@@ -57,6 +57,9 @@ class TestValidateClassifiers:
 				pytest.param(["jupyter", "matplotlib>=3"], id="jupyter_matplotlib"),
 				pytest.param(["dash", "flask"], id="dash_flask"),
 				pytest.param(["pytest", "flake8"], id="pytest_flake8"),
+				pytest.param(["dulwich"], id="dulwich"),
+				pytest.param(["gitpython"], id="gitpython"),
+				pytest.param(["dulwich", "southwark"], id="dulwich_southwark"),
 				]
 		)
 def test_classifiers_from_requirements(tmp_pathplus, requirements, data_regression):

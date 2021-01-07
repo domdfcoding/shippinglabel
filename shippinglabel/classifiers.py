@@ -117,3 +117,5 @@ def classifiers_from_requirements(requirements: Collection[ComparableRequirement
 		yield "Topic :: Documentation :: Sphinx"
 		yield "Topic :: Software Development :: Documentation"
 		yield "Intended Audience :: Developers"
+	if "gitpython" in requirement_names or "dulwich" in requirement_names or "southwark" in requirement_names:
+		yield "Topic :: Software Development :: Version Control :: Git"
