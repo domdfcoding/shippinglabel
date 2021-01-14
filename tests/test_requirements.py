@@ -3,7 +3,7 @@ from typing import Sequence, Union
 
 # 3rd party
 import pytest
-from domdf_python_tools.testing import min_version, not_windows, only_version, only_windows
+from domdf_python_tools.testing import min_version, not_windows, only_version
 from packaging.requirements import Requirement
 from packaging.specifiers import Specifier, SpecifierSet
 from pytest_regressions.data_regression import DataRegressionFixture
