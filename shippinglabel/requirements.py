@@ -547,7 +547,7 @@ def list_requirements(name: str, depth: int = 1) -> Iterator[Union[str, List[str
 	except importlib_metadata.PackageNotFoundError:
 		return
 
-	for requirement in [ComparableRequirement(r) for r in raw_deps]:
+	for requirement in [ComparableRequirement(r) for r in sorted(raw_deps)]:
 		if requirement.marker:
 			if req.extras:
 				extras = list(req.extras)[0]

@@ -1,13 +1,13 @@
 - attrs>=19.2.0
+- importlib-metadata>=0.12; python_version < "3.8"
+- - typing-extensions>=3.6.4; python_version < "3.8"
+  - zipp>=0.5
 - iniconfig
 - packaging
 - - pyparsing>=2.0.2
 - pluggy<1.0.0a1,>=0.12
 - - importlib-metadata>=0.12; python_version < "3.8"
-  - - zipp>=0.5
-    - typing-extensions>=3.6.4; python_version < "3.8"
+  - - typing-extensions>=3.6.4; python_version < "3.8"
+    - zipp>=0.5
 - py>=1.8.2
 - toml
-- importlib-metadata>=0.12; python_version < "3.8"
-- - zipp>=0.5
-  - typing-extensions>=3.6.4; python_version < "3.8"
