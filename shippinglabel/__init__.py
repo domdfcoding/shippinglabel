@@ -35,7 +35,7 @@ __all__ = ["no_dev_versions", "normalize", "normalize_keep_dot"]
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
 __license__: str = "MIT License"
-__version__: str = "0.8.1"
+__version__: str = "0.8.2"
 __email__: str = "dominic@davis-foster.co.uk"
 
 
@@ -69,7 +69,7 @@ def normalize_keep_dot(name: str) -> str:
 	"""
 	Normalize the given name for PyPI et al., but keep dots in namespace packages.
 
-	.. versionadded:: 0.8.1
+	.. versionadded:: 0.8.2
 
 	:param name: The project name.
 	"""
