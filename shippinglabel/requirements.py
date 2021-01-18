@@ -538,6 +538,8 @@ def list_requirements(name: str, depth: int = 1) -> Iterator[Union[str, List[str
 
 	:param name:
 	:param depth:
+
+	.. versionchanged:: 0.8.2  The requirements are now sorted alphabetically.
 	"""
 
 	req = ComparableRequirement(name)
