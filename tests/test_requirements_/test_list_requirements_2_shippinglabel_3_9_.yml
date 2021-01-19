@@ -13,8 +13,7 @@
   - mistletoe>=0.7.2
   - typing-extensions>=3.7.4.3
 - domdf-python-tools>=2.0.1
-- - deprecation-alias>=0.1.1
-  - natsort>=7.1.0
+- - natsort>=7.1.0
   - pydash>=4.7.4
   - typing-extensions>=3.7.4.3
 - packaging>=20.7
