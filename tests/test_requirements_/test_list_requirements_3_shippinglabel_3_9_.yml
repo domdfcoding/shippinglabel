@@ -5,8 +5,7 @@
     - msgpack>=0.5.2
     - requests
   - domdf-python-tools>=0.9.0
-  - - deprecation-alias>=0.1.1
-    - natsort>=7.1.0
+  - - natsort>=7.1.0
     - pydash>=4.7.4
     - typing-extensions>=3.7.4.3
   - lockfile>=0.12.2
@@ -25,17 +24,13 @@
 - - click>=7.1.2
   - colorama>=0.4.3; python_version < "3.10"
   - domdf-python-tools>=2.0.0
-  - - deprecation-alias>=0.1.1
-    - natsort>=7.1.0
+  - - natsort>=7.1.0
     - pydash>=4.7.4
     - typing-extensions>=3.7.4.3
   - mistletoe>=0.7.2
   - typing-extensions>=3.7.4.3
 - domdf-python-tools>=2.0.1
-- - deprecation-alias>=0.1.1
-  - - deprecation>=2.1.0
-    - packaging>=20.4
-  - natsort>=7.1.0
+- - natsort>=7.1.0
   - pydash>=4.7.4
   - typing-extensions>=3.7.4.3
 - packaging>=20.7
