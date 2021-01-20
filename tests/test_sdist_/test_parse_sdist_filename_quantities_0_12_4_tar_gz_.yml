@@ -1,0 +1,3 @@
+extension: .tar.gz
+project: quantities
+version: 0.12.4

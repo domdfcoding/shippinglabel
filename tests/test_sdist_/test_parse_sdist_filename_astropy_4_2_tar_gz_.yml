@@ -1,0 +1,3 @@
+extension: .tar.gz
+project: astropy
+version: '4.2'

@@ -1,0 +1,3 @@
+extension: .tar.gz
+project: PyGObject-stubs
+version: 0.0.2

@@ -1,0 +1,3 @@
+extension: .tar.gz
+project: tox-pip-version
+version: 0.0.7

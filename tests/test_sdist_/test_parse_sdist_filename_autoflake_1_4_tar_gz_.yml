@@ -1,0 +1,3 @@
+extension: .tar.gz
+project: autoflake
+version: '1.4'

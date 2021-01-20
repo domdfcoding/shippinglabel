@@ -1,0 +1,3 @@
+extension: .tar.gz
+project: tinycss
+version: '0.4'

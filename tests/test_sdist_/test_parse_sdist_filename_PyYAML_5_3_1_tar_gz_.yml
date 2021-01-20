@@ -1,0 +1,3 @@
+extension: .tar.gz
+project: PyYAML
+version: 5.3.1

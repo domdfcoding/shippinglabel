@@ -1,0 +1,3 @@
+extension: .tar.gz
+project: Pillow
+version: 8.1.0

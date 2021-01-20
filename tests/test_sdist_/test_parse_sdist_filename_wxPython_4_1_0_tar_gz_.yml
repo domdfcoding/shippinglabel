@@ -1,0 +1,3 @@
+extension: .tar.gz
+project: wxPython
+version: 4.1.0
