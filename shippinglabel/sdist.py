@@ -42,7 +42,7 @@ from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
 from wheel_filename import InvalidFilenameError
 
-__all__ = ["ParsedSdistFilename", "parse_sdist_filename"]
+__all__ = ["NotAnSdistError", "ParsedSdistFilename", "parse_sdist_filename"]
 
 
 class NotAnSdistError(ValueError):
@@ -92,9 +92,10 @@ def parse_sdist_filename(filename: PathLike) -> ParsedSdistFilename:
 	"""
 	Parse a sdist filename into its components.
 
-	:param str filename: A sdist path or filename
-	:rtype: ParsedWheelFilename
-	:raises InvalidFilenameError: if the filename is invalid
+	:param filename: An sdist path or filename.
+
+	:raises: :exc:`wheel_filename.InvalidFilenameError` if the filename is invalid.
+	:raises: :exc:`shippinglabel.sdist.NotAnSdistError` if the file is not an sdist.
 	"""
 
 	filename = PathPlus(filename)
