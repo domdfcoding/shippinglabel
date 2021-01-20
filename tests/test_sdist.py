@@ -41,9 +41,9 @@ from shippinglabel.sdist import NotAnSdistError, parse_sdist_filename
 				"numpy-1.16.5.zip",
 				]
 		)
-def test_parse_sdist_filename(filename: str, data_regression: DataRegressionFixture):
+def test_parse_sdist_filename(filename: str, advanced_data_regression: DataRegressionFixture):
 	parsed_filename = parse_sdist_filename(filename)
-	data_regression.check(parsed_filename._asdict())
+	advanced_data_regression.check(parsed_filename)
 	assert str(parsed_filename) == filename
 
 
