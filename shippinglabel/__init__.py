@@ -28,9 +28,13 @@ Utilities for handling packages.
 
 # stdlib
 import re
-from typing import Iterable, List
+from typing import Dict, Iterable, List
 
-__all__ = ["no_dev_versions", "normalize", "normalize_keep_dot"]
+# 3rd party
+from domdf_python_tools.paths import PathPlus
+from domdf_python_tools.typing import PathLike
+
+__all__ = ["no_dev_versions", "normalize", "normalize_keep_dot", "read_pyvenv"]
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
@@ -75,3 +79,22 @@ def normalize_keep_dot(name: str) -> str:
 	"""
 
 	return _normalize_keep_dot_pattern.sub('-', name).lower()
+
+
+def read_pyvenv(venv_dir: PathLike) -> Dict[str, str]:
+	"""
+	Reads the ``pyvenv.cfg`` for the given virtualenv, and returns a ``key: value`` mapping of its contents.
+
+	.. versionadded:: 0.9.0
+
+	:param venv_dir:
+	"""
+
+	pyvenv_config: Dict[str, str] = {}
+
+	for line in (PathPlus(venv_dir) / "pyvenv.cfg").read_lines():
+		if line:
+			key, value, *_ = line.split(" = ")
+			pyvenv_config[key] = value
+
+	return pyvenv_config
