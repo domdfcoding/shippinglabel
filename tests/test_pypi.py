@@ -1,11 +1,13 @@
 # stdlib
 import gzip
+import re
 import tarfile
 import zipfile
 from urllib.parse import urlparse
 
 # 3rd party
 import pytest
+from packaging.requirements import InvalidRequirement
 from pytest_regressions.data_regression import DataRegressionFixture
 
 # this package
@@ -17,6 +19,7 @@ from shippinglabel.pypi import (
 		get_pypi_releases,
 		get_releases_with_digests
 		)
+from shippinglabel.requirements import operator_symbols
 
 
 @pytest.mark.parametrize(
@@ -96,6 +99,18 @@ def test_bind_requirements(input_s, expected_retval, output, tmp_pathplus, casse
 	assert bind_requirements(path) == expected_retval
 
 	assert path.read_text() == output
+
+
+def test_bind_requirements_error(tmp_pathplus):
+	path = tmp_pathplus / "requirements.txt"
+	path.write_text('bar\npkg-resources==0.0.0\nfoo\n', )
+
+	for specifier in operator_symbols:
+		bind_requirements(path, specifier=specifier)
+
+	for specifier in "?*!$&^|":
+		with pytest.raises(ValueError, match=re.escape(f"Invalid specifier '{specifier}'")):
+			bind_requirements(path, specifier=specifier)
 
 
 def uri_validator(x):
@@ -189,3 +204,8 @@ def test_get_latest(module_cassette):
 
 def test_get_metadata(module_cassette, data_regression):
 	data_regression.check(get_metadata("octocheese"))
+
+
+def test_metadata_nonexistant(cassette):
+	with pytest.raises(InvalidRequirement, match="No such project 'FizzBuzz'"):
+		get_metadata("FizzBuzz")
