@@ -1,4 +1,4 @@
-apeye>=0.4.0
+apeye>=0.7.0
 appdirs>=1.4.4
 consolekit>=0.1.2
 domdf-python-tools>=2.0.1

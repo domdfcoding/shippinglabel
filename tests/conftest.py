@@ -30,7 +30,7 @@ def cassette(request: FixtureRequest):
 	which record and plays back interactions with the PyPI API.
 	"""  # noqa: D400
 
-	with Betamax(PYPI_API._store["session"]) as vcr:
+	with Betamax(PYPI_API.session) as vcr:
 		vcr.use_cassette(request.node.name, record="none")
 
 		yield PYPI_API
@@ -45,7 +45,7 @@ def module_cassette(request: FixtureRequest):
 
 	cassette_name = request.module.__name__.split('.')[-1]
 
-	with Betamax(PYPI_API._store["session"]) as vcr:
+	with Betamax(PYPI_API.session) as vcr:
 		# print(f"Using cassette {cassette_name!r}")
 		vcr.use_cassette(cassette_name, record="none")
 

@@ -35,7 +35,7 @@ from pathlib import Path
 from typing import Iterable, List
 
 # 3rd party
-import appdirs  # type: ignore
+import appdirs
 from apeye import SlumberURL
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import DelimitedList
