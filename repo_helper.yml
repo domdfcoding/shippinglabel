@@ -29,3 +29,5 @@ keywords:
  - requirements
  - pypi
  - conda
+
+min_coverage: 95
