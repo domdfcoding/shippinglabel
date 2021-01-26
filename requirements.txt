@@ -1,7 +1,7 @@
 apeye>=0.7.0
 appdirs>=1.4.4
 consolekit>=0.1.2
-domdf-python-tools>=2.0.1
+domdf-python-tools>=2.5.0
 packaging>=20.7
 trove-classifiers>=2020.10.21
 typing-extensions>=3.7.4.3
