@@ -321,8 +321,7 @@ def read_requirements(
 		include_invalid: Literal[True],
 		*,
 		normalize_func: Callable[[str], str] = ...
-		) -> _read_requirements_ret_invalid:
-	...  # pragma: no cover
+		) -> _read_requirements_ret_invalid: ...
 
 
 @overload
@@ -331,8 +330,7 @@ def read_requirements(
 		include_invalid: Literal[False] = ...,
 		*,
 		normalize_func: Callable[[str], str] = ...
-		) -> _read_requirements_ret_valid:
-	...  # pragma: no cover
+		) -> _read_requirements_ret_valid: ...
 
 
 def read_requirements(
