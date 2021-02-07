@@ -36,6 +36,7 @@ from abc import ABC
 from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union, overload
 
 # 3rd party
+import toml
 from domdf_python_tools.compat import importlib_metadata
 from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.iterative import natmax, natmin
@@ -58,6 +59,9 @@ __all__ = [
 		"RequirementsManager",
 		"list_requirements",
 		"check_dependencies",
+		"parse_requirements",
+		"parse_pyproject_dependencies",
+		"parse_pyproject_extras",
 		]
 
 operator_symbols = ("<=", '<', "!=", "==", ">=", '>', "~=", "===")
@@ -352,28 +356,73 @@ def read_requirements(
 	:return: The requirements, and a list of commented lines.
 	"""
 
+	requirements = PathPlus(req_file).read_lines()
+
+	if include_invalid:
+		return parse_requirements(requirements, include_invalid=True, normalize_func=normalize_func)
+
+	else:
+		return parse_requirements(requirements, include_invalid=False, normalize_func=normalize_func)
+
+
+@overload
+def parse_requirements(
+		requirements: Iterable[str],
+		*,
+		include_invalid: Literal[True],
+		normalize_func: Callable[[str], str] = ...
+		) -> _read_requirements_ret_invalid: ...
+
+
+@overload
+def parse_requirements(
+		requirements: Iterable[str],
+		*,
+		include_invalid: Literal[False] = ...,
+		normalize_func: Callable[[str], str] = ...
+		) -> _read_requirements_ret_valid: ...
+
+
+def parse_requirements(
+		requirements: Iterable[str],
+		*,
+		include_invalid: bool = False,
+		normalize_func: Callable[[str], str] = normalize
+		) -> _read_requirements_ret:
+	"""
+	Parse the given strings as :pep:`508` requirements.
+
+	.. versionadded:: $VERSION
+
+	:param requirements:
+	:param include_invalid: If :py:obj:`True`, include invalid lines as the third element of the tuple.
+	:param normalize_func: Function to use to normalize the names of requirements.
+
+	:return: The requirements, and a list of commented lines.
+	"""
+
 	comments = []
 	invalid_lines: List[str] = []
-	requirements: Set[ComparableRequirement] = set()
+	parsed_requirements: Set[ComparableRequirement] = set()
 
-	for line in PathPlus(req_file).read_lines():
+	for line in requirements:
 		if line.startswith('#'):
 			comments.append(line)
 		elif line:
 			try:
 				req = ComparableRequirement(line)
 				req.name = normalize_func(req.name)
-				requirements.add(req)
+				parsed_requirements.add(req)
 			except InvalidRequirement:
 				invalid_lines.append(line)
 
 	if include_invalid:
-		return requirements, comments, invalid_lines
+		return parsed_requirements, comments, invalid_lines
 	else:
 		for line in invalid_lines:
 			warnings.warn(f"Ignored invalid requirement {line!r}")
 
-		return requirements, comments
+		return parsed_requirements, comments
 
 
 class RequirementsManager(ABC):
@@ -600,3 +649,85 @@ def check_dependencies(dependencies: Iterable[str], prt: bool = True) -> List[st
 		print('')
 
 	return missing_modules
+
+
+def parse_pyproject_dependencies(
+		pyproject_file: PathLike,
+		flavour: Literal["pep621", "flit", "auto"] = "auto",
+		*,
+		normalize_func: Callable[[str], str] = normalize
+		) -> Set[ComparableRequirement]:
+	"""
+	Parse the project's dependencies from its ``pyproject.toml`` file.
+
+	.. versionadded:: $VERSION
+
+	:param pyproject_file:
+	:param flavour: Either ``'pep621'`` to parse from the :pep:`621` ``dependencies`` table,
+		or ``'flit'`` to parse the ``requires`` key in ``tool.flit.metadata`.
+		The string ``'auto`` will use ``'pep621'`` if available, otherwise try ``'flit'``.
+	:param normalize_func: Function to use to normalize the names of dependencies.
+
+	If no dependencies are defined an empty set is returned.
+	"""
+
+	config = toml.loads(PathPlus(pyproject_file).read_text())
+
+	dependencies = []
+
+	if flavour == "auto":
+		if "project" in config:
+			flavour = "pep621"
+		elif "flit" in config.get("tool", {}):
+			flavour = "flit"
+
+	if flavour == "pep621":
+		dependencies = config.get("project", {}).get("dependencies", [])
+	elif flavour == "flit":
+		dependencies = config.get("tool", {}).get("flit", {}).get("metadata", {}).get("requires", [])
+
+	return parse_requirements(dependencies, include_invalid=True, normalize_func=normalize_func)[0]
+
+
+def parse_pyproject_extras(
+		pyproject_file: PathLike,
+		flavour: Literal["pep621", "flit", "auto"] = "auto",
+		*,
+		normalize_func: Callable[[str], str] = normalize
+		) -> Dict[str, Set[ComparableRequirement]]:
+	"""
+	Parse the project's extra dependencies from its ``pyproject.toml`` file.
+
+	.. versionadded:: $VERSION
+
+	:param pyproject_file:
+	:param flavour: Either ``'pep621'`` to parse from the :pep:`621` ``dependencies`` table,
+		or ``'flit'`` to parse the ``requires-extra`` key in ``tool.flit.metadata`.
+		The string ``'auto`` will use ``'pep621'`` if available, otherwise try ``'flit'``.
+	:param normalize_func: Function to use to normalize the names of dependencies.
+
+	If no extra dependencies are defined an empty dictionary is returned.
+
+	:return:
+	"""
+
+	config = toml.loads(PathPlus(pyproject_file).read_text())
+
+	dependencies = {}
+
+	if flavour == "auto":
+		if "project" in config:
+			flavour = "pep621"
+		elif "flit" in config.get("tool", {}):
+			flavour = "flit"
+
+	if flavour == "pep621":
+		dependencies = config.get("project", {}).get("optional-dependencies", {})
+	elif flavour == "flit":
+		dependencies = config.get("tool", {}).get("flit", {}).get("metadata", {}).get("requires-extra", {})
+
+	return {
+			k: parse_requirements(v, include_invalid=True, normalize_func=normalize_func)[0]
+			for k,
+			v in dependencies.items()
+			}

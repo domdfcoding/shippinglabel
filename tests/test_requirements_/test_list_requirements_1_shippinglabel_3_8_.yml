@@ -3,6 +3,7 @@
 - consolekit>=0.1.2
 - domdf-python-tools>=2.5.0
 - packaging>=20.7
+- toml>=0.10.2
 - trove-classifiers>=2020.10.21
 - typing-extensions>=3.7.4.3
 - wheel-filename>=1.2.0

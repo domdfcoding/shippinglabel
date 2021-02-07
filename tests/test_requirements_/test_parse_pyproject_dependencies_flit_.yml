@@ -1,0 +1,2 @@
+- configparser; python_version == "2.7"
+- requests>=2.6
