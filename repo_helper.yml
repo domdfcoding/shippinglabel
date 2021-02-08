@@ -10,12 +10,13 @@ license: 'MIT'
 short_desc: 'Utilities for handling packages.'
 
 python_versions:
- - 3.6
- - 3.7
- - 3.8
- - 3.9
- - pypy3
+ - '3.6'
+ - '3.7'
+ - '3.8'
+ - '3.9'
  - 3.10-dev
+ - pypy3
+ - rustpython
 
 conda_channels:
  - conda-forge
