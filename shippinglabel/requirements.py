@@ -3,6 +3,11 @@
 #  requirements.py
 """
 Utilities for working with :pep:`508` requirements.
+
+.. TODO::
+
+	* Support for reading requirements and extras from setup.cfg
+	* Support for reading poetry-flavour pyproject.toml requirements
 """
 #
 #  Copyright © 2020-2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>
