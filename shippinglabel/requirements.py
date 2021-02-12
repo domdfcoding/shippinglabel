@@ -392,7 +392,7 @@ def parse_requirements(
 	"""
 	Parse the given strings as :pep:`508` requirements.
 
-	.. versionadded:: $VERSION
+	.. versionadded:: 0.10.0
 
 	:param requirements:
 	:param include_invalid: If :py:obj:`True`, include invalid lines as the third element of the tuple.
@@ -660,7 +660,7 @@ def parse_pyproject_dependencies(
 	"""
 	Parse the project's dependencies from its ``pyproject.toml`` file.
 
-	.. versionadded:: $VERSION
+	.. versionadded:: 0.10.0
 
 	:param pyproject_file:
 	:param flavour: Either ``'pep621'`` to parse from the :pep:`621` ``dependencies`` table,
@@ -698,7 +698,7 @@ def parse_pyproject_extras(
 	"""
 	Parse the project's extra dependencies from its ``pyproject.toml`` file.
 
-	.. versionadded:: $VERSION
+	.. versionadded:: 0.10.0
 
 	:param pyproject_file:
 	:param flavour: Either ``'pep621'`` to parse from the :pep:`621` ``dependencies`` table,

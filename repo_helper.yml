@@ -19,7 +19,6 @@ python_versions:
 
 conda_channels:
  - conda-forge
- - domdfcoding
 
 sphinx_conf_epilogue:
  - html_logo = "../shippinglabel.png"
