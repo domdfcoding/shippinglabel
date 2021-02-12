@@ -1,6 +1,6 @@
 # 3rd party
 import pytest
-from domdf_python_tools.testing import only_windows
+from coincidence import only_windows
 from pytest_regressions.data_regression import DataRegressionFixture
 
 # this package

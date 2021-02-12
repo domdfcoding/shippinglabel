@@ -34,12 +34,19 @@ from hashlib import sha256
 from typing import TYPE_CHECKING, Optional, Union
 
 # 3rd party
+from domdf_python_tools.compat import PYPY
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
 
 if TYPE_CHECKING:
 	# stdlib
 	from hashlib import _Hash
+elif PYPY:
+	# stdlib
+	from _hashlib import Hash as _Hash
+else:
+	# stdlib
+	from _hashlib import HASH as _Hash
 
 __all__ = ["check_sha256_hash", "get_record_entry", "get_sha256_hash"]
 
@@ -54,6 +61,8 @@ def get_sha256_hash(filename: PathLike, blocksize: int = 1 << 20) -> "_Hash":
 
 	:param filename:
 	:param blocksize: The blocksize to read the file with.
+
+	:rtype: :mod:`hashlib.sha256() <hashlib>`
 	"""
 
 	sha256_hash = sha256()
@@ -72,13 +81,14 @@ def check_sha256_hash(
 		hash: Union["_Hash", str],  # noqa: A002  # pylint: disable=redefined-builtin
 		blocksize: int = 1 << 20,
 		) -> bool:
-	"""
+	r"""
 	Returns whether the sha256 hash for the file matches ``hash``.
 
 	.. versionadded:: 0.6.0
 
 	:param filename:
 	:param hash:
+	:type hash: :py:obj:`Union`\[:mod:`hashlib.sha256() <hashlib>`, :class:`str`\]
 	:param blocksize: The blocksize to read the file with.
 	"""
 

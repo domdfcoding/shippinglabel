@@ -23,7 +23,7 @@
 - consolekit>=0.1.2
 - - click>=7.1.2
   - colorama>=0.4.3; python_version < "3.10"
-  - domdf-python-tools>=2.1.0
+  - domdf-python-tools>=2.5.1
   - - natsort>=7.1.0
     - pydash>=4.7.4
     - typing-extensions>=3.7.4.3
@@ -35,6 +35,7 @@
   - typing-extensions>=3.7.4.3
 - packaging>=20.7
 - - pyparsing>=2.0.2
+- toml>=0.10.2
 - trove-classifiers>=2020.10.21
 - typing-extensions>=3.7.4.3
 - wheel-filename>=1.2.0

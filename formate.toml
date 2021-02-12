@@ -49,8 +49,10 @@ known_third_party = [
     "pytest_rerunfailures",
     "pytest_timeout",
     "requests",
+    "toml",
     "trove_classifiers",
     "typing_extensions",
     "wheel_filename",
 ]
 known_first_party = "shippinglabel"
+extra_standard_library = "_hashlib"

@@ -10,16 +10,15 @@ license: 'MIT'
 short_desc: 'Utilities for handling packages.'
 
 python_versions:
- - 3.6
- - 3.7
- - 3.8
- - 3.9
- - pypy3
+ - '3.6'
+ - '3.7'
+ - '3.8'
+ - '3.9'
  - 3.10-dev
+ - pypy3
 
 conda_channels:
  - conda-forge
- - domdfcoding
 
 sphinx_conf_epilogue:
  - html_logo = "../shippinglabel.png"
@@ -31,3 +30,5 @@ keywords:
  - conda
 
 min_coverage: 95
+
+docs_fail_on_warning: true

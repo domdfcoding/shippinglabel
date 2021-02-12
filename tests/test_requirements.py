@@ -1,13 +1,14 @@
 # stdlib
-from typing import Sequence, Union
+from typing import List, Sequence, Union
 
 # 3rd party
 import pytest
-from domdf_python_tools.testing import min_version, not_windows, only_version
+from coincidence.regressions import AdvancedDataRegressionFixture
+from coincidence.selectors import min_version, not_windows, only_version
+from domdf_python_tools.paths import PathPlus
 from packaging.requirements import Requirement
 from packaging.specifiers import Specifier, SpecifierSet
 from pytest_regressions.data_regression import DataRegressionFixture
-from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
 from shippinglabel.requirements import (
@@ -15,13 +16,12 @@ from shippinglabel.requirements import (
 		check_dependencies,
 		combine_requirements,
 		list_requirements,
+		parse_pyproject_dependencies,
+		parse_pyproject_extras,
+		parse_requirements,
 		read_requirements,
 		resolve_specifiers
 		)
-
-
-def check_file_regression(data, file_regression: FileRegressionFixture, extension=".txt"):
-	file_regression.check(data, encoding="UTF-8", extension=extension)
 
 
 class TestComparableRequirement:
@@ -270,13 +270,45 @@ requirements_c = [
 				pytest.param(requirements_c, id='c'),
 				]
 		)
-def test_read_requirements(tmp_pathplus, file_regression: FileRegressionFixture, requirements):
+def test_read_requirements(
+		tmp_pathplus,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		requirements: List[str],
+		):
 	(tmp_pathplus / "requirements.txt").write_lines(requirements)
-	requirements, comments = read_requirements(tmp_pathplus / "requirements.txt")
-	check_file_regression('\n'.join(str(x) for x in sorted(requirements)), file_regression, extension="._txt")
+	advanced_data_regression.check([
+			str(x) for x in sorted(read_requirements(tmp_pathplus / "requirements.txt")[0])
+			])
 
 
-def test_read_requirements_invalid(tmp_pathplus, file_regression: FileRegressionFixture):
+@pytest.mark.parametrize(
+		"requirements",
+		[
+				pytest.param(requirements_a, id='a'),
+				pytest.param(requirements_b, id='b'),
+				pytest.param(requirements_c, id='c'),
+				pytest.param(iter(requirements_a), id="iter(a)"),
+				pytest.param(iter(requirements_b), id="iter(b)"),
+				pytest.param(iter(requirements_c), id="iter(c)"),
+				pytest.param(set(requirements_a), id="set(a)"),
+				pytest.param(set(requirements_b), id="set(b)"),
+				pytest.param(set(requirements_c), id="set(c)"),
+				pytest.param(tuple(requirements_a), id="tuple(a)"),
+				pytest.param(tuple(requirements_b), id="tuple(b)"),
+				pytest.param(tuple(requirements_c), id="tuple(c)"),
+				]
+		)
+def test_parse_requirements(
+		tmp_pathplus: PathPlus,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		requirements: List[str],
+		):
+	advanced_data_regression.check([str(x) for x in sorted(parse_requirements(requirements)[0])])
+
+
+def test_read_requirements_invalid(
+		tmp_pathplus: PathPlus, advanced_data_regression: AdvancedDataRegressionFixture
+		):
 	(tmp_pathplus / "requirements.txt").write_lines([
 			"# another comment",
 			"autodocsumm>=apples",
@@ -304,11 +336,8 @@ def test_read_requirements_invalid(tmp_pathplus, file_regression: FileRegression
 		]):
 		assert record[idx].message.args[0] == warning  # type: ignore
 
-	check_file_regression('\n'.join(str(x) for x in sorted(requirements)), file_regression, extension="._txt")
-	assert comments == [
-			"# another comment",
-			"# a comment",
-			]
+	advanced_data_regression.check([str(x) for x in sorted(requirements)])
+	assert comments == ["# another comment", "# a comment"]
 
 
 def test_sort_mixed_requirements():
@@ -442,3 +471,61 @@ def test_list_requirements_pytest(
 		py_version,
 		):
 	data_regression.check(list(list_requirements("pytest", depth=depth)))
+
+
+@pytest.fixture()
+def pyproject_toml(tmp_pathplus: PathPlus):
+
+	filename = (tmp_pathplus / "pyproject.toml")
+	filename.write_lines([
+			"[build-system]",
+			'requires = [ "setuptools>=40.6.0", "wheel>=0.34.2",]',
+			'build-backend = "setuptools.build_meta"',
+			'',
+			"[project]",
+			"dependencies = [",
+			'  "httpx",',
+			'  "gidgethub[httpx]>4.0.0",',
+			"  \"django>2.1; os_name != 'nt'\",",
+			"  \"django>2.0; os_name == 'nt'\"",
+			']',
+			'',
+			"[project.optional-dependencies]",
+			"test = [",
+			'  "pytest < 5.0.0",',
+			'  "pytest-cov[all]"',
+			']',
+			"[tool.flit.metadata]",
+			"requires = [",
+			'\t"requests >=2.6",',
+			"\t\"configparser; python_version == '2.7'\",",
+			']',
+			'',
+			"[tool.flit.metadata.requires-extra]",
+			"test = [",
+			'\t"pytest >=2.7.3",',
+			'\t"pytest-cov",',
+			']',
+			])
+
+	return filename
+
+
+@pytest.mark.parametrize("flavour", ["auto", "pep621", "flit"])
+def test_parse_pyproject_dependencies(
+		pyproject_toml: PathPlus,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		flavour: str,
+		):
+	deps = parse_pyproject_dependencies(pyproject_toml, flavour)  # type: ignore
+	advanced_data_regression.check(sorted(str(x) for x in deps))
+
+
+@pytest.mark.parametrize("flavour", ["auto", "pep621", "flit"])
+def test_parse_pyproject_extras(
+		pyproject_toml: PathPlus,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		flavour: str,
+		):
+	extras = parse_pyproject_extras(pyproject_toml, flavour)  # type: ignore
+	advanced_data_regression.check({k: sorted(str(x) for x in v) for k, v in extras.items()})

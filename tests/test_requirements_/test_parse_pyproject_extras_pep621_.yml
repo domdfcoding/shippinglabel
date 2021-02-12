@@ -1,0 +1,3 @@
+test:
+- pytest-cov[all]
+- pytest<5.0.0
