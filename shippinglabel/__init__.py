@@ -39,7 +39,7 @@ __all__ = ["no_dev_versions", "normalize", "normalize_keep_dot", "read_pyvenv"]
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
 __license__: str = "MIT License"
-__version__: str = "0.10.0"
+__version__: str = "0.11.0"
 __email__: str = "dominic@davis-foster.co.uk"
 
 
@@ -73,7 +73,7 @@ def normalize_keep_dot(name: str) -> str:
 	"""
 	Normalize the given name for PyPI et al., but keep dots in namespace packages.
 
-	.. versionadded:: 0.10.0
+	.. versionadded:: 0.11.0
 
 	:param name: The project name.
 	"""
@@ -85,7 +85,7 @@ def read_pyvenv(venv_dir: PathLike) -> Dict[str, str]:
 	"""
 	Reads the ``pyvenv.cfg`` for the given virtualenv, and returns a ``key: value`` mapping of its contents.
 
-	.. versionadded:: 0.10.0
+	.. versionadded:: 0.11.0
 
 	:param venv_dir:
 	"""
