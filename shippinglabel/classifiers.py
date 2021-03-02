@@ -27,6 +27,7 @@ Utilities for working with trove classifiers.
 #
 
 # stdlib
+from collections import defaultdict
 from typing import Collection, Iterable, Iterator
 
 # 3rd party
@@ -70,8 +71,27 @@ def classifiers_from_requirements(requirements: Collection[ComparableRequirement
 	:param requirements:
 	"""
 
-	# Normalize requirement names
-	requirement_names = [normalize(req.name) for req in requirements]
+	requirement_names = []
+	frameworks = defaultdict(bool)
+
+	for _requirement in requirements:
+		req = normalize(_requirement.name)
+		requirement_names.append(req)
+
+		if req.startswith("flake8"):
+			frameworks["flake8"] = True
+		elif req.startswith("flask"):
+			frameworks["flask"] = True
+		elif req.startswith("pytest"):
+			frameworks["pytest"] = True
+		elif req.startswith("tox"):
+			frameworks["tox"] = True
+		elif req.startswith("sphinx"):
+			frameworks["sphinx"] = True
+		elif req in {"click", "typer", "consolekit"}:
+			frameworks["console"] = True
+		elif req in {"gitpython", "dulwich", "southwark"}:
+			frameworks["git"] = True
 
 	if "dash" in requirement_names:
 		yield "Framework :: Dash"
@@ -84,38 +104,42 @@ def classifiers_from_requirements(requirements: Collection[ComparableRequirement
 		yield "Topic :: Games/Entertainment"
 	if "arcade" in requirement_names:
 		yield "Topic :: Games/Entertainment"
-	if "flake8" in requirement_names:
+	if "werkzeug" in requirement_names:
+		yield "Topic :: Internet :: WWW/HTTP :: WSGI :: Application"
+
+	if frameworks["flake8"]:
 		yield "Framework :: Flake8"
 		yield "Intended Audience :: Developers"
-	if "flask" in requirement_names:
+
+	if frameworks["flask"]:
 		yield "Framework :: Flask"
 		yield "Topic :: Internet :: WWW/HTTP :: WSGI :: Application"
 		yield "Topic :: Internet :: WWW/HTTP :: Dynamic Content"
-	if "werkzeug" in requirement_names:
-		yield "Topic :: Internet :: WWW/HTTP :: WSGI :: Application"
-	if "click" in requirement_names or "typer" in requirement_names:
+
+	if frameworks["console"]:
 		yield "Environment :: Console"
-	if "pytest" in requirement_names:
-		# TODO: pytest-*
+
+	if frameworks["pytest"]:
 		yield "Framework :: Pytest"
 		yield "Topic :: Software Development :: Quality Assurance"
 		yield "Topic :: Software Development :: Testing"
 		yield "Topic :: Software Development :: Testing :: Unit"
 		yield "Intended Audience :: Developers"
-	if "tox" in requirement_names:
-		# TODO: tox-*
+
+	if frameworks["tox"]:
 		yield "Framework :: tox"
 		yield "Topic :: Software Development :: Quality Assurance"
 		yield "Topic :: Software Development :: Testing"
 		yield "Topic :: Software Development :: Testing :: Unit"
 		yield "Intended Audience :: Developers"
-	if "sphinx" in requirement_names:
-		# TODO: sphinx-*
+
+	if frameworks["sphinx"]:
 		yield "Framework :: Sphinx :: Extension"
 		# TODO: yield "Framework :: Sphinx :: Theme"
 		yield "Topic :: Documentation"
 		yield "Topic :: Documentation :: Sphinx"
 		yield "Topic :: Software Development :: Documentation"
 		yield "Intended Audience :: Developers"
-	if "gitpython" in requirement_names or "dulwich" in requirement_names or "southwark" in requirement_names:
+
+	if frameworks["git"]:
 		yield "Topic :: Software Development :: Version Control :: Git"
