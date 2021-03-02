@@ -7,7 +7,7 @@ Utilities for working with the Python Package Index (PyPI).
 .. versionadded:: 0.2.0
 """
 #
-#  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+#  Copyright © 2020-2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -141,6 +141,9 @@ def bind_requirements(
 		)
 
 	for req in requirements:
+		if req.url:
+			continue
+
 		if not req.specifier:
 			ret |= 1
 			req.specifier = SpecifierSet(f"{specifier}{get_latest(req.name)}")

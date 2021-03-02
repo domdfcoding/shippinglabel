@@ -90,6 +90,20 @@ from shippinglabel.requirements import operator_symbols
 						id="foo_pkg-resources_bar"
 						),
 				pytest.param('foo???1.2.3\nbar\n', 1, 'foo???1.2.3\nbar>=0.2.1\n', id="bad_specifiers"),
+				pytest.param(
+						'wxpython>=4.0.7; platform_system == "Windows" and python_version < "3.9"\n'
+						'wxpython>=4.0.7; platform_system == "Darwin" and python_version < "3.9"\n',
+						0,
+						'wxpython>=4.0.7; platform_system == "Windows" and python_version < "3.9"\n'
+						'wxpython>=4.0.7; platform_system == "Darwin" and python_version < "3.9"\n',
+						id="markers",
+						),
+				pytest.param(
+						'pyreadline @ https://github.com/domdfcoding/3.10-Wheels/raw/936f0570b561f3cda0be94d93066a11c6fe782f1/pyreadline-2.0-py3-none-any.whl ; python_version == "3.10" and platform_system == "Windows"',
+						1,
+						'pyreadline@ https://github.com/domdfcoding/3.10-Wheels/raw/936f0570b561f3cda0be94d93066a11c6fe782f1/pyreadline-2.0-py3-none-any.whl ; python_version == "3.10" and platform_system == "Windows"\n',
+						id="url"
+						),
 				]
 		)
 def test_bind_requirements(input_s, expected_retval, output, tmp_pathplus, cassette):
