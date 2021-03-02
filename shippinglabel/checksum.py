@@ -69,7 +69,7 @@ def get_sha256_hash(filename: PathLike, blocksize: int = 1 << 20) -> "_Hash":
 
 	with open(filename, "rb") as f:
 		fb = f.read(blocksize)
-		while len(fb):
+		while len(fb):  # pylint: disable=len-as-condition
 			sha256_hash.update(fb)
 			fb = f.read(blocksize)
 
@@ -109,8 +109,8 @@ def get_record_entry(filename: PathLike, blocksize: int = 1 << 20, relative_to: 
 	:param relative_to:
 	"""
 
-	hash = get_sha256_hash(filename, blocksize).digest()  # noqa: A001
-	digest = "sha256=" + urlsafe_b64encode(hash).decode("latin1").rstrip('=')
+	sha256_hash = get_sha256_hash(filename, blocksize).digest()  # noqa: A001
+	digest = "sha256=" + urlsafe_b64encode(sha256_hash).decode("latin1").rstrip('=')
 
 	filename = PathPlus(filename)
 
