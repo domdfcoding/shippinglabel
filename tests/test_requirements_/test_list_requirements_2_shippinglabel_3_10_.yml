@@ -8,6 +8,7 @@
 - appdirs>=1.4.4
 - consolekit>=0.1.2
 - - click>=7.1.2
+  - deprecation-alias>=0.1.1
   - domdf-python-tools>=2.5.1
   - mistletoe>=0.7.2
   - typing-extensions>=3.7.4.3
