@@ -93,7 +93,7 @@ def check_sha256_hash(
 	"""
 
 	if isinstance(hash, _HashType):
-		hash = hash.hexdigest()  # noqa: A001
+		hash = hash.hexdigest()  # noqa: A001  # pylint: disable=redefined-builtin
 
 	return hash == get_sha256_hash(filename, blocksize).hexdigest()
 
@@ -109,7 +109,7 @@ def get_record_entry(filename: PathLike, blocksize: int = 1 << 20, relative_to: 
 	:param relative_to:
 	"""
 
-	sha256_hash = get_sha256_hash(filename, blocksize).digest()  # noqa: A001
+	sha256_hash = get_sha256_hash(filename, blocksize).digest()  # noqa: A001  # pylint: disable=redefined-builtin
 	digest = "sha256=" + urlsafe_b64encode(sha256_hash).decode("latin1").rstrip('=')
 
 	filename = PathPlus(filename)
