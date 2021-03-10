@@ -35,6 +35,7 @@ known_third_party = [
     "apeye",
     "appdirs",
     "betamax",
+    "cawdrey",
     "coincidence",
     "consolekit",
     "coverage",
