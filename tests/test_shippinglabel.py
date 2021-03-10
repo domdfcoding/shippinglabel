@@ -4,7 +4,7 @@ from coincidence import AdvancedDataRegressionFixture
 from domdf_python_tools.paths import PathPlus
 
 # this package
-from shippinglabel import no_dev_versions, normalize, normalize_keep_dot, read_pyvenv
+from shippinglabel import get_project_links, no_dev_versions, normalize, normalize_keep_dot, read_pyvenv
 
 
 @pytest.mark.parametrize(
@@ -63,3 +63,11 @@ def test_read_pyvenv(tmp_pathplus: PathPlus, advanced_data_regression: AdvancedD
 	assert venv_config["prompt"] == "(shippinglabel) "
 
 	advanced_data_regression.check(venv_config)
+
+
+@pytest.mark.parametrize(
+		"project",
+		["pip", "packaging", "domdf_python_tools", "sphinx", "setuptools", "whey", "numpy"],
+		)
+def test_get_project_links(advanced_data_regression: AdvancedDataRegressionFixture, project: str):
+	advanced_data_regression.check(dict(get_project_links(project)))

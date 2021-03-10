@@ -31,10 +31,12 @@ import re
 from typing import Dict, Iterable, List
 
 # 3rd party
+from cawdrey.header_mapping import HeaderMapping
+from domdf_python_tools.compat import importlib_metadata
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
 
-__all__ = ["no_dev_versions", "normalize", "normalize_keep_dot", "read_pyvenv"]
+__all__ = ["no_dev_versions", "normalize", "normalize_keep_dot", "read_pyvenv", "get_project_links"]
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
@@ -98,3 +100,45 @@ def read_pyvenv(venv_dir: PathLike) -> Dict[str, str]:
 			pyvenv_config[key] = value
 
 	return pyvenv_config
+
+
+class ProjectLinks(HeaderMapping):
+	pass
+
+
+def get_project_links(project_name: str) -> HeaderMapping:
+	"""
+	Returns the web links for the given project.
+
+	The exact keys vary, but common keys include "Documentation" and "Issue Tracker".
+
+	.. versionadded:: 0.12.0
+
+	:param project_name:
+	"""
+
+	# this package
+	from shippinglabel.pypi import get_metadata
+
+	# Try a local package first
+
+	urls = ProjectLinks()
+
+	try:
+		dist = importlib_metadata.distribution(project_name)
+		raw_urls = dist.metadata.get_all("Project-URL", failobj=())
+
+		for url in raw_urls:
+			label, url, *_ = map(str.strip, url.split(','))
+			urls[label] = url
+
+	except importlib_metadata.PackageNotFoundError:
+		# Fall back to PyPI
+
+		metadata = get_metadata(project_name)["info"]
+
+		if "project_urls" in metadata and metadata["project_urls"]:
+			for label, url in metadata["project_urls"].items():
+				urls[label] = url
+
+	return urls
