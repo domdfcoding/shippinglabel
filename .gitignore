@@ -85,3 +85,5 @@ profile_default/
 ipython_config.py
 Pipfile.lock
 .pyre/
+_metadata.py
+demo.py

@@ -32,3 +32,7 @@ keywords:
 min_coverage: 95
 
 docs_fail_on_warning: true
+
+additional_ignore:
+ - _metadata.py
+ - demo.py

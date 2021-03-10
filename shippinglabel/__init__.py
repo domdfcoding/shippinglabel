@@ -75,7 +75,7 @@ def normalize_keep_dot(name: str) -> str:
 	"""
 	Normalize the given name for PyPI et al., but keep dots in namespace packages.
 
-	.. versionadded:: 0.11.0
+	.. versionadded:: 0.2.1
 
 	:param name: The project name.
 	"""
@@ -87,7 +87,7 @@ def read_pyvenv(venv_dir: PathLike) -> Dict[str, str]:
 	"""
 	Reads the ``pyvenv.cfg`` for the given virtualenv, and returns a ``key: value`` mapping of its contents.
 
-	.. versionadded:: 0.11.0
+	.. versionadded:: 0.9.0
 
 	:param venv_dir:
 	"""
