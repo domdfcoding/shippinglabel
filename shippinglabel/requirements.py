@@ -41,7 +41,7 @@ from abc import ABC
 from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union, overload
 
 # 3rd party
-import toml
+import dom_toml
 from domdf_python_tools.compat import importlib_metadata
 from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.iterative import natmax, natmin
@@ -676,7 +676,7 @@ def parse_pyproject_dependencies(
 	If no dependencies are defined an empty set is returned.
 	"""
 
-	config = toml.loads(PathPlus(pyproject_file).read_text())
+	config = dom_toml.load(pyproject_file)
 
 	dependencies = []
 
@@ -716,7 +716,7 @@ def parse_pyproject_extras(
 	:return:
 	"""
 
-	config = toml.loads(PathPlus(pyproject_file).read_text())
+	config = dom_toml.load(pyproject_file)
 
 	dependencies = {}
 
