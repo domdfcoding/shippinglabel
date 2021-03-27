@@ -1,9 +1,8 @@
 # 3rd party
 import pytest
-from coincidence import check_file_regression
+from coincidence.regressions import AdvancedFileRegressionFixture
 from consolekit.utils import coloured_diff
 from packaging.requirements import InvalidRequirement
-from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
 from shippinglabel import conda
@@ -224,5 +223,5 @@ def test_validate_requirements_unsatisfied():
 				pytest.param(["conda-forge", "domdfcoding", "bioconda"], id="channels - e"),
 				]
 		)
-def test_make_conda_description(file_regression: FileRegressionFixture, summary, channels):
-	check_file_regression(make_conda_description(summary, channels), file_regression, extension=".md")
+def test_make_conda_description(advanced_file_regression: AdvancedFileRegressionFixture, summary, channels):
+	advanced_file_regression.check(make_conda_description(summary, channels), extension=".md")
