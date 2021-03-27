@@ -41,6 +41,7 @@ known_third_party = [
     "coverage",
     "coverage_pyver_pragma",
     "domdf_python_tools",
+    "first",
     "github",
     "packaging",
     "pytest",
