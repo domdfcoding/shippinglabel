@@ -1,0 +1,1 @@
+https://files.pythonhosted.org/packages/08/0f/c78e108f4adff90c57f357796a93bec01e9069b76b9b2262dde51bd3938a/shippinglabel-0.12.0.tar.gz

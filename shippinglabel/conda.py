@@ -31,6 +31,7 @@ Functions to aid building of conda packages.
 # stdlib
 import difflib
 from datetime import datetime, timedelta
+from itertools import chain
 from pathlib import Path
 from typing import Iterable, List
 
@@ -52,6 +53,7 @@ __all__ = [
 		"compile_requirements",
 		"validate_requirements",
 		"make_conda_description",
+		"prepare_requirements",
 		]
 
 CONDA_API = SlumberURL("https://conda.anaconda.org", append_slash=False)
@@ -128,6 +130,31 @@ def get_channel_listing(channel_name: str) -> List[str]:
 	return data["packages"]
 
 
+def prepare_requirements(requirements: Iterable[ComparableRequirement]) -> Iterable[ComparableRequirement]:
+	"""
+	Prepare a list of requirements for use with conda.
+
+	This entails removing any extras and markers from the requirements, and skipping any requirements with URLs,
+	as conda does not support these.
+
+	.. versionadded:: 0.13.0
+
+	:param requirements:
+	"""
+
+	for requirement in sorted(combine_requirements(requirements)):
+		if requirement.url:  # pragma: no cover
+			continue
+
+		# TODO: add the extra requirements
+		if requirement.extras:
+			requirement.extras = set()
+		if requirement.marker:
+			requirement.marker = None
+
+		yield requirement
+
+
 def compile_requirements(
 		repo_dir: PathPlus,
 		extras: Iterable[str] = (),
@@ -143,27 +170,12 @@ def compile_requirements(
 		These would be specified in "extras_require" for setuptools.
 	"""  # noqa: D400
 
-	all_requirements: List[ComparableRequirement] = []
-	extra_requirements = [ComparableRequirement(r) for r in extras]
+	requirements = chain(
+			read_requirements(repo_dir / "requirements.txt")[0],
+			[ComparableRequirement(r) for r in extras],
+			)
 
-	for requirement in sorted(
-			combine_requirements(
-					*read_requirements(repo_dir / "requirements.txt")[0],
-					*extra_requirements,
-					),
-			):
-		if requirement.url:  # pragma: no cover
-			continue
-
-		# TODO: add the extra requirements
-		if requirement.extras:
-			requirement.extras = set()
-		if requirement.marker:
-			requirement.marker = None
-
-		all_requirements.append(requirement)
-
-	return all_requirements
+	return list(prepare_requirements(requirements))
 
 
 def validate_requirements(

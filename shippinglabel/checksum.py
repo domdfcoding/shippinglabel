@@ -41,10 +41,10 @@ from domdf_python_tools.typing import PathLike
 if TYPE_CHECKING:
 	# stdlib
 	from hashlib import _Hash
-elif PYPY:
+elif PYPY:  # pragma: no cover (!PyPy)
 	# stdlib
 	from _hashlib import Hash as _Hash
-else:
+else:  # pragma: no cover (PyPy)
 	# stdlib
 	from _hashlib import HASH as _Hash
 

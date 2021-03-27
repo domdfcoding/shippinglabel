@@ -3,6 +3,7 @@ appdirs>=1.4.4
 cawdrey>=0.4.1
 consolekit>=0.1.2
 domdf-python-tools>=2.5.0
+first>=2.0.2
 packaging>=20.7
 toml>=0.10.2
 trove-classifiers>=2020.10.21

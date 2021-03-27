@@ -30,6 +30,7 @@ Utilities for working with the Python Package Index (PyPI).
 
 # stdlib
 import pathlib
+from operator import methodcaller
 from typing import Any, Callable, Dict, List, Union
 
 # 3rd party
@@ -37,8 +38,10 @@ from apeye import URL, RequestsURL
 from apeye.slumber_url import HttpNotFoundError, SlumberURL
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
+from first import first
 from packaging.requirements import InvalidRequirement
 from packaging.specifiers import SpecifierSet
+from packaging.version import Version
 from typing_extensions import TypedDict
 
 # this package
@@ -54,6 +57,7 @@ __all__ = [
 		"get_releases_with_digests",
 		"get_file_from_pypi",
 		"FileURL",
+		"get_sdist_url",
 		]
 
 PYPI_API = SlumberURL("https://pypi.org/pypi/", timeout=10)
@@ -224,3 +228,29 @@ def get_file_from_pypi(url: Union[URL, str], tmpdir: PathLike):
 		raise OSError(f"Unable to download '{filename}' from PyPI.")
 
 	(pathlib.Path(tmpdir) / filename).write_bytes(r.content)
+
+
+def get_sdist_url(name: str, version: Union[str, int, Version]) -> str:
+	"""
+	Returns the URL of the project's source distribution on PyPI.
+
+	.. versionadded:: 0.13.0
+
+	:param name:
+	:param version:
+
+	.. attention:: If no source distribution is found this function may return a wheel.
+	"""
+
+	releases = get_pypi_releases(str(name))
+	version = str(version)
+
+	if version not in releases:
+		raise InvalidRequirement(f"Cannot find version {version} on PyPI.")
+
+	download_urls = releases[version]
+
+	if not download_urls:
+		raise ValueError(f"Version {version} has no files on PyPI.")
+
+	return first(download_urls, key=methodcaller("endswith", ".tar.gz"), default=download_urls[0])

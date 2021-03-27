@@ -7,7 +7,9 @@ from urllib.parse import urlparse
 
 # 3rd party
 import pytest
+from coincidence.regressions import AdvancedFileRegressionFixture
 from packaging.requirements import InvalidRequirement
+from packaging.version import Version
 from pytest_regressions.data_regression import DataRegressionFixture
 
 # this package
@@ -17,7 +19,8 @@ from shippinglabel.pypi import (
 		get_latest,
 		get_metadata,
 		get_pypi_releases,
-		get_releases_with_digests
+		get_releases_with_digests,
+		get_sdist_url
 		)
 from shippinglabel.requirements import operator_symbols
 
@@ -223,3 +226,37 @@ def test_get_metadata(module_cassette, data_regression):
 def test_metadata_nonexistant(cassette):
 	with pytest.raises(InvalidRequirement, match="No such project 'FizzBuzz'"):
 		get_metadata("FizzBuzz")
+
+
+def _param(name, version):
+	return pytest.param(name, version, id=name)
+
+
+@pytest.mark.parametrize("name, version", [_param("greppy", "0.0.0"), _param("domdf_python_tools", "1.2.3")])
+def test_get_sdist_url_no_version(name, version):
+	with pytest.raises(InvalidRequirement, match="Cannot find version .* on PyPI."):
+		get_sdist_url(name, version)
+
+
+@pytest.mark.parametrize("name, version", [_param("domdf_python_toolsz", "1.2.3")])
+def test_get_sdist_url_no_project(name, version):
+	with pytest.raises(InvalidRequirement, match="No such project .*"):
+		get_sdist_url(name, version)
+
+
+@pytest.mark.parametrize("name, version", [_param("microsoft", "0.0.1")])
+def test_get_sdist_url_no_files(name, version):
+	with pytest.raises(ValueError, match="Version 0.0.1 has no files on PyPI."):
+		get_sdist_url(name, version)
+
+
+@pytest.mark.parametrize(
+		"name, version",
+		[
+				_param("domdf_python_tools", "1.0.0"),
+				_param("mathematical", "0.4.0"),
+				_param("shippinglabel", Version("0.12.0")),
+				]
+		)
+def test_get_sdist_url(name, version, advanced_file_regression: AdvancedFileRegressionFixture):
+	advanced_file_regression.check(get_sdist_url(name, version))

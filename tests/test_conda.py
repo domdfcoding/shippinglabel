@@ -2,6 +2,7 @@
 import pytest
 from coincidence import check_file_regression
 from consolekit.utils import coloured_diff
+from packaging.requirements import InvalidRequirement
 from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
@@ -10,6 +11,7 @@ from shippinglabel.conda import (
 		compile_requirements,
 		get_channel_listing,
 		make_conda_description,
+		prepare_requirements,
 		validate_requirements
 		)
 from shippinglabel.requirements import ComparableRequirement
@@ -58,6 +60,55 @@ def test_compile_requirements_markers_url_extras(tmp_pathplus):
 			])
 
 	assert compile_requirements(tmp_pathplus) == [
+			ComparableRequirement("apeye>=0.3.0"),
+			ComparableRequirement("click==7.1.2"),
+			ComparableRequirement("requests"),
+			]
+
+
+def test_prepare_requirements():
+	requirements = [
+			"apeye>=0.3.0",
+			"click==7.1.2",
+			"ruamel.yaml>=0.16.12",
+			"domdf-python-tools>=1.1.0",
+			"dulwich>=0.19.16",
+			"email_validator==1.1.1",
+			"isort>=5.0.0",
+			"typing_extensions>=3.7.4.3",
+			"jinja2>=2.11.2",
+			"packaging>=20.4",
+			"pre-commit>=2.7.1",
+			"attrs>=20.2.0",
+			"tomlkit>=0.7.0",
+			]
+
+	assert list(prepare_requirements(map(ComparableRequirement, requirements))) == [
+			ComparableRequirement("apeye>=0.3.0"),
+			ComparableRequirement("attrs>=20.2.0"),
+			ComparableRequirement("click==7.1.2"),
+			ComparableRequirement("domdf-python-tools>=1.1.0"),
+			ComparableRequirement("dulwich>=0.19.16"),
+			ComparableRequirement("email-validator==1.1.1"),
+			ComparableRequirement("isort>=5.0.0"),
+			ComparableRequirement("jinja2>=2.11.2"),
+			ComparableRequirement("packaging>=20.4"),
+			ComparableRequirement("pre-commit>=2.7.1"),
+			ComparableRequirement("ruamel-yaml>=0.16.12"),
+			ComparableRequirement("tomlkit>=0.7.0"),
+			ComparableRequirement("typing-extensions>=3.7.4.3"),
+			]
+
+
+def test_prepare_requirements_markers_url_extras(tmp_pathplus):
+	requirements = [
+			'apeye>=0.3.0; python_version <= "3.9"',
+			"pip @ https://github.com/pypa/pip/archive/1.3.1.zip#sha1=da9234ee9982d4bbb3c72346a6de940a148ea686",
+			'click==7.1.2; platform_system == "Linux"',
+			"requests[security]",
+			]
+
+	assert list(prepare_requirements(map(ComparableRequirement, requirements))) == [
 			ComparableRequirement("apeye>=0.3.0"),
 			ComparableRequirement("click==7.1.2"),
 			ComparableRequirement("requests"),
@@ -135,6 +186,26 @@ def test_validate_requirements():
 						)
 				)
 		raise AssertionError(actual)
+
+
+def test_validate_requirements_unsatisfied():
+	with pytest.raises(
+			InvalidRequirement,
+			match="Cannot satisfy the requirement 'domdf-python-tools' from any of the channels:",
+			):
+		validate_requirements(
+				[ComparableRequirement("domdf-python-tools>=1.1.0")],
+				[],
+				)
+
+	with pytest.raises(
+			InvalidRequirement,
+			match="Cannot satisfy the requirement 'domdf-python-tools' from any of the channels:",
+			):
+		validate_requirements(
+				[ComparableRequirement("domdf-python-tools>=1.1.0")],
+				["conda-forge"],
+				)
 
 
 @pytest.mark.parametrize(
