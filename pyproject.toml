@@ -23,3 +23,8 @@ Homepage = "https://github.com/domdfcoding/shippinglabel"
 "Issue Tracker" = "https://github.com/domdfcoding/shippinglabel/issues"
 "Source Code" = "https://github.com/domdfcoding/shippinglabel"
 Documentation = "https://shippinglabel.readthedocs.io/en/latest"
+
+[tool.mkrecipe]
+conda-channels = [ "conda-forge", "domdfcoding",]
+extras = "all"
+license-key = "MIT"
