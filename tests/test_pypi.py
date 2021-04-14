@@ -31,27 +31,42 @@ from shippinglabel.requirements import operator_symbols
 				pytest.param('', 0, '', id="empty"),
 				pytest.param('\n', 0, '\n', id="newline_only"),
 				pytest.param('# intentionally empty\n', 0, '# intentionally empty\n', id="intentionally_empty"),
-				pytest.param('foo\n# comment at end\n', 1, '# comment at end\nfoo>=.1\n', id="comment_at_end"),
-				pytest.param('foo\nbar\n', 1, 'bar>=0.2.1\nfoo>=.1\n', id="foo_bar"),
-				pytest.param('bar\nfoo\n', 1, 'bar>=0.2.1\nfoo>=.1\n', id="bar_foo"),
+				pytest.param(
+						'docutils\n# comment at end\n',
+						1,
+						'# comment at end\ndocutils>=0.17\n',
+						id="comment_at_end",
+						),
+				pytest.param('docutils\nbar\n', 1, 'bar>=0.2.1\ndocutils>=0.17\n', id="foo_bar"),
+				pytest.param('bar\ndocutils\n', 1, 'bar>=0.2.1\ndocutils>=0.17\n', id="bar_foo"),
 				pytest.param('a\nc\nb\n', 1, 'a>=1.0\nb>=1.0.0\nc>=0.1.0\n', id="a_c_b"),
 				pytest.param('a\nb\nc', 1, 'a>=1.0\nb>=1.0.0\nc>=0.1.0\n', id="a_b_b"),
 				pytest.param(
-						'#comment1\nfoo\n#comment2\nbar\n',
+						'#comment1\ndocutils\n#comment2\nbar\n',
 						1,
-						'#comment1\n#comment2\nbar>=0.2.1\nfoo>=.1\n',
-						id="comment_foo_comment_bar"
+						'#comment1\n#comment2\nbar>=0.2.1\ndocutils>=0.17\n',
+						id="comment_foo_comment_bar",
 						),
 				pytest.param(
-						'#comment1\nbar\n#comment2\nfoo\n',
+						'#comment1\nbar\n#comment2\ndocutils\n',
 						1,
-						'#comment1\n#comment2\nbar>=0.2.1\nfoo>=.1\n',
-						id="comment_bar_comment_foo"
+						'#comment1\n#comment2\nbar>=0.2.1\ndocutils>=0.17\n',
+						id="comment_bar_comment_foo",
 						),
-				pytest.param('#comment\n\nfoo\nbar\n', 1, '#comment\nbar>=0.2.1\nfoo>=.1\n', id="comment_foo_bar"),
-				pytest.param('#comment\n\nbar\nfoo\n', 1, '#comment\nbar>=0.2.1\nfoo>=.1\n', id="comment_barfoo_"),
-				pytest.param('\nfoo\nbar\n', 1, 'bar>=0.2.1\nfoo>=.1\n', id="foo_bar_2"),
-				pytest.param('\nbar\nfoo\n', 1, 'bar>=0.2.1\nfoo>=.1\n', id="bar_foo_2"),
+				pytest.param(
+						'#comment\n\ndocutils\nbar\n',
+						1,
+						'#comment\nbar>=0.2.1\ndocutils>=0.17\n',
+						id="comment_foo_bar",
+						),
+				pytest.param(
+						'#comment\n\nbar\ndocutils\n',
+						1,
+						'#comment\nbar>=0.2.1\ndocutils>=0.17\n',
+						id="comment_barfoo_",
+						),
+				pytest.param('\ndocutils\nbar\n', 1, 'bar>=0.2.1\ndocutils>=0.17\n', id="foo_bar_2"),
+				pytest.param('\nbar\ndocutils\n', 1, 'bar>=0.2.1\ndocutils>=0.17\n', id="bar_foo_2"),
 				pytest.
 				param('pyramid-foo==1\npyramid>=2\n', 1, 'pyramid>=2\npyramid-foo==1\n', id="pyramid-foo_pyramid"),
 				pytest.param(
@@ -81,16 +96,16 @@ from shippinglabel.requirements import operator_symbols
 						id="real_requirements"
 						),
 				pytest.param(
-						'bar\npkg-resources==0.0.0\nfoo\n',
+						'bar\npkg-resources==0.0.0\ndocutils\n',
 						1,
-						'bar>=0.2.1\nfoo>=.1\npkg-resources==0.0.0\n',
-						id="bar_pkg-resources_foo"
+						'bar>=0.2.1\ndocutils>=0.17\npkg-resources==0.0.0\n',
+						id="bar_pkg-resources_foo",
 						),
 				pytest.param(
-						'foo\npkg-resources==0.0.0\nbar\n',
+						'docutils\npkg-resources==0.0.0\nbar\n',
 						1,
-						'bar>=0.2.1\nfoo>=.1\npkg-resources==0.0.0\n',
-						id="foo_pkg-resources_bar"
+						'bar>=0.2.1\ndocutils>=0.17\npkg-resources==0.0.0\n',
+						id="foo_pkg-resources_bar",
 						),
 				pytest.param('foo???1.2.3\nbar\n', 1, 'foo???1.2.3\nbar>=0.2.1\n', id="bad_specifiers"),
 				pytest.param(
@@ -120,7 +135,7 @@ def test_bind_requirements(input_s, expected_retval, output, tmp_pathplus, casse
 
 def test_bind_requirements_error(tmp_pathplus):
 	path = tmp_pathplus / "requirements.txt"
-	path.write_text('bar\npkg-resources==0.0.0\nfoo\n', )
+	path.write_text('bar\npkg-resources==0.0.0\ndocutils\n', )
 
 	for specifier in operator_symbols:
 		bind_requirements(path, specifier=specifier)
