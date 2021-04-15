@@ -269,3 +269,7 @@ def make_conda_description(summary: str, conda_channels: Iterable[str] = ()) -> 
 		conda_description += '\n'
 
 	return conda_description
+
+
+if __name__ == "__main__":
+	clear_cache()
