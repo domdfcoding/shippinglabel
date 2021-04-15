@@ -45,6 +45,7 @@ known_third_party = [
     "domdf_python_tools",
     "first",
     "github",
+    "importlib_metadata",
     "packaging",
     "pytest",
     "pytest_cov",
