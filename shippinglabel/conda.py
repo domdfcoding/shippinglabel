@@ -208,6 +208,9 @@ def validate_requirements(
 			requirement.name = alias_mapping[requirement.name]
 			validated_requirements.append(requirement)
 			continue
+		elif requirement.name in conda_packages:
+			validated_requirements.append(requirement)
+			continue
 
 		matches = difflib.get_close_matches(requirement.name, conda_packages)
 		for match in matches:
