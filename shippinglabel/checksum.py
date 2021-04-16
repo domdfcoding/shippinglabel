@@ -34,19 +34,22 @@ from hashlib import sha256
 from typing import TYPE_CHECKING, Optional, Union
 
 # 3rd party
-from domdf_python_tools.compat import PYPY36
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
 
 if TYPE_CHECKING:
 	# stdlib
 	from hashlib import _Hash
-elif PYPY36:  # pragma: no cover (!PyPy)
-	# stdlib
-	from _hashlib import Hash as _Hash
-else:  # pragma: no cover (PyPy)
-	# stdlib
-	from _hashlib import HASH as _Hash
+else:
+	try:
+		# stdlib
+		from _hashlib import HASH as _Hash
+	except ImportError:  # pragma: no cover
+		try:
+			# stdlib
+			from _hashlib import Hash as _Hash
+		except ImportError:
+			pass
 
 __all__ = ["check_sha256_hash", "get_record_entry", "get_sha256_hash"]
 
