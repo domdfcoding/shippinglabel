@@ -5,7 +5,7 @@
 Utilities for working with trove classifiers.
 """
 #
-#  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+#  Copyright © 2020-2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,6 @@ from typing import Collection, Iterable, Iterator
 
 # 3rd party
 import trove_classifiers  # type: ignore
-from consolekit.terminal_colours import Fore
 from domdf_python_tools.utils import stderr_writer
 
 # this package
@@ -53,10 +52,10 @@ def validate_classifiers(classifiers: Iterable[str]) -> bool:
 
 	for classifier in classifiers:
 		if classifier in trove_classifiers.deprecated_classifiers:
-			stderr_writer(Fore.YELLOW(f"Classifier '{classifier}' is deprecated!"))
+			stderr_writer(f"\x1b[33mClassifier '{classifier}' is deprecated!\x1b[39m")
 
 		elif classifier not in trove_classifiers.classifiers:
-			stderr_writer(Fore.RED(f"Unknown Classifier '{classifier}'!"))
+			stderr_writer(f"'\x1b[31m'Unknown Classifier '{classifier}'!\x1b[39m")
 			invalid_classifier = True
 
 	return invalid_classifier

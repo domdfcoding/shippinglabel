@@ -1,5 +1,6 @@
 betamax>=0.8.1
 coincidence>=0.2.0
+consolekit>=1.1.2
 coverage>=5.1
 coverage-pyver-pragma>=0.2.1
 importlib-metadata>=3.6.0
