@@ -23,6 +23,9 @@ conda_channels:
 
 sphinx_conf_epilogue:
  - html_logo = "../shippinglabel.png"
+ - latex_logo = "../shippinglabel.png"
+ - latex_elements["preamble"] = "\\usepackage{marvosym}"
+ - nitpicky = True
 
 keywords:
  - packaging
@@ -37,3 +40,14 @@ docs_fail_on_warning: true
 additional_ignore:
  - _metadata.py
  - demo.py
+
+extra_sphinx_extensions:
+ - sphinx_toolbox_experimental.html_section
+ - sphinx_toolbox_experimental.autosummary_widths
+ - sphinx_toolbox_experimental.needspace
+ - sphinx_toolbox_experimental.peps
+ - sphinx_toolbox_experimental.toml
+ - local_extension
+
+exclude_files:
+ - contributing

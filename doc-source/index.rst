@@ -5,6 +5,7 @@ shippinglabel
 .. start short_desc
 
 .. documentation-summary::
+	:meta:
 
 .. end short_desc
 
@@ -135,6 +136,11 @@ Installation
 
 .. end installation
 
+Contents
+------------
+
+.. html-section::
+
 .. toctree::
 	:hidden:
 
@@ -142,18 +148,20 @@ Installation
 
 .. toctree::
 	:maxdepth: 3
-	:caption: API Reference
 	:glob:
 
 	api/shippinglabel
 	api/*
 
-.. toctree::
-	:maxdepth: 3
-	:caption: Contributing
 
-	contributing
+.. sidebar-links::
+	:caption: Links
+	:github:
+	:pypi: shippinglabel
+
+	Contributing Guide <https://contributing.repo-helper.uk>
 	Source
+
 
 .. start links
 
@@ -161,6 +169,6 @@ Installation
 
 	View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.
 
-	`Browse the GitHub Repository <https://github.com/domdfcoding/shippinglabel>`__
+	:github:repo:`Browse the GitHub Repository <domdfcoding/shippinglabel>`
 
 .. end links

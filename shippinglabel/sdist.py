@@ -5,6 +5,12 @@
 Utilities for working with source distributions.
 
 .. versionadded:: 0.9.0
+
+.. autosummary::
+
+	~shippinglabel.sdist.NotAnSdistError
+	~shippinglabel.sdist.ParsedSdistFilename
+	~shippinglabel.sdist.parse_sdist_filename
 """
 #
 #  Copyright © 2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>
@@ -94,8 +100,10 @@ def parse_sdist_filename(filename: PathLike) -> ParsedSdistFilename:
 
 	:param filename: An sdist path or filename.
 
-	:raises: :exc:`wheel_filename.InvalidFilenameError` if the filename is invalid.
-	:raises: :exc:`shippinglabel.sdist.NotAnSdistError` if the file is not an sdist.
+	:raises:
+
+		* :exc:`wheel_filename.InvalidFilenameError` if the filename is invalid.
+		* :exc:`shippinglabel.sdist.NotAnSdistError` if the file is not an sdist.
 	"""
 
 	filename = PathPlus(filename)

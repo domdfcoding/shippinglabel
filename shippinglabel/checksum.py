@@ -30,7 +30,7 @@ Utilities for creating and checking file sha256 checksums.
 
 # stdlib
 from base64 import urlsafe_b64encode
-from hashlib import sha256
+from hashlib import md5, sha256
 from typing import TYPE_CHECKING, Optional, Union
 
 # 3rd party
@@ -58,7 +58,7 @@ _HashType = type(sha256())
 
 def get_sha256_hash(filename: PathLike, blocksize: int = 1 << 20) -> "_Hash":
 	"""
-	Returns the sha256 hash object for the given file.
+	Returns the SHA256 hash object for the given file.
 
 	.. versionadded:: 0.6.0
 
@@ -85,13 +85,13 @@ def check_sha256_hash(
 		blocksize: int = 1 << 20,
 		) -> bool:
 	r"""
-	Returns whether the sha256 hash for the file matches ``hash``.
+	Returns whether the SHA256 hash for the file matches ``hash``.
 
 	.. versionadded:: 0.6.0
 
 	:param filename:
-	:param hash:
-	:type hash: :py:obj:`Union`\[:mod:`hashlib.sha256() <hashlib>`, :class:`str`\]
+	:param hash: If a string, the hexdigest of the hash.
+	:type hash: :py:obj:`~typing.Union`\[:mod:`hashlib.sha256() <hashlib>`, :class:`str`\]
 	:param blocksize: The blocksize to read the file with.
 	"""
 
@@ -103,7 +103,7 @@ def check_sha256_hash(
 
 def get_record_entry(filename: PathLike, blocksize: int = 1 << 20, relative_to: Optional[PathLike] = None) -> str:
 	"""
-	Constructs an entry for the file in a :pep:`376` ``RECORD`` file.
+	Constructs a :pep:`376` ``RECORD`` entry for the file.
 
 	.. versionadded:: 0.6.0
 

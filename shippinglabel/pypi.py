@@ -87,8 +87,10 @@ def get_metadata(pypi_name: str) -> Dict[str, Any]:
 
 	:param pypi_name:
 
-	:raises: :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
-	:raises: :exc:`apeye.slumber_url.HttpServerError` if an error occurs in PyPI.
+	:raises:
+
+		* :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
+		* :exc:`apeye.slumber_url.exceptions.HttpServerError` if an error occurs when communicating with PyPI.
 	"""
 
 	query_url: SlumberURL = PYPI_API / pypi_name / "json"
@@ -107,8 +109,10 @@ def get_latest(pypi_name: str) -> str:
 
 	:param pypi_name:
 
-	:raises: :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
-	:raises: :exc:`apeye.slumber_url.HttpServerError` if an error occurs in PyPI.
+	:raises:
+
+		* :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
+		* :exc:`apeye.slumber_url.exceptions.HttpServerError` if an error occurs when communicating with PyPI.
 	"""
 
 	return str(get_metadata(pypi_name)["info"]["version"])
@@ -171,8 +175,10 @@ def get_pypi_releases(pypi_name: str) -> Dict[str, List[str]]:
 
 	:param pypi_name: The name of the project on PyPI.
 
-	:raises: :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
-	:raises: :exc:`apeye.slumber_url.HttpServerError` if an error occurs in PyPI.
+	:raises:
+
+		* :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
+		* :exc:`apeye.slumber_url.exceptions.HttpServerError` if an error occurs when communicating with PyPI.
 	"""
 
 	pypi_releases = {}
@@ -191,8 +197,10 @@ def get_releases_with_digests(pypi_name: str) -> Dict[str, List[FileURL]]:
 
 	:param pypi_name: The name of the project on PyPI.
 
-	:raises: :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
-	:raises: :exc:`apeye.slumber_url.HttpServerError` if an error occurs in PyPI.
+	:raises:
+
+		* :exc:`packaging.requirements.InvalidRequirement` if the project cannot be found on PyPI.
+		* :exc:`apeye.slumber_url.exceptions.HttpServerError` if an error occurs when communicating with PyPI.
 	"""
 
 	pypi_releases = {}

@@ -79,7 +79,10 @@ def clear_cache(*channel_name: str):
 	.. versionadded:: 0.7.0
 
 	:param \*channel_name: The name(s) of the channels to clear the cache for.
-		If omitted the cache is cleared for all channels.
+
+	If no arguments are given the cache is cleared for all channels.
+
+	.. latex:clearpage::
 	"""
 
 	filenames: Iterable[Path]

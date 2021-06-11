@@ -442,6 +442,8 @@ class RequirementsManager(ABC):
 	#. :meth:`~.write_requirements`
 
 	:param repo_path: Path to the repository root.
+
+	.. latex:vspace:: 20px
 	"""
 
 	target_requirements: Set[ComparableRequirement]
@@ -519,7 +521,7 @@ class RequirementsManager(ABC):
 
 	def remove_library_requirements(self) -> None:
 		"""
-		Remove requirements given in the library requirements.txt file.
+		Remove requirements given in the library's ``requirements.txt`` file.
 
 		This method may not return anything.
 		"""
@@ -591,6 +593,8 @@ def list_requirements(name: str, depth: int = 1) -> Iterator[Union[str, List[str
 			],
 			<requirement b>,
 		]
+
+	.. latex:clearpage::
 
 	:param name:
 	:param depth:
@@ -713,7 +717,9 @@ def parse_pyproject_extras(
 
 	If no extra dependencies are defined an empty dictionary is returned.
 
-	:return:
+	:rtype:
+
+	.. latex:clearpage::
 	"""
 
 	config = dom_toml.load(pyproject_file)
