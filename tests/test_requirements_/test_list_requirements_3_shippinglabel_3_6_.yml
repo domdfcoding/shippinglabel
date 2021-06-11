@@ -42,7 +42,6 @@
   - natsort>=7.1.0
   - pydash>=4.7.4
   - typing-extensions>=3.7.4.3
-- first>=2.0.2
 - packaging>=20.7
 - - pyparsing>=2.0.2
 - trove-classifiers>=2020.10.21
