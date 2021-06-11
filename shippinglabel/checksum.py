@@ -51,7 +51,7 @@ else:
 		except ImportError:
 			pass
 
-__all__ = ["check_sha256_hash", "get_record_entry", "get_sha256_hash"]
+__all__ = ["get_sha256_hash", "check_sha256_hash", "get_md5_hash", "get_record_entry"]
 
 _HashType = type(sha256())
 
@@ -77,6 +77,29 @@ def get_sha256_hash(filename: PathLike, blocksize: int = 1 << 20) -> "_Hash":
 			fb = f.read(blocksize)
 
 	return sha256_hash
+
+
+def get_md5_hash(filename: PathLike, blocksize: int = 1 << 20) -> "_Hash":
+	"""
+	Returns the md5 hash object for the given file.
+
+	.. versionadded:: 0.15.0
+
+	:param filename:
+	:param blocksize: The blocksize to read the file with.
+
+	:rtype: :mod:`hashlib.md5() <hashlib>`
+	"""
+
+	md5hash = md5()
+
+	with open(filename, "rb") as f:
+		fb = f.read(blocksize)
+		while len(fb):  # pylint: disable=len-as-condition
+			md5hash.update(fb)
+			fb = f.read(blocksize)
+
+	return md5hash
 
 
 def check_sha256_hash(

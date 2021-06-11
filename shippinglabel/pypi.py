@@ -30,17 +30,17 @@ Utilities for working with the Python Package Index (PyPI).
 
 # stdlib
 import pathlib
-from operator import methodcaller
-from typing import Any, Callable, Dict, List, Union
+from typing import Any, Callable, Dict, List, Tuple, Union
 
 # 3rd party
 from apeye import URL, RequestsURL
 from apeye.slumber_url import HttpNotFoundError, SlumberURL
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
-from first import first
 from packaging.requirements import InvalidRequirement
 from packaging.specifiers import SpecifierSet
+from packaging.tags import Tag, sys_tags
+from packaging.utils import parse_wheel_filename
 from packaging.version import Version
 from typing_extensions import TypedDict
 
@@ -58,6 +58,8 @@ __all__ = [
 		"get_file_from_pypi",
 		"FileURL",
 		"get_sdist_url",
+		"get_wheel_url",
+		"get_wheel_tag_mapping",
 		]
 
 PYPI_API = SlumberURL("https://pypi.org/pypi/", timeout=10)
@@ -238,16 +240,27 @@ def get_file_from_pypi(url: Union[URL, str], tmpdir: PathLike):
 	(pathlib.Path(tmpdir) / filename).write_bytes(r.content)
 
 
-def get_sdist_url(name: str, version: Union[str, int, Version]) -> str:
+def get_sdist_url(
+		name: str,
+		version: Union[str, int, Version],
+		strict: bool = False,
+		) -> str:
 	"""
 	Returns the URL of the project's source distribution on PyPI.
 
 	.. versionadded:: 0.13.0
 
-	:param name:
+	:param name: The name of the project on PyPI.
 	:param version:
+	:param strict: Causes a :exc:`ValueError` to be raised if no sdist is found,
+		rather than retuning a wheel.
 
-	.. attention:: If no source distribution is found this function may return a wheel.
+	.. attention::
+
+		If no source distribution is found this function may return a wheel or "zip" sdist
+		unless ``strict`` is :py:obj:`True`.
+
+	.. versionchanged:: 0.15.0  Added the ``strict`` argument.
 	"""
 
 	releases = get_pypi_releases(str(name))
@@ -261,4 +274,94 @@ def get_sdist_url(name: str, version: Union[str, int, Version]) -> str:
 	if not download_urls:
 		raise ValueError(f"Version {version} has no files on PyPI.")
 
-	return first(download_urls, key=methodcaller("endswith", ".tar.gz"), default=download_urls[0])
+	for url in download_urls:
+		if url.endswith(".tar.gz"):
+			return url
+
+	if strict:
+		raise ValueError(f"Version {version} has no sdist on PyPI.")
+
+	for url in download_urls:
+		if url.endswith(".zip"):
+			return url
+
+	return download_urls[0]
+
+
+def get_wheel_url(
+		name: str,
+		version: Union[str, int, Version],
+		strict: bool = False,
+		) -> str:
+	"""
+	Returns the URL of the project's source distribution on PyPI.
+
+	.. versionadded:: 0.15.0
+
+	:param name: The name of the project on PyPI.
+	:param version:
+	:param strict: Causes a :exc:`ValueError` to be raised if no wheels are found,
+		rather than retuning a wheel.
+
+	.. attention::
+
+		If no wheels are found this function may return an sdist
+		unless ``strict`` is :py:obj:`True`.
+
+	"""
+
+	tag_url_map, non_wheel_urls = get_wheel_tag_mapping(name, version)
+
+	for tag in sys_tags():
+		if tag in tag_url_map:
+			return str(tag_url_map[tag])
+
+	if strict:
+		raise ValueError(f"Version {version} has no wheels on PyPI.")
+	elif not non_wheel_urls:  # pragma: no cover
+		raise ValueError(f"Version {version} has no files on PyPI.")
+	else:
+		return str(non_wheel_urls[0])
+
+
+def get_wheel_tag_mapping(
+		name: str,
+		version: Union[str, int, Version],
+		) -> Tuple[Dict[Tag, URL], List[URL]]:
+	"""
+	Constructs a mapping of wheel tags to the PyPI download URL of the wheel with relevant tag.
+
+	This can be used alongside :func:`packaging.tags.sys_tags` to select the best wheel for the current platform.
+
+	.. versionadded:: 0.15.0
+
+	:param name: The name of the project on PyPI.
+	:param version:
+
+	:returns: A tuple containing the ``tag: url`` mapping,
+		and a list of download URLs for non-wheel artifacts (e.g. sdists).
+	"""
+
+	releases = get_pypi_releases(str(name))
+	version = str(version)
+
+	if version not in releases:
+		raise InvalidRequirement(f"Cannot find version {version} on PyPI.")
+
+	download_urls = list(map(URL, releases[version]))
+
+	if not download_urls:
+		raise ValueError(f"Version {version} has no files on PyPI.")
+
+	tag_url_map = {}
+	non_wheel_urls = []
+
+	for url in download_urls:
+		if url.suffix == ".whl":
+			tags = parse_wheel_filename(url.name)[3]
+			for tag in tags:
+				tag_url_map[tag] = url
+		else:
+			non_wheel_urls.append(url)
+
+	return tag_url_map, non_wheel_urls

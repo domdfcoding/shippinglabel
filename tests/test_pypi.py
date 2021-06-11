@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 
 # 3rd party
 import pytest
-from coincidence.regressions import AdvancedFileRegressionFixture
+from coincidence.regressions import AdvancedDataRegressionFixture, AdvancedFileRegressionFixture
 from packaging.requirements import InvalidRequirement
 from packaging.version import Version
 from pytest_regressions.data_regression import DataRegressionFixture
@@ -20,7 +20,9 @@ from shippinglabel.pypi import (
 		get_metadata,
 		get_pypi_releases,
 		get_releases_with_digests,
-		get_sdist_url
+		get_sdist_url,
+		get_wheel_tag_mapping,
+		get_wheel_url
 		)
 from shippinglabel.requirements import operator_symbols
 
@@ -265,6 +267,29 @@ def test_get_sdist_url_no_files(name, version):
 		get_sdist_url(name, version)
 
 
+@pytest.mark.parametrize("name, version", [_param("protobuf", "3.12.0")])
+def test_get_sdist_url_no_sdist(name, version):
+	with pytest.raises(ValueError, match="Version 3.12.0 has no sdist on PyPI."):
+		get_sdist_url(name, version, strict=True)
+
+	assert get_sdist_url(
+			name, version
+			) == "https://files.pythonhosted.org/packages/1e/80/8470c36703f2fd54882eba1f111c74264b540b1376994a9a87bf81fe931e/protobuf-3.12.0-cp27-cp27m-macosx_10_9_x86_64.whl"
+
+
+@pytest.mark.parametrize(
+		"name, version",
+		[
+				_param("domdf_python_tools", "1.0.0"),
+				_param("mathematical", "0.4.0"),
+				_param("shippinglabel", Version("0.12.0")),
+				_param("numpy", Version("1.20.3")),
+				]
+		)
+def test_get_sdist_url(name, version, advanced_file_regression: AdvancedFileRegressionFixture):
+	advanced_file_regression.check(get_sdist_url(name, version))
+
+
 @pytest.mark.parametrize(
 		"name, version",
 		[
@@ -273,5 +298,56 @@ def test_get_sdist_url_no_files(name, version):
 				_param("shippinglabel", Version("0.12.0")),
 				]
 		)
-def test_get_sdist_url(name, version, advanced_file_regression: AdvancedFileRegressionFixture):
-	advanced_file_regression.check(get_sdist_url(name, version))
+def test_get_wheel_url(name, version, advanced_file_regression: AdvancedFileRegressionFixture):
+	advanced_file_regression.check(get_wheel_url(name, version))
+
+
+@pytest.mark.parametrize("name, version", [_param("greppy", "0.0.0"), _param("domdf_python_tools", "1.2.3")])
+def test_get_wheel_url_no_version(name, version):
+	with pytest.raises(InvalidRequirement, match="Cannot find version .* on PyPI."):
+		get_wheel_url(name, version)
+
+
+@pytest.mark.parametrize("name, version", [_param("domdf_python_toolsz", "1.2.3")])
+def test_get_wheel_url_no_project(name, version):
+	with pytest.raises(InvalidRequirement, match="No such project .*"):
+		get_wheel_url(name, version)
+
+
+@pytest.mark.parametrize("name, version", [_param("microsoft", "0.0.1")])
+def test_get_wheel_url_no_files(name, version):
+	with pytest.raises(ValueError, match=f"Version {version} has no files on PyPI."):
+		get_wheel_url(name, version)
+
+
+def test_get_wheel_url_no_wheels():
+	with pytest.raises(ValueError, match="Version 0.1.3 has no wheels on PyPI."):
+		get_wheel_url("greppy", "0.1.3", strict=True)
+
+	with pytest.raises(ValueError, match="Version 0.0.1 has no files on PyPI."):
+		get_wheel_url("microsoft", "0.0.1")
+
+	assert get_wheel_url(
+			"greppy", "0.1.3"
+			) == "https://files.pythonhosted.org/packages/c6/a8/ae563011a12812f8efcbbb9385a6451f4d6674d47055e97f95fae6e883d9/greppy-0.1.3.tar.gz"
+
+
+@pytest.mark.parametrize(
+		"name, version",
+		[
+				_param("domdf_python_tools", "1.0.0"),
+				_param("mathematical", "0.4.0"),
+				_param("shippinglabel", Version("0.12.0")),
+				_param("numpy", Version("1.20.3")),
+				]
+		)
+def test_get_wheel_tag_mapping(name, version, advanced_data_regression: AdvancedDataRegressionFixture):
+	tag_url_map, non_wheel_urls = get_wheel_tag_mapping(name, version)
+	tag_url_map = dict(sorted((str(k), v) for k, v in tag_url_map.items()))  # type: ignore
+	advanced_data_regression.check((tag_url_map, non_wheel_urls))
+
+
+@pytest.mark.parametrize("name, version", [_param("microsoft", "0.0.1")])
+def test_get_wheel_tag_mapping_no_files(name, version):
+	with pytest.raises(ValueError, match=f"Version {version} has no files on PyPI."):
+		get_wheel_tag_mapping(name, version)

@@ -1,0 +1,1 @@
+https://files.pythonhosted.org/packages/dd/88/82714335eeb9648df970a2f278941f927230631152b80d8836b4d5da1ec0/mathematical-0.4.0-py3-none-any.whl

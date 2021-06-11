@@ -1,0 +1,1 @@
+https://files.pythonhosted.org/packages/a1/83/6a7618bed8eb13dfe60a414abe7c11ce2933d803b05eb400a6684a6db831/shippinglabel-0.12.0-py3-none-any.whl

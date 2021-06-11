@@ -4,7 +4,14 @@ from coincidence import AdvancedDataRegressionFixture
 from domdf_python_tools.paths import PathPlus
 
 # this package
-from shippinglabel import get_project_links, no_dev_versions, normalize, normalize_keep_dot, read_pyvenv
+from shippinglabel import (
+		get_project_links,
+		no_dev_versions,
+		no_pre_versions,
+		normalize,
+		normalize_keep_dot,
+		read_pyvenv
+		)
 
 
 @pytest.mark.parametrize(
@@ -41,6 +48,16 @@ def test_no_dev_versions():
 	assert no_dev_versions(["3.6", "3.7", "3.8"]) == ["3.6", "3.7", "3.8"]
 	assert no_dev_versions(["3.6", "3.7", "3.8", "3.9-dev"]) == ["3.6", "3.7", "3.8"]
 	assert no_dev_versions(["3.6", "3.7", "3.8", "pypy3"]) == ["3.6", "3.7", "3.8", "pypy3"]
+
+
+def test_no_pre_versions():
+	assert no_pre_versions(["3.6", "3.7", "3.8"]) == ["3.6", "3.7", "3.8"]
+	assert no_pre_versions(["3.6", "3.7", "3.8", "3.9-dev"]) == ["3.6", "3.7", "3.8"]
+	assert no_pre_versions(["3.6", "3.7", "3.8", "pypy3"]) == ["3.6", "3.7", "3.8", "pypy3"]
+	assert no_pre_versions(["3.6", "3.7", "3.8", "3.10.0alpha1"]) == ["3.6", "3.7", "3.8"]
+	assert no_pre_versions(["3.6", "3.7", "3.8", "3.10.0beta3"]) == ["3.6", "3.7", "3.8"]
+	assert no_pre_versions(["3.6", "3.7", "3.8", "3.10.0rc2"]) == ["3.6", "3.7", "3.8"]
+	assert no_pre_versions(["3.6", "3.7", "3.8", "3.10.0post1"]) == ["3.6", "3.7", "3.8", "3.10.0post1"]
 
 
 def test_read_pyvenv(tmp_pathplus: PathPlus, advanced_data_regression: AdvancedDataRegressionFixture):

@@ -11,7 +11,7 @@ import requests
 from domdf_python_tools.paths import PathPlus
 
 # this package
-from shippinglabel.checksum import check_sha256_hash, get_record_entry, get_sha256_hash
+from shippinglabel.checksum import check_sha256_hash, get_md5_hash, get_record_entry, get_sha256_hash
 from shippinglabel.pypi import get_file_from_pypi, get_releases_with_digests
 
 
@@ -29,10 +29,16 @@ def reference_file_a() -> Iterator[PathPlus]:
 
 
 def test_get_sha256_hash(reference_file_a: PathPlus):
-	hash = get_sha256_hash(reference_file_a)  # noqa: A001  # pylint: disable=redefined-builtin
-	assert hash.hexdigest() == "83065efdedd381da9439b85a270ea9629f1ba46d9c7d7b1858bb70e54d5f664c"
-	hexdigest = b"\x83\x06^\xfd\xed\xd3\x81\xda\x949\xb8Z'\x0e\xa9b\x9f\x1b\xa4m\x9c}{\x18X\xbbp\xe5M_fL"
-	assert hash.digest() == hexdigest
+	hash_ = get_sha256_hash(reference_file_a)
+	assert hash_.hexdigest() == "83065efdedd381da9439b85a270ea9629f1ba46d9c7d7b1858bb70e54d5f664c"
+	digest = b"\x83\x06^\xfd\xed\xd3\x81\xda\x949\xb8Z'\x0e\xa9b\x9f\x1b\xa4m\x9c}{\x18X\xbbp\xe5M_fL"
+	assert hash_.digest() == digest
+
+
+def test_get_md5_hash(reference_file_a: PathPlus):
+	hash_ = get_md5_hash(reference_file_a)
+	assert hash_.hexdigest() == "d7aadf6f1f20826aa227fa1bde281a41"
+	assert hash_.digest() == b"\xd7\xaa\xdfo\x1f \x82j\xa2'\xfa\x1b\xde(\x1aA"
 
 
 def test_check_sha256_hash(reference_file_a: PathPlus):

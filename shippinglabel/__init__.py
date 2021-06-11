@@ -35,8 +35,16 @@ from cawdrey.header_mapping import HeaderMapping
 from domdf_python_tools.compat import importlib_metadata
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
+from packaging.version import InvalidVersion, Version
 
-__all__ = ["no_dev_versions", "normalize", "normalize_keep_dot", "read_pyvenv", "get_project_links"]
+__all__ = [
+		"no_dev_versions",
+		"no_pre_versions",
+		"normalize",
+		"normalize_keep_dot",
+		"read_pyvenv",
+		"get_project_links",
+		]
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
@@ -53,6 +61,27 @@ def no_dev_versions(versions: Iterable[str]) -> List[str]:
 	"""
 
 	return [v for v in versions if not v.endswith("-dev")]
+
+
+def no_pre_versions(versions: Iterable[str]) -> List[str]:
+	"""
+	Returns the subset of ``versions`` which are not prereleases (alpha, beta, dev, rc etc.).
+
+	.. versionadded:: 0.15.0
+
+	:param versions:
+	"""
+
+	output = []
+
+	for v in versions:
+		try:
+			if not Version(v).is_prerelease:
+				output.append(v)
+		except InvalidVersion:
+			output.append(v)
+
+	return output
 
 
 _normalize_pattern = re.compile(r"[-_.]+")
