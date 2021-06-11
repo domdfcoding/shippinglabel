@@ -140,6 +140,11 @@ def test_get_channel_listing(clear_cache):
 	assert "typing_extensions" in listing
 
 
+def test_get_channel_listing_error():
+	with pytest.raises(ValueError, match="Conda channel 'repo-helper' not found."):
+		get_channel_listing("repo-helper")
+
+
 def test_validate_requirements():
 	requirements = [
 			ComparableRequirement("apeye>=0.3.0"),

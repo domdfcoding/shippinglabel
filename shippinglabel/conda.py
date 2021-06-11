@@ -30,12 +30,13 @@ Functions to aid building of conda packages.
 
 # stdlib
 import difflib
+from contextlib import suppress
 from datetime import datetime, timedelta
 from itertools import chain
-from pathlib import Path
 from typing import Iterable, List
 
 # 3rd party
+import apeye.slumber_url.exceptions
 import appdirs
 from apeye import SlumberURL
 from domdf_python_tools.paths import PathPlus
@@ -85,7 +86,7 @@ def clear_cache(*channel_name: str):
 	.. latex:clearpage::
 	"""
 
-	filenames: Iterable[Path]
+	filenames: Iterable[PathPlus]
 
 	if channel_name:
 		filenames = (cache_dir / f"{channel}.json" for channel in channel_name)
@@ -93,10 +94,7 @@ def clear_cache(*channel_name: str):
 		filenames = cache_dir.glob("*.json")
 
 	for filename in filenames:
-		try:
-			filename.unlink()
-		except FileNotFoundError:  # pragma: no cover
-			pass
+		filename.unlink(missing_ok=True)
 
 
 def get_channel_listing(channel_name: str) -> List[str]:
@@ -108,6 +106,10 @@ def get_channel_listing(channel_name: str) -> List[str]:
 	.. versionadded:: 0.7.0
 
 	:param channel_name:
+
+	:raises ValueError: if the channel can't be found.
+
+		.. versionadded:: 0.15.0
 	"""
 
 	cache_dir.maybe_make(parents=True)
@@ -121,10 +123,16 @@ def get_channel_listing(channel_name: str) -> List[str]:
 
 	conda_packages = set()
 
-	for package in (CONDA_API / channel_name / "noarch" / "repodata.json").get()["packages"].values():
-		conda_packages.add(package["name"])
-	for package in (CONDA_API / channel_name / "linux-64" / "repodata.json").get()["packages"].values():
-		conda_packages.add(package["name"])
+	try:
+		for package in (CONDA_API / channel_name / "noarch" / "repodata.json").get()["packages"].values():
+			conda_packages.add(package["name"])
+	except apeye.slumber_url.exceptions.HttpNotFoundError:
+		raise ValueError(f"Conda channel {channel_name!r} not found.")
+
+	with suppress(apeye.slumber_url.exceptions.HttpNotFoundError):
+		# TODO: other architectures
+		for package in (CONDA_API / channel_name / "linux-64" / "repodata.json").get()["packages"].values():
+			conda_packages.add(package["name"])
 
 	data = {"expires": (datetime.now() + timedelta(hours=48)).timestamp(), "packages": sorted(conda_packages)}
 
