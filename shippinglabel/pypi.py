@@ -295,7 +295,9 @@ def get_wheel_url(
 		strict: bool = False,
 		) -> str:
 	"""
-	Returns the URL of the project's source distribution on PyPI.
+	Returns the URL of one of the project's wheels on PyPI.
+
+	For finer control over which wheel the URL is for see the :func:`~.get_wheel_tag_mapping` function.
 
 	.. versionadded:: 0.15.0
 
