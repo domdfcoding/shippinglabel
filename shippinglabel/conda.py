@@ -38,7 +38,7 @@ from typing import Iterable, List
 # 3rd party
 import apeye.slumber_url.exceptions
 import appdirs
-from apeye import SlumberURL
+from apeye.slumber_url import SlumberURL
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import DelimitedList
 from packaging.requirements import InvalidRequirement

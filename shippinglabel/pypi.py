@@ -33,7 +33,8 @@ import pathlib
 from typing import Any, Callable, Dict, List, Tuple, Union
 
 # 3rd party
-from apeye import URL, RequestsURL
+from apeye import URL
+from apeye.requests_url import RequestsURL
 from apeye.slumber_url import HttpNotFoundError, SlumberURL
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
