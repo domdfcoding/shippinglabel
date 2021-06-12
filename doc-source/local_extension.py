@@ -2,11 +2,11 @@
 from typing import Optional
 
 # 3rd party
+from docutils import nodes
 from domdf_python_tools.paths import PathPlus
 from sphinx.application import Sphinx  # nodep
 from sphinx.errors import NoUri
 from sphinx_toolbox import latex
-from docutils import nodes
 
 
 def replace_emoji(app: Sphinx, exception: Optional[Exception] = None):
