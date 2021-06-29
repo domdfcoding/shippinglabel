@@ -177,7 +177,7 @@ def test_validate_requirements():
 			ComparableRequirement("ruamel.yaml>=0.16.12"),
 			ComparableRequirement("tomlkit>=0.7.0"),
 			ComparableRequirement("typing_extensions>=3.7.4.3"),
-			ComparableRequirement("dom-toml>=0.4.0"),
+			ComparableRequirement("dom_toml>=0.4.0"),  # dom-toml has been deleted
 			ComparableRequirement("dom_toml>=0.4.0"),
 			]
 

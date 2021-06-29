@@ -33,9 +33,9 @@ import pathlib
 from typing import Any, Callable, Dict, List, Tuple, Union
 
 # 3rd party
-from apeye import URL
 from apeye.requests_url import RequestsURL
 from apeye.slumber_url import HttpNotFoundError, SlumberURL
+from apeye.url import URL
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
 from packaging.requirements import InvalidRequirement
