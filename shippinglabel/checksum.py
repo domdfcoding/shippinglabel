@@ -29,9 +29,10 @@ Utilities for creating and checking file sha256 checksums.
 #
 
 # stdlib
+import io
 from base64 import urlsafe_b64encode
 from hashlib import md5, sha256
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, BinaryIO, Callable, Optional, Union, cast
 
 # 3rd party
 from domdf_python_tools.paths import PathPlus
@@ -56,7 +57,31 @@ __all__ = ["get_sha256_hash", "check_sha256_hash", "get_md5_hash", "get_record_e
 _HashType = type(sha256())
 
 
-def get_sha256_hash(filename: PathLike, blocksize: int = 1 << 20) -> "_Hash":
+def _get_hash(fp: BinaryIO, hash_type: Callable, blocksize: int = 1 << 20) -> "_Hash":
+	"""
+	Returns the SHA256 hash object for the given file object.
+
+	:param fp:
+	:param hash_type:
+	:param blocksize: The blocksize to read the file with.
+
+	:rtype: :mod:`hashlib.sha256() <hashlib>`
+	"""
+
+	hash_obj = hash_type()
+
+	fb = fp.read(blocksize)
+	while len(fb):  # pylint: disable=len-as-condition
+		hash_obj.update(fb)
+		fb = fp.read(blocksize)
+
+	return hash_obj
+
+
+def get_sha256_hash(
+		filename: Union[PathLike, BinaryIO],
+		blocksize: int = 1 << 20,
+		) -> "_Hash":
 	"""
 	Returns the SHA256 hash object for the given file.
 
@@ -66,20 +91,21 @@ def get_sha256_hash(filename: PathLike, blocksize: int = 1 << 20) -> "_Hash":
 	:param blocksize: The blocksize to read the file with.
 
 	:rtype: :mod:`hashlib.sha256() <hashlib>`
+
+	.. versionchanged:: 0.16.0  Added support for already open file objects.
 	"""
 
-	sha256_hash = sha256()
+	if isinstance(filename, io.BufferedIOBase):
+		return _get_hash(filename, sha256, blocksize)
 
-	with open(filename, "rb") as f:
-		fb = f.read(blocksize)
-		while len(fb):  # pylint: disable=len-as-condition
-			sha256_hash.update(fb)
-			fb = f.read(blocksize)
-
-	return sha256_hash
+	with open(cast(PathLike, filename), "rb") as f:
+		return _get_hash(f, sha256, blocksize)
 
 
-def get_md5_hash(filename: PathLike, blocksize: int = 1 << 20) -> "_Hash":
+def get_md5_hash(
+		filename: Union[PathLike, BinaryIO],
+		blocksize: int = 1 << 20,
+		) -> "_Hash":
 	"""
 	Returns the md5 hash object for the given file.
 
@@ -89,21 +115,19 @@ def get_md5_hash(filename: PathLike, blocksize: int = 1 << 20) -> "_Hash":
 	:param blocksize: The blocksize to read the file with.
 
 	:rtype: :mod:`hashlib.md5() <hashlib>`
+
+	.. versionchanged:: 0.16.0  Added support for already open file objects.
 	"""
 
-	md5hash = md5()
+	if isinstance(filename, io.BufferedIOBase):
+		return _get_hash(filename, md5, blocksize)
 
-	with open(filename, "rb") as f:
-		fb = f.read(blocksize)
-		while len(fb):  # pylint: disable=len-as-condition
-			md5hash.update(fb)
-			fb = f.read(blocksize)
-
-	return md5hash
+	with open(cast(PathLike, filename), "rb") as f:
+		return _get_hash(f, md5, blocksize)
 
 
 def check_sha256_hash(
-		filename: PathLike,
+		filename: Union[PathLike, BinaryIO],
 		hash: Union["_Hash", str],  # noqa: A002  # pylint: disable=redefined-builtin
 		blocksize: int = 1 << 20,
 		) -> bool:
@@ -116,6 +140,10 @@ def check_sha256_hash(
 	:param hash: If a string, the hexdigest of the hash.
 	:type hash: :py:obj:`~typing.Union`\[:mod:`hashlib.sha256() <hashlib>`, :class:`str`\]
 	:param blocksize: The blocksize to read the file with.
+
+	:rtype:
+
+	.. versionchanged:: 0.16.0  Added support for already open file objects.
 	"""
 
 	if isinstance(hash, _HashType):

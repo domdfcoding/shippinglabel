@@ -35,8 +35,25 @@ def test_get_sha256_hash(reference_file_a: PathPlus):
 	assert hash_.digest() == digest
 
 
+def test_get_sha256_hash_fp(reference_file_a: PathPlus):
+	with open(reference_file_a, "rb") as fp:
+		hash_ = get_sha256_hash(fp)
+
+	assert hash_.hexdigest() == "83065efdedd381da9439b85a270ea9629f1ba46d9c7d7b1858bb70e54d5f664c"
+	digest = b"\x83\x06^\xfd\xed\xd3\x81\xda\x949\xb8Z'\x0e\xa9b\x9f\x1b\xa4m\x9c}{\x18X\xbbp\xe5M_fL"
+	assert hash_.digest() == digest
+
+
 def test_get_md5_hash(reference_file_a: PathPlus):
 	hash_ = get_md5_hash(reference_file_a)
+	assert hash_.hexdigest() == "d7aadf6f1f20826aa227fa1bde281a41"
+	assert hash_.digest() == b"\xd7\xaa\xdfo\x1f \x82j\xa2'\xfa\x1b\xde(\x1aA"
+
+
+def test_get_md5_hash_fp(reference_file_a: PathPlus):
+	with open(reference_file_a, "rb") as fp:
+		hash_ = get_md5_hash(fp)
+
 	assert hash_.hexdigest() == "d7aadf6f1f20826aa227fa1bde281a41"
 	assert hash_.digest() == b"\xd7\xaa\xdfo\x1f \x82j\xa2'\xfa\x1b\xde(\x1aA"
 
@@ -47,6 +64,17 @@ def test_check_sha256_hash(reference_file_a: PathPlus):
 			"83065efdedd381da9439b85a270ea9629f1ba46d9c7d7b1858bb70e54d5f664c",
 			)
 	assert check_sha256_hash(reference_file_a, get_sha256_hash(reference_file_a))
+
+
+def test_check_sha256_hash_fp(reference_file_a: PathPlus):
+	with open(reference_file_a, "rb") as fp:
+		assert check_sha256_hash(
+				fp,
+				"83065efdedd381da9439b85a270ea9629f1ba46d9c7d7b1858bb70e54d5f664c",
+				)
+
+	with open(reference_file_a, "rb") as fp:
+		assert check_sha256_hash(fp, get_sha256_hash(reference_file_a))
 
 
 def test_get_record_entry(reference_file_a: PathPlus):
