@@ -1,8 +1,7 @@
 - appdirs>=1.4.4
 - domdf-python-tools>=2.3.0
-- - natsort>=7.1.0
-  - pydash>=4.7.4
-  - typing-extensions>=3.7.4.3
+- - natsort>=7.0.1
+  - typing-extensions>=3.7.4.1
 - idna>=2.5
 - requests>=2.24.0
 - - certifi>=2017.4.17
