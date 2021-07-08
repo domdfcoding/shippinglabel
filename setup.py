@@ -21,6 +21,7 @@ setup(
 		description="Utilities for handling packages.",
 		extras_require=extras_require,
 		install_requires=install_requires,
+		name="shippinglabel",
 		py_modules=[],
 		version=__version__,
 		)
