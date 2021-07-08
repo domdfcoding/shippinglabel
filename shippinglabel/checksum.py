@@ -32,7 +32,7 @@ Utilities for creating and checking file sha256 checksums.
 import io
 from base64 import urlsafe_b64encode
 from hashlib import md5, sha256
-from typing import TYPE_CHECKING, BinaryIO, Callable, Optional, Union, cast
+from typing import IO, TYPE_CHECKING, Callable, Optional, Union, cast
 
 # 3rd party
 from domdf_python_tools.paths import PathPlus
@@ -57,7 +57,7 @@ __all__ = ["get_sha256_hash", "check_sha256_hash", "get_md5_hash", "get_record_e
 _HashType = type(sha256())
 
 
-def _get_hash(fp: BinaryIO, hash_type: Callable, blocksize: int = 1 << 20) -> "_Hash":
+def _get_hash(fp: IO[bytes], hash_type: Callable, blocksize: int = 1 << 20) -> "_Hash":
 	"""
 	Returns the SHA256 hash object for the given file object.
 
@@ -79,7 +79,7 @@ def _get_hash(fp: BinaryIO, hash_type: Callable, blocksize: int = 1 << 20) -> "_
 
 
 def get_sha256_hash(
-		filename: Union[PathLike, BinaryIO],
+		filename: Union[PathLike, IO[bytes]],
 		blocksize: int = 1 << 20,
 		) -> "_Hash":
 	"""
@@ -103,7 +103,7 @@ def get_sha256_hash(
 
 
 def get_md5_hash(
-		filename: Union[PathLike, BinaryIO],
+		filename: Union[PathLike, IO[bytes]],
 		blocksize: int = 1 << 20,
 		) -> "_Hash":
 	"""
@@ -127,7 +127,7 @@ def get_md5_hash(
 
 
 def check_sha256_hash(
-		filename: Union[PathLike, BinaryIO],
+		filename: Union[PathLike, IO[bytes]],
 		hash: Union["_Hash", str],  # noqa: A002  # pylint: disable=redefined-builtin
 		blocksize: int = 1 << 20,
 		) -> bool:
@@ -144,6 +144,7 @@ def check_sha256_hash(
 	:rtype:
 
 	.. versionchanged:: 0.16.0  Added support for already open file objects.
+	.. latex:clearpage::
 	"""
 
 	if isinstance(hash, _HashType):
