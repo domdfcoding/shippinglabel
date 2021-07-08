@@ -33,7 +33,7 @@ Utilities for working with :pep:`508` requirements.
 # stdlib
 import warnings
 from abc import ABC
-from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union, overload
+from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union, cast, overload
 
 # 3rd party
 import dom_toml
@@ -45,7 +45,7 @@ from domdf_python_tools.stringlist import DelimitedList, StringList
 from domdf_python_tools.typing import PathLike
 from packaging.markers import default_environment
 from packaging.requirements import InvalidRequirement, Requirement
-from packaging.specifiers import Specifier, SpecifierSet
+from packaging.specifiers import BaseSpecifier, Specifier, SpecifierSet
 from typing_extensions import Literal
 
 # this package
@@ -185,17 +185,18 @@ class _OperatorLookup(Dict[str, DelimitedList[Specifier]]):
 		return super().__getitem__(item)
 
 
-def resolve_specifiers(specifiers: Iterable[Specifier]) -> SpecifierSet:
-	"""
+def resolve_specifiers(specifiers: Iterable[BaseSpecifier]) -> SpecifierSet:
+	r"""
 	Resolve duplicated and overlapping requirement specifiers.
 
 	:param specifiers:
+	:type specifiers: :class:`~typing.Iterable`\[:class:`~.packaging.specifiers.Specifier`]
 	"""
 
 	operator_lookup = _OperatorLookup()
 	spec: Specifier
 
-	for spec in specifiers:
+	for spec in cast(Iterable[Specifier], specifiers):
 		if spec.operator in operator_symbols:
 			operator_lookup[spec.operator].append(spec)
 
