@@ -1,7 +1,7 @@
 # 3rd party
 import pytest
+from packaging.utils import InvalidSdistFilename
 from pytest_regressions.data_regression import DataRegressionFixture
-from wheel_filename import InvalidFilenameError
 
 # this package
 from shippinglabel.sdist import NotAnSdistError, parse_sdist_filename
@@ -54,5 +54,5 @@ def test_parse_sdist_filename_wheel():
 
 
 def test_parse_sdist_filename_invalid():
-	with pytest.raises(InvalidFilenameError, match="Invalid wheel filename: 'autopep8-.tar.bz2'"):
+	with pytest.raises(InvalidSdistFilename, match="Invalid sdist filename: 'autopep8-.tar.bz2'"):
 		parse_sdist_filename("autopep8-.tar.bz2")

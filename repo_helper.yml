@@ -26,6 +26,7 @@ sphinx_conf_epilogue:
  - latex_logo = "../shippinglabel.png"
  - latex_elements["preamble"] = "\\usepackage{marvosym}"
  - nitpicky = True
+ - ignore_missing_xrefs = ["^packaging.utils.InvalidSdistFilename$", "^wheel_filename"]
 
 keywords:
  - packaging
@@ -46,7 +47,7 @@ extra_sphinx_extensions:
  - sphinx_toolbox_experimental.autosummary_widths
  - sphinx_toolbox_experimental.needspace
  - sphinx_toolbox_experimental.peps
- - sphinx_toolbox_experimental.toml
+ - sphinx_toolbox_experimental.missing_xref
  - local_extension
 
 exclude_files:

@@ -46,7 +46,7 @@ from typing import NamedTuple
 # 3rd party
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
-from wheel_filename import InvalidFilenameError
+from packaging.utils import InvalidSdistFilename
 
 __all__ = ["NotAnSdistError", "ParsedSdistFilename", "parse_sdist_filename"]
 
@@ -102,8 +102,15 @@ def parse_sdist_filename(filename: PathLike) -> ParsedSdistFilename:
 
 	:raises:
 
-		* :exc:`wheel_filename.InvalidFilenameError` if the filename is invalid.
+		* :exc:`packaging.utils.InvalidSdistFilename` if the filename is invalid.
+
+		  .. versionchanged:: 1.0.0  Previously raised :exc:`wheel_filename.InvalidFilenameError`
+
 		* :exc:`shippinglabel.sdist.NotAnSdistError` if the file is not an sdist.
+
+	:rtype:
+
+	.. seealso:: :func:`packaging.utils.parse_sdist_filename`
 	"""
 
 	filename = PathPlus(filename)
@@ -115,6 +122,6 @@ def parse_sdist_filename(filename: PathLike) -> ParsedSdistFilename:
 
 	m = SDIST_FILENAME_CRGX.fullmatch(basename)
 	if not m:
-		raise InvalidFilenameError(basename)
+		raise InvalidSdistFilename(f"Invalid sdist filename: {basename!r}")
 
 	return ParsedSdistFilename(**m.groupdict())

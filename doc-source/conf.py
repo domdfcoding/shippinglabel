@@ -76,3 +76,4 @@ html_logo = "../shippinglabel.png"
 latex_logo = "../shippinglabel.png"
 latex_elements["preamble"] = "\\usepackage{marvosym}"
 nitpicky = True
+ignore_missing_xrefs = ["^packaging.utils.InvalidSdistFilename$"]

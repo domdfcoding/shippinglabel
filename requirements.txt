@@ -6,4 +6,3 @@ domdf-python-tools>=2.8.0
 packaging>=20.9
 trove-classifiers>=2020.10.21
 typing-extensions>=3.7.4.3
-wheel-filename>=1.2.0
