@@ -78,14 +78,14 @@ class ComparableRequirement(Requirement):
 	"""
 
 	@staticmethod
-	def _check_equal_not_none(left: Optional[Any], right: Optional[Any]):
+	def _check_equal_not_none(left: Optional[Any], right: Optional[Any]) -> bool:
 		if not left or not right:
 			return True
 		else:
 			return left == right
 
 	@staticmethod
-	def _check_marker_equality(left: Optional[Any], right: Optional[Any]):
+	def _check_marker_equality(left: Optional[Any], right: Optional[Any]) -> bool:
 		if left is not None and right is not None:
 			for left_mark, right_mark in zip(left._markers, right._markers):
 				if str(left_mark) != str(right_mark):
@@ -169,7 +169,7 @@ class ComparableRequirement(Requirement):
 
 class _OperatorLookup(Dict[str, DelimitedList[Specifier]]):
 
-	def __setitem__(self, key: str, value):
+	def __setitem__(self, key: str, value: Any) -> None:
 		if key not in operator_symbols:
 			raise KeyError(f"Invalid operator symbol {key!r}")
 
@@ -457,7 +457,7 @@ class RequirementsManager(ABC):
 		self.req_file = self.prep_req_file()
 		self.target_requirements = set(self.target_requirements)
 
-	def prep_req_file(self):
+	def prep_req_file(self) -> PathPlus:
 		"""
 		Create the requirements file if necessary, and in any case return its filename.
 		"""

@@ -219,7 +219,7 @@ def get_releases_with_digests(pypi_name: str) -> Dict[str, List[FileURL]]:
 	return pypi_releases
 
 
-def get_file_from_pypi(url: Union[URL, str], tmpdir: PathLike):
+def get_file_from_pypi(url: Union[URL, str], tmpdir: PathLike) -> None:
 	"""
 	Download the file with the given URL into the given (temporary) directory.
 

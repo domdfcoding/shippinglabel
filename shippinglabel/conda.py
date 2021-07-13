@@ -73,7 +73,7 @@ cache_dir = PathPlus(
 		) / "conda_cache"
 
 
-def clear_cache(*channel_name: str):
+def clear_cache(*channel_name: str) -> None:
 	r"""
 	Clear the cached Conda channel listings.
 
