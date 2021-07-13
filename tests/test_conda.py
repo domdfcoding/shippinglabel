@@ -114,6 +114,7 @@ def test_prepare_requirements_markers_url_extras(tmp_pathplus):
 			]
 
 
+@pytest.mark.flaky(reruns=1, reruns_delay=10)
 @pytest.mark.parametrize("clear_cache", [
 		False,
 		"domdfcoding",

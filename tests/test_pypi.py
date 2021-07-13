@@ -332,6 +332,7 @@ def test_get_wheel_url_no_wheels():
 			) == "https://files.pythonhosted.org/packages/c6/a8/ae563011a12812f8efcbbb9385a6451f4d6674d47055e97f95fae6e883d9/greppy-0.1.3.tar.gz"
 
 
+@pytest.mark.flaky(reruns=1, reruns_delay=10)
 @pytest.mark.parametrize(
 		"name, version",
 		[
