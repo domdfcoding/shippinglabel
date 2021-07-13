@@ -31,8 +31,8 @@ import re
 from typing import Dict, Iterable, List
 
 # 3rd party
-from cawdrey.header_mapping import HeaderMapping
-from domdf_python_tools.compat import importlib_metadata
+import dist_meta.distributions
+from dist_meta.metadata_mapping import MetadataMapping
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
 from packaging.version import InvalidVersion, Version
@@ -131,11 +131,11 @@ def read_pyvenv(venv_dir: PathLike) -> Dict[str, str]:
 	return pyvenv_config
 
 
-class ProjectLinks(HeaderMapping):
+class ProjectLinks(MetadataMapping):
 	pass
 
 
-def get_project_links(project_name: str) -> HeaderMapping:
+def get_project_links(project_name: str) -> MetadataMapping:
 	"""
 	Returns the web links for the given project.
 
@@ -144,6 +144,10 @@ def get_project_links(project_name: str) -> HeaderMapping:
 	.. versionadded:: 0.12.0
 
 	:param project_name:
+
+	:rtype:
+
+	.. versionchanged:: 1.0.0  Now returns a :class:`dist_meta.metadata_mapping.MetadataMapping` object.
 	"""
 
 	# this package
@@ -154,14 +158,14 @@ def get_project_links(project_name: str) -> HeaderMapping:
 	urls = ProjectLinks()
 
 	try:
-		dist = importlib_metadata.distribution(project_name)
-		raw_urls = dist.metadata.get_all("Project-URL", failobj=())
+		dist = dist_meta.distributions.get_distribution(project_name)
+		raw_urls = dist.get_metadata().get_all("Project-URL", default=())
 
 		for url in raw_urls:
 			label, url, *_ = map(str.strip, url.split(','))
 			urls[label] = url
 
-	except importlib_metadata.PackageNotFoundError:
+	except dist_meta.distributions.DistributionNotFoundError:
 		# Fall back to PyPI
 
 		metadata = get_metadata(project_name)["info"]

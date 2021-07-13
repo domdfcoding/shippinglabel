@@ -41,6 +41,7 @@ known_third_party = [
     "consolekit",
     "coverage",
     "coverage_pyver_pragma",
+    "dist_meta",
     "dom_toml",
     "domdf_python_tools",
     "first",
@@ -57,7 +58,6 @@ known_third_party = [
     "toml",
     "trove_classifiers",
     "typing_extensions",
-    "wheel_filename",
 ]
 known_first_party = "shippinglabel"
 extra_standard_library = "_hashlib"
