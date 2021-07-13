@@ -23,7 +23,6 @@ setup(
 		install_requires=install_requires,
 		name="shippinglabel",
 		py_modules=[],
-		version=__version__,
 		)
 
 shutil.rmtree("shippinglabel.egg-info", ignore_errors=True)
