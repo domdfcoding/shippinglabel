@@ -1,4 +1,4 @@
-- apeye>=0.7.0
+- apeye>=1.0.0
 - - appdirs>=1.4.4
   - domdf-python-tools>=2.3.0
   - - natsort>=7.0.1
@@ -25,7 +25,7 @@
   - - natsort>=7.0.1
     - typing-extensions>=3.7.4.1
   - toml>=0.10.2
-- domdf-python-tools>=2.8.0
+- domdf-python-tools>=3.1.0
 - - natsort>=7.0.1
   - typing-extensions>=3.7.4.1
 - packaging>=20.9
