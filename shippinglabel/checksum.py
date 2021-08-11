@@ -164,7 +164,7 @@ def get_record_entry(filename: PathLike, blocksize: int = 1 << 20, relative_to: 
 	:param relative_to:
 	"""
 
-	sha256_hash = get_sha256_hash(filename, blocksize).digest()  # noqa: A001  # pylint: disable=redefined-builtin
+	sha256_hash = get_sha256_hash(filename, blocksize).digest()
 	digest = "sha256=" + urlsafe_b64encode(sha256_hash).decode("latin1").rstrip('=')
 
 	filename = PathPlus(filename)
