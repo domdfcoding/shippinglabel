@@ -10,6 +10,8 @@ Utilities for working with the Python Package Index (PyPI).
 
 	`pypi-json`_, which provides some of the functionality from this module but with a reusable HTTP session and
 	support for authentication with other endpoints (such as a private package repository).
+
+.. _pypi-json: https://pypi-json.readthedocs.io/en/latest/
 """
 #
 #  Copyright © 2020-2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>
