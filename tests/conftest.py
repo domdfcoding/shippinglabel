@@ -24,12 +24,6 @@ with Betamax.configure() as config:
 
 
 @pytest.fixture()
-def original_datadir(request):
-	# Work around pycharm confusing datadir with test file.
-	return Path(os.path.splitext(request.module.__file__)[0] + '_')
-
-
-@pytest.fixture()
 def cassette(request: FixtureRequest):
 	"""
 	Provides a Betamax cassette scoped to the test function
