@@ -17,6 +17,6 @@
   - natsort>=7.0.1
   - typing-extensions>=3.7.4.1
 - packaging>=20.9
-- - pyparsing>=2.0.2
+- - pyparsing!=3.0.5,>=2.0.2
 - trove-classifiers>=2020.10.21
 - typing-extensions>=3.7.4.3

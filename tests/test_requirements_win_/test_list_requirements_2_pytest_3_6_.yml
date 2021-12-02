@@ -6,8 +6,8 @@
   - zipp>=0.5
 - iniconfig
 - packaging
-- - pyparsing>=2.0.2
-- pluggy<1.0.0a1,>=0.12
+- - pyparsing!=3.0.5,>=2.0.2
+- pluggy<2.0,>=0.12
 - - importlib-metadata>=0.12; python_version < "3.8"
 - py>=1.8.2
 - toml
