@@ -299,6 +299,7 @@ def combine_requirements(
 			req = ComparableRequirement(str(req))
 
 		req.name = normalize_func(req.name)
+		_denormalize_ruamel(req)
 
 		if req.name in merged_requirements:
 			other_req = merged_requirements[merged_requirements.index(req.name)]  # type: ignore
@@ -413,6 +414,7 @@ def parse_requirements(
 			try:
 				req = ComparableRequirement(line)
 				req.name = normalize_func(req.name)
+				_denormalize_ruamel(req)
 				parsed_requirements.add(req)
 			except InvalidRequirement:
 				invalid_lines.append(line)
@@ -738,3 +740,9 @@ def parse_pyproject_extras(
 			for k,
 			v in dependencies.items()
 			}
+
+
+def _denormalize_ruamel(req: Requirement):
+	if req.name in {"ruamel-yaml", "ruamel_yaml"}:
+		# Special case to work around issue with Poetry
+		req.name = "ruamel.yaml"

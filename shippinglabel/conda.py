@@ -251,6 +251,7 @@ Mapping of normalised names to names on Conda, if they differ for some reason.
 """
 
 # Really just due to https://github.com/conda-forge/ruamel.yaml-feedstock/issues/7
+# TODO: might this be solved by the workaround for poetry?
 
 
 def make_conda_description(summary: str, conda_channels: Iterable[str] = ()) -> str:

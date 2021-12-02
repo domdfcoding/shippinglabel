@@ -44,7 +44,7 @@ def test_compile_requirements(tmp_pathplus):
 			ComparableRequirement("jinja2>=2.11.2"),
 			ComparableRequirement("packaging>=20.4"),
 			ComparableRequirement("pre-commit>=2.7.1"),
-			ComparableRequirement("ruamel-yaml>=0.16.12"),
+			ComparableRequirement("ruamel.yaml>=0.16.12"),  # denormalised elsewhere to solve poerty issue
 			ComparableRequirement("tomlkit>=0.7.0"),
 			ComparableRequirement("typing-extensions>=3.7.4.3"),
 			]
@@ -93,7 +93,7 @@ def test_prepare_requirements():
 			ComparableRequirement("jinja2>=2.11.2"),
 			ComparableRequirement("packaging>=20.4"),
 			ComparableRequirement("pre-commit>=2.7.1"),
-			ComparableRequirement("ruamel-yaml>=0.16.12"),
+			ComparableRequirement("ruamel.yaml>=0.16.12"),  # denormalised elsewhere to solve poerty issue
 			ComparableRequirement("tomlkit>=0.7.0"),
 			ComparableRequirement("typing-extensions>=3.7.4.3"),
 			]
