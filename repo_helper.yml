@@ -59,7 +59,7 @@ classifiers:
  - "Topic :: System :: Archiving :: Packaging"
 
 manifest_additional:
- - recursive-include shippinglabel._vendor *
+ - recursive-include shippinglabel/_vendor/ *
 
 tox_unmanaged:
  - "coverage:run"
