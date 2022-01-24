@@ -137,6 +137,11 @@ Installation
 
 .. end installation
 
+
+``shippinglabel`` includes a vendored copy of `trove-classifiers <https://pypi.org/project/trove-classifiers/>`_.
+If you install a newer version of ``trove-classifiers`` with pip ``shippinglabel`` will use that version instead.
+
+
 Contents
 ------------
 
