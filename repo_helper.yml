@@ -63,3 +63,5 @@ manifest_additional:
 
 tox_unmanaged:
  - "coverage:run"
+
+pre_commit_exclude: "^shippinglabel._vendor/"
