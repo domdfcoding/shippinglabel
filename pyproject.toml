@@ -126,6 +126,7 @@ python-versions = [ "3.6", "3.7", "3.8", "3.9",]
 python-implementations = [ "CPython", "PyPy",]
 platforms = [ "Windows", "macOS", "Linux",]
 license-key = "MIT"
+additional-files = [ "recursive-include shippinglabel._vendor *",]
 
 [tool.mypy]
 python_version = "3.6"
@@ -137,6 +138,12 @@ show_error_codes = true
 
 [tool.snippet-fmt]
 directives = [ "code-block",]
+
+[tool.vendoring]
+destination = "shippinglabel/_vendor/"
+requirements = "shippinglabel/_vendor/requirements.txt"
+namespace = "shippinglabel._vendor"
+protected-files = [ "__init__.py", "README.rst", "requirements.txt",]
 
 [tool.dependency-dash."requirements.txt"]
 order = 10

@@ -31,11 +31,11 @@ from collections import defaultdict
 from typing import Collection, Iterable, Iterator
 
 # 3rd party
-import trove_classifiers  # type: ignore
 from domdf_python_tools.utils import stderr_writer
 
 # this package
 from shippinglabel import normalize
+from shippinglabel._vendor import trove_classifiers
 from shippinglabel.requirements import ComparableRequirement
 
 __all__ = ["validate_classifiers", "classifiers_from_requirements"]

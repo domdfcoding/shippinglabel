@@ -58,3 +58,6 @@ classifiers:
  - 'Intended Audience :: Developers'
  - 'Topic :: Software Development :: Libraries :: Python Modules'
  - "Topic :: System :: Archiving :: Packaging"
+
+manifest_additional:
+ - recursive-include shippinglabel._vendor *

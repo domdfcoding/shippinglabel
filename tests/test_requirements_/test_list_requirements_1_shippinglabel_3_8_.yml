@@ -4,5 +4,4 @@
 - dom-toml>=0.2.2
 - domdf-python-tools>=3.1.0
 - packaging>=20.9
-- trove-classifiers>=2020.10.21
 - typing-extensions>=3.7.4.3
