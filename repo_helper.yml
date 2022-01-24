@@ -60,6 +60,7 @@ classifiers:
 
 manifest_additional:
  - recursive-include shippinglabel/_vendor/ *
+ - prune **/__pycache__
 
 tox_unmanaged:
  - "coverage:run"
