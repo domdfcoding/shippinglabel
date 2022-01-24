@@ -60,3 +60,6 @@ classifiers:
 
 manifest_additional:
  - recursive-include shippinglabel._vendor *
+
+tox_unmanaged:
+ - "coverage:run"

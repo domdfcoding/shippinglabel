@@ -401,9 +401,13 @@ def test_comparable_requirement():
 	def req_without_marker():
 		return ComparableRequirement("importlib-metadata>=1.5.0")
 
+	def req_with_different_marker():
+		return ComparableRequirement('importlib-metadata>=1.5.0; python_version < "3.10"')
+
 	assert req_with_marker() == req_with_marker()
 	assert req_with_marker() is not req_with_marker()
 	assert req_without_marker() is not req_without_marker()
+	assert req_with_marker() != req_with_different_marker()
 
 	assert "importlib-metadata" in [req_with_marker()]
 	assert req_without_marker() in [req_with_marker()]
@@ -421,6 +425,8 @@ def test_comparable_requirement():
 
 	assert req_without_marker() not in {req_with_marker()}
 	assert req_with_marker() in {req_with_marker()}
+
+	assert req_without_marker() != "123foo?"
 
 
 only_36 = pytest.param("3.6", marks=only_version((3, 6), reason="Output differs on Python 3.6"))
