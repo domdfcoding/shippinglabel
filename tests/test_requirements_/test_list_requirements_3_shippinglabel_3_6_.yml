@@ -23,7 +23,7 @@
   - packaging>=20.9
   - - pyparsing!=3.0.5,>=2.0.2
 - dom-toml>=0.2.2
-- - domdf-python-tools>=2.7.0
+- - domdf-python-tools>=2.8.0
   - - importlib-metadata>=3.6.0; python_version < "3.9"
     - importlib-resources>=3.0.0; python_version < "3.7"
     - natsort>=7.0.1
