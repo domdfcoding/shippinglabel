@@ -125,7 +125,7 @@ python-versions = [ "3.6", "3.7", "3.8", "3.9",]
 python-implementations = [ "CPython", "PyPy",]
 platforms = [ "Windows", "macOS", "Linux",]
 license-key = "MIT"
-additional-files = [ "recursive-include shippinglabel/_vendor/ *", "prune **/__pycache__",]
+additional-files = [ "recursive-include shippinglabel/_vendor *", "prune **/__pycache__",]
 
 [tool.mypy]
 python_version = "3.6"
