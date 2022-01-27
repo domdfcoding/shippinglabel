@@ -302,14 +302,15 @@ def combine_requirements(
 		_denormalize_ruamel(req)
 
 		if req.name in merged_requirements:
-			other_req = merged_requirements[merged_requirements.index(req.name)]  # type: ignore
-
-			if str(req.marker) != str(other_req.marker):
-				merged_requirements.append(req)
+			possible_other_req = [x for x in merged_requirements if x.name == req.name]
+			for other_req in possible_other_req:
+				if str(req.marker) == str(other_req.marker):
+					other_req.specifier &= req.specifier
+					other_req.extras &= req.extras
+					other_req.specifier = resolve_specifiers(other_req.specifier)
+					break
 			else:
-				other_req.specifier &= req.specifier
-				other_req.extras &= req.extras
-				other_req.specifier = resolve_specifiers(other_req.specifier)
+				merged_requirements.append(req)
 		else:
 			merged_requirements.append(req)
 

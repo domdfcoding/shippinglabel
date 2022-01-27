@@ -140,6 +140,31 @@ def test_combine_requirements():
 	assert str(combine_requirements(reqs)[0].specifier) == "==3.2.1,==3.2.3,==3.2.5,>2.5"
 
 
+def test_combine_requirements_duplicates():
+	reqs = [
+			ComparableRequirement('typing-extensions>=3.6.4; python_version < "3.8"'),
+			ComparableRequirement("typing-extensions>=3.7.4.3"),
+			ComparableRequirement("typing-extensions>=3.7.4.3"),
+			ComparableRequirement("typing-extensions>=3.7.4.3"),
+			ComparableRequirement("typing-extensions>=3.7.4.3"),
+			ComparableRequirement("typing-extensions>=3.7.4.1"),
+			ComparableRequirement("typing-extensions>=3.7.4"),
+			ComparableRequirement('typing-extensions; python_version < "3.8"'),
+			]
+
+	combined_reqs = combine_requirements(reqs)
+	assert len(combined_reqs) == 2
+	assert combined_reqs[1] == ComparableRequirement("typing-extensions>=3.7.4.3")
+	assert combined_reqs[0] == ComparableRequirement('typing-extensions>=3.6.4; python_version < "3.8"')
+
+	reqs.append(reqs.pop(0))
+
+	combined_reqs = combine_requirements(reqs)
+	assert len(combined_reqs) == 2
+	assert combined_reqs[0] == ComparableRequirement("typing-extensions>=3.7.4.3")
+	assert combined_reqs[1] == ComparableRequirement('typing-extensions>=3.6.4; python_version < "3.8"')
+
+
 def test_combine_requirements_differing_precision():
 	reqs = [
 			ComparableRequirement("lockfile>=0.9"),
