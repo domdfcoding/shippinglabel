@@ -36,6 +36,7 @@ Utilities for working with the Python Package Index (PyPI).
 #
 
 # stdlib
+import atexit
 import pathlib
 from typing import Any, Callable, Dict, List, Tuple, Union
 
@@ -76,6 +77,8 @@ Instance of :class:`apeye.slumber_url.SlumberURL` which points to the PyPI REST 
 
 .. versionchanged:: 0.3.0  Now an instance of :class:`apeye.slumber_url.SlumberURL`.
 """
+
+atexit.register(PYPI_API.session.close)
 
 
 class FileURL(TypedDict):

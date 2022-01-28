@@ -29,6 +29,7 @@ Functions to aid building of conda packages.
 #
 
 # stdlib
+import atexit
 import difflib
 from contextlib import suppress
 from datetime import datetime, timedelta
@@ -63,6 +64,8 @@ Instance of :class:`apeye.slumber_url.SlumberURL` for accessing the Conda API.
 
 .. versionadded:: 0.7.0
 """
+
+atexit.register(CONDA_API.session.close)
 
 cache_dir = PathPlus(
 		appdirs.user_cache_dir(
