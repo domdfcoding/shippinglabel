@@ -239,8 +239,11 @@ def get_file_from_pypi(url: Union[URL, str], tmpdir: PathLike) -> None:
 	:param tmpdir: The (temporary) directory to store the downloaded file in.
 	"""
 
+	should_close = False
+
 	if not isinstance(url, RequestsURL):
 		url = RequestsURL(url)
+		should_close = True
 
 	filename = url.name
 
@@ -249,6 +252,9 @@ def get_file_from_pypi(url: Union[URL, str], tmpdir: PathLike) -> None:
 		raise OSError(f"Unable to download '{filename}' from PyPI.")
 
 	(pathlib.Path(tmpdir) / filename).write_bytes(r.content)
+
+	if should_close:
+		url.session.close()
 
 
 def get_sdist_url(
