@@ -11,3 +11,4 @@ pytest-regressions>=2.0.2
 pytest-rerunfailures>=9.1.1
 pytest-timeout>=1.4.2
 requests>=2.25.1
+apeye[limiter]>=1.0.0
