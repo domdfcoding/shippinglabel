@@ -48,6 +48,7 @@ known_third_party = [
     "github",
     "importlib_metadata",
     "packaging",
+    "pip",
     "pytest",
     "pytest_cov",
     "pytest_randomly",
