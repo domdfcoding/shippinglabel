@@ -38,7 +38,7 @@ from typing import Iterable, List
 
 # 3rd party
 import apeye.slumber_url.exceptions
-import appdirs
+import platformdirs
 from apeye.slumber_url import SlumberURL
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import DelimitedList
@@ -68,7 +68,7 @@ Instance of :class:`apeye.slumber_url.SlumberURL` for accessing the Conda API.
 atexit.register(CONDA_API.session.close)
 
 cache_dir = PathPlus(
-		appdirs.user_cache_dir(
+		platformdirs.user_cache_dir(
 				appname="shippinglabel",
 				appauthor="domdfcoding",
 				version=__version__,

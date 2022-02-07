@@ -33,7 +33,6 @@ remove_redundant_aliases = true
 default_section = "THIRDPARTY"
 known_third_party = [
     "apeye",
-    "appdirs",
     "backports_entry_points_selectable",
     "betamax",
     "cawdrey",
@@ -49,6 +48,7 @@ known_third_party = [
     "importlib_metadata",
     "packaging",
     "pip",
+    "platformdirs",
     "pytest",
     "pytest_cov",
     "pytest_randomly",

@@ -9,7 +9,6 @@
     - charset-normalizer~=2.0.0; python_version >= "3"
     - idna<4,>=2.5; python_version >= "3"
     - urllib3<1.27,>=1.21.1
-- appdirs>=1.4.4
 - dist-meta>=0.1.2
 - - domdf-python-tools>=3.1.0
   - - natsort>=7.0.1
@@ -30,4 +29,5 @@
   - typing-extensions>=3.7.4.1
 - packaging>=20.9
 - - pyparsing!=3.0.5,>=2.0.2
+- platformdirs>=2.3.0
 - typing-extensions>=3.7.4.3
