@@ -1,5 +1,4 @@
-- appdirs>=1.4.4
-- domdf-python-tools>=2.3.0
+- domdf-python-tools>=2.6.0
 - - importlib-metadata>=3.6.0; python_version < "3.9"
   - - typing-extensions>=3.6.4; python_version < "3.8"
     - zipp>=0.5
@@ -8,6 +7,7 @@
   - natsort>=7.0.1
   - typing-extensions>=3.7.4.1
 - idna>=2.5
+- platformdirs>=2.3.0
 - requests>=2.24.0
 - - certifi>=2017.4.17
   - charset-normalizer~=2.0.0; python_version >= "3"
