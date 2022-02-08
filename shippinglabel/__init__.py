@@ -148,6 +148,11 @@ def get_project_links(project_name: str) -> MetadataMapping:
 	:rtype:
 
 	.. versionchanged:: 1.0.0  Now returns a :class:`dist_meta.metadata_mapping.MetadataMapping` object.
+
+	.. versionchanged:: 1.2.0
+
+		The :core-meta:`Home-Page` field from Python core metadata is included under the ``Homepage`` key, if present.
+		This matches the output parsed from PyPI for packages which are not installed.
 	"""
 
 	# this package
@@ -159,11 +164,15 @@ def get_project_links(project_name: str) -> MetadataMapping:
 
 	try:
 		dist = dist_meta.distributions.get_distribution(project_name)
-		raw_urls = dist.get_metadata().get_all("Project-URL", default=())
+		meta = dist.get_metadata()
+		raw_urls = meta.get_all("Project-URL", default=())
 
 		for url in raw_urls:
 			label, url, *_ = map(str.strip, url.split(','))
 			urls[label] = url
+
+		if "Home-Page" in meta:
+			urls["Homepage"] = meta["Home-Page"]
 
 	except dist_meta.distributions.DistributionNotFoundError:
 		# Fall back to PyPI
