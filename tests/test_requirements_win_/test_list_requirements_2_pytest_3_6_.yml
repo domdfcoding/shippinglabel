@@ -10,4 +10,4 @@
 - pluggy<2.0,>=0.12
 - - importlib-metadata>=0.12; python_version < "3.8"
 - py>=1.8.2
-- toml
+- tomli>=1.0.0
