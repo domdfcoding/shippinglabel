@@ -168,7 +168,7 @@ def test_validate_requirements():
 			ComparableRequirement("apeye>=0.3.0"),
 			ComparableRequirement("attrs>=20.2.0"),
 			ComparableRequirement("click==7.1.2"),
-			ComparableRequirement("domdf_python_tools>=1.1.0"),
+			ComparableRequirement("domdf-python-tools>=1.1.0"),  # now in conda-forge
 			ComparableRequirement("dulwich>=0.19.16"),
 			ComparableRequirement("email-validator==1.1.1"),
 			ComparableRequirement("isort>=5.0.0"),
@@ -178,7 +178,7 @@ def test_validate_requirements():
 			ComparableRequirement("ruamel.yaml>=0.16.12"),
 			ComparableRequirement("tomlkit>=0.7.0"),
 			ComparableRequirement("typing_extensions>=3.7.4.3"),
-			ComparableRequirement("dom_toml>=0.4.0"),  # dom-toml has been deleted
+			ComparableRequirement("dom-toml>=0.4.0"),  # dom-toml is now on conda-forge
 			ComparableRequirement("dom_toml>=0.4.0"),
 			]
 
@@ -209,10 +209,10 @@ def test_validate_requirements_unsatisfied():
 
 	with pytest.raises(
 			InvalidRequirement,
-			match="Cannot satisfy the requirement 'domdf-python-tools' from any of the channels:",
+			match="Cannot satisfy the requirement 'sphinx-pyproject' from any of the channels:",
 			):
 		validate_requirements(
-				[ComparableRequirement("domdf-python-tools>=1.1.0")],
+				[ComparableRequirement("sphinx-pyproject>=1.1.0")],
 				["conda-forge"],
 				)
 
