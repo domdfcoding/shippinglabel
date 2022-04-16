@@ -110,9 +110,7 @@ def get_channel_listing(channel_name: str) -> List[str]:
 
 	:param channel_name:
 
-	:raises ValueError: if the channel can't be found.
-
-		.. versionadded:: 0.15.0
+	:raises ValueError: if the channel can't be found (*New in version 0.15.0*).
 	"""
 
 	cache_dir.maybe_make(parents=True)
@@ -267,6 +265,15 @@ def make_conda_description(summary: str, conda_channels: Iterable[str] = ()) -> 
 
 
 		Before installing please ensure you have added the following channels: conda-forge, bioconda
+
+	if called as follows:
+
+	.. code-block:: python
+
+		make_conda_description(
+			"This is my fancy Conda package. Hope you like it 😉.",
+			["conda-forge", "bioconda"],
+		)
 
 	.. versionadded:: 0.8.0
 
