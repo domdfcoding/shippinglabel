@@ -85,12 +85,12 @@ shippinglabel
 	:target: https://pypi.org/project/shippinglabel/
 	:alt: PyPI - Wheel
 
-.. |conda-version| image:: https://img.shields.io/conda/v/domdfcoding/shippinglabel?logo=anaconda
-	:target: https://anaconda.org/domdfcoding/shippinglabel
+.. |conda-version| image:: https://img.shields.io/conda/v/conda-forge/shippinglabel?logo=anaconda
+	:target: https://anaconda.org/conda-forge/shippinglabel
 	:alt: Conda - Package Version
 
-.. |conda-platform| image:: https://img.shields.io/conda/pn/domdfcoding/shippinglabel?label=conda%7Cplatform
-	:target: https://anaconda.org/domdfcoding/shippinglabel
+.. |conda-platform| image:: https://img.shields.io/conda/pn/conda-forge/shippinglabel?label=conda%7Cplatform
+	:target: https://anaconda.org/conda-forge/shippinglabel
 	:alt: Conda - Platform
 
 .. |license| image:: https://img.shields.io/github/license/domdfcoding/shippinglabel
@@ -137,7 +137,6 @@ To install with ``conda``:
 	.. code-block:: bash
 
 		$ conda config --add channels https://conda.anaconda.org/conda-forge
-		$ conda config --add channels https://conda.anaconda.org/domdfcoding
 
 	* Then install
 

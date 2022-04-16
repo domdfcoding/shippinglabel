@@ -37,8 +37,9 @@ keywords:
  - conda
 
 min_coverage: 95
-
 docs_fail_on_warning: true
+on_conda_forge: true
+pre_commit_exclude: "^shippinglabel._vendor/"
 
 additional_ignore:
  - _metadata.py
@@ -66,5 +67,3 @@ manifest_additional:
 
 tox_unmanaged:
  - "coverage:run"
-
-pre_commit_exclude: "^shippinglabel._vendor/"
