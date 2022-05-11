@@ -31,6 +31,7 @@ Functions to aid building of conda packages.
 # stdlib
 import atexit
 import difflib
+import warnings
 from contextlib import suppress
 from datetime import datetime, timedelta
 from itertools import chain
@@ -57,6 +58,12 @@ __all__ = [
 		"make_conda_description",
 		"prepare_requirements",
 		]
+
+warnings.warn(
+		"shippinglabel.conda is deprecated and will be removed in v2.0.0.\n"
+		"Please use shippinglabel-conda instead.",
+		DeprecationWarning,
+		)
 
 CONDA_API = SlumberURL("https://conda.anaconda.org", append_slash=False)
 """

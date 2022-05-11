@@ -158,6 +158,7 @@ Contents
 
 	api/shippinglabel
 	api/*
+	extensions/index
 
 
 .. sidebar-links::
