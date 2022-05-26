@@ -402,6 +402,8 @@ def parse_requirements(
 	:param normalize_func: Function to use to normalize the names of requirements.
 
 	:return: The requirements, and a list of commented lines.
+	
+	.. latex:clearpage::
 	"""
 
 	comments = []
@@ -442,7 +444,7 @@ class RequirementsManager(ABC):
 
 	:param repo_path: Path to the repository root.
 
-	.. latex:vspace:: 20px
+	.. autosummary-widths:: 4/10
 	"""
 
 	target_requirements: Set[ComparableRequirement]
@@ -593,8 +595,6 @@ def list_requirements(name: str, depth: int = 1) -> Iterator[Union[str, List[str
 			<requirement b>,
 		]
 
-	.. latex:clearpage::
-
 	:param name:
 	:param depth:
 
@@ -677,6 +677,10 @@ def parse_pyproject_dependencies(
 	:param normalize_func: Function to use to normalize the names of dependencies.
 
 	If no dependencies are defined an empty set is returned.
+	
+	:rtype:
+	
+	.. latex:clearpage::
 	"""
 
 	config = dom_toml.load(pyproject_file)
@@ -715,10 +719,6 @@ def parse_pyproject_extras(
 	:param normalize_func: Function to use to normalize the names of dependencies.
 
 	If no extra dependencies are defined an empty dictionary is returned.
-
-	:rtype:
-
-	.. latex:clearpage::
 	"""
 
 	config = dom_toml.load(pyproject_file)

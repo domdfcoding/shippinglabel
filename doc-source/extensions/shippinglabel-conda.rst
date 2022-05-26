@@ -2,9 +2,6 @@
 :mod:`shippinglabel_conda`
 ==========================
 
-.. autosummary-widths:: 1/2
-	:html: 3/10
-
 .. automodule:: shippinglabel_conda
 
 	This extension must be installed separately:
