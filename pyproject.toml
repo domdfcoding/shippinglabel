@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shippinglabel"
-version = "1.3.0"
+version = "1.3.1"
 description = "Utilities for handling packages."
 readme = "README.rst"
 requires-python = ">=3.6.1"
