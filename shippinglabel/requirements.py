@@ -402,7 +402,7 @@ def parse_requirements(
 	:param normalize_func: Function to use to normalize the names of requirements.
 
 	:return: The requirements, and a list of commented lines.
-	
+
 	.. latex:clearpage::
 	"""
 
@@ -677,9 +677,9 @@ def parse_pyproject_dependencies(
 	:param normalize_func: Function to use to normalize the names of dependencies.
 
 	If no dependencies are defined an empty set is returned.
-	
+
 	:rtype:
-	
+
 	.. latex:clearpage::
 	"""
 

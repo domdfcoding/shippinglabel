@@ -1,6 +1,4 @@
 # stdlib
-import os
-from pathlib import Path
 from typing import Callable, Type, TypeVar
 
 # 3rd party
