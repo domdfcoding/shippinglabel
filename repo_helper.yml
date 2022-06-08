@@ -67,3 +67,6 @@ manifest_additional:
 
 tox_unmanaged:
  - "coverage:run"
+
+intersphinx_mapping:
+ - "'requests': ('https://requests.readthedocs.io/en/latest/', None)"

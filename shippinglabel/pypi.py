@@ -38,6 +38,7 @@ Utilities for working with the Python Package Index (PyPI).
 # stdlib
 import atexit
 import pathlib
+import warnings
 from typing import Any, Callable, Dict, List, Tuple, Union
 
 # 3rd party
@@ -70,6 +71,13 @@ __all__ = [
 		"get_wheel_url",
 		"get_wheel_tag_mapping",
 		]
+
+warnings.warn(
+		"shippinglabel.pypi is deprecated and will be removed in v2.0.0.\n"
+		"Please use shippinglabel-pypi instead.",
+		DeprecationWarning,
+		)
+
 
 PYPI_API = SlumberURL("https://pypi.org/pypi/", timeout=10)
 """

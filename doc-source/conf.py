@@ -32,6 +32,7 @@ todo_include_todos = bool(os.environ.get("SHOW_TODOS", 0))
 intersphinx_mapping = {
 		"python": ("https://docs.python.org/3/", None),
 		"sphinx": ("https://www.sphinx-doc.org/en/stable/", None),
+		"requests": ("https://requests.readthedocs.io/en/latest/", None),
 		}
 
 html_theme_options = {"logo_only": False}
