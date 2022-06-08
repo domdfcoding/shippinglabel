@@ -78,7 +78,6 @@ warnings.warn(
 		DeprecationWarning,
 		)
 
-
 PYPI_API = SlumberURL("https://pypi.org/pypi/", timeout=10)
 """
 Instance of :class:`apeye.slumber_url.SlumberURL` which points to the PyPI REST API.
