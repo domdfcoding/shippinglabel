@@ -28,6 +28,7 @@ Utilities for handling packages.
 
 # stdlib
 import re
+import warnings
 from typing import Dict, Iterable, List
 
 # 3rd party
@@ -157,6 +158,12 @@ def get_project_links(project_name: str) -> MetadataMapping:
 
 	# this package
 	from shippinglabel.pypi import get_metadata
+
+	warnings.warn(
+			"shippinglabel.get_project_links is deprecated and will be removed in v2.0.0.\n"
+			"Please import from the shippinglabel_pypi package instead.",
+			DeprecationWarning,
+			)
 
 	# Try a local package first
 
