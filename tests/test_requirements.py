@@ -326,7 +326,6 @@ def test_read_requirements(
 				]
 		)
 def test_parse_requirements(
-		tmp_pathplus: PathPlus,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		requirements: List[str],
 		):
@@ -334,7 +333,8 @@ def test_parse_requirements(
 
 
 def test_read_requirements_invalid(
-		tmp_pathplus: PathPlus, advanced_data_regression: AdvancedDataRegressionFixture
+		tmp_pathplus: PathPlus,
+		advanced_data_regression: AdvancedDataRegressionFixture,
 		):
 	(tmp_pathplus / "requirements.txt").write_lines([
 			"# another comment",
@@ -346,7 +346,7 @@ def test_read_requirements_invalid(
 			'',
 			"https://bbc.co.uk",
 			"toctree-plus>=0.0.4",
-			"# a comment",
+			"   # a comment",
 			])
 
 	with pytest.warns(UserWarning) as record:
@@ -364,7 +364,7 @@ def test_read_requirements_invalid(
 		assert record[idx].message.args[0] == warning  # type: ignore
 
 	advanced_data_regression.check([str(x) for x in sorted(requirements)])
-	assert comments == ["# another comment", "# a comment"]
+	assert comments == ["# another comment", "   # a comment"]
 
 
 def test_sort_mixed_requirements():

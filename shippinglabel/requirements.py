@@ -411,7 +411,7 @@ def parse_requirements(
 	parsed_requirements: Set[ComparableRequirement] = set()
 
 	for line in requirements:
-		if line.startswith('#'):
+		if line.lstrip().startswith('#'):
 			comments.append(line)
 		elif line:
 			try:
