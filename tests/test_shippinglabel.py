@@ -25,7 +25,7 @@ from shippinglabel import (
 				("baz.extensions", "baz-extensions"),
 				]
 		)
-def test_normalize(name, expected):
+def test_normalize(name: str, expected: str):
 	assert normalize(name) == expected
 
 
@@ -40,7 +40,7 @@ def test_normalize(name, expected):
 				("baz.extensions", "baz.extensions"),
 				]
 		)
-def test_normalize_keep_dot(name, expected):
+def test_normalize_keep_dot(name: str, expected: str):
 	assert normalize_keep_dot(name) == expected
 
 

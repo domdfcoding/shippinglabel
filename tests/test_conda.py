@@ -1,7 +1,11 @@
+# stdlib
+from typing import List, Union
+
 # 3rd party
 import pytest
 from coincidence.regressions import AdvancedFileRegressionFixture
 from consolekit.utils import coloured_diff
+from domdf_python_tools.paths import PathPlus
 from packaging.requirements import InvalidRequirement
 
 # this package
@@ -16,7 +20,7 @@ from shippinglabel.conda import (
 from shippinglabel.requirements import ComparableRequirement
 
 
-def test_compile_requirements(tmp_pathplus):
+def test_compile_requirements(tmp_pathplus: PathPlus):
 	(tmp_pathplus / "requirements.txt").write_lines([
 			"apeye>=0.3.0",
 			"click==7.1.2",
@@ -50,7 +54,7 @@ def test_compile_requirements(tmp_pathplus):
 			]
 
 
-def test_compile_requirements_markers_url_extras(tmp_pathplus):
+def test_compile_requirements_markers_url_extras(tmp_pathplus: PathPlus):
 	(tmp_pathplus / "requirements.txt").write_lines([
 			'apeye>=0.3.0; python_version <= "3.9"',
 			"pip @ https://github.com/pypa/pip/archive/1.3.1.zip#sha1=da9234ee9982d4bbb3c72346a6de940a148ea686",
@@ -99,7 +103,7 @@ def test_prepare_requirements():
 			]
 
 
-def test_prepare_requirements_markers_url_extras(tmp_pathplus):
+def test_prepare_requirements_markers_url_extras():
 	requirements = [
 			'apeye>=0.3.0; python_version <= "3.9"',
 			"pip @ https://github.com/pypa/pip/archive/1.3.1.zip#sha1=da9234ee9982d4bbb3c72346a6de940a148ea686",
@@ -121,7 +125,7 @@ def test_prepare_requirements_markers_url_extras(tmp_pathplus):
 		"conda-forge",
 		True,
 		])
-def test_get_channel_listing(clear_cache):
+def test_get_channel_listing(clear_cache: Union[bool, str]):
 
 	if clear_cache:
 		if isinstance(clear_cache, str):
@@ -233,5 +237,9 @@ def test_validate_requirements_unsatisfied():
 				pytest.param(["conda-forge", "domdfcoding", "bioconda"], id="channels - e"),
 				]
 		)
-def test_make_conda_description(advanced_file_regression: AdvancedFileRegressionFixture, summary, channels):
+def test_make_conda_description(
+		advanced_file_regression: AdvancedFileRegressionFixture,
+		summary: str,
+		channels: List[str],
+		):
 	advanced_file_regression.check(make_conda_description(summary, channels), extension=".md")

@@ -3,14 +3,15 @@ import gzip
 import re
 import tarfile
 import zipfile
+from typing import Union
 from urllib.parse import urlparse
 
 # 3rd party
 import pytest
 from coincidence.regressions import AdvancedDataRegressionFixture, AdvancedFileRegressionFixture
+from domdf_python_tools.paths import PathPlus
 from packaging.requirements import InvalidRequirement
 from packaging.version import Version
-from pytest_regressions.data_regression import DataRegressionFixture
 
 # this package
 from shippinglabel.pypi import (
@@ -126,7 +127,13 @@ from shippinglabel.requirements import operator_symbols
 						),
 				]
 		)
-def test_bind_requirements(input_s, expected_retval, output, tmp_pathplus, cassette):
+@pytest.mark.usefixtures("cassette")
+def test_bind_requirements(
+		input_s: str,
+		expected_retval: int,
+		output: str,
+		tmp_pathplus: PathPlus,
+		):
 	path = tmp_pathplus / "requirements.txt"
 	path.write_text(input_s)
 
@@ -135,7 +142,7 @@ def test_bind_requirements(input_s, expected_retval, output, tmp_pathplus, casse
 	assert path.read_text() == output
 
 
-def test_bind_requirements_error(tmp_pathplus):
+def test_bind_requirements_error(tmp_pathplus: PathPlus):
 	path = tmp_pathplus / "requirements.txt"
 	path.write_text('bar\npkg-resources==0.0.0\ndocutils\n', )
 
@@ -147,14 +154,15 @@ def test_bind_requirements_error(tmp_pathplus):
 			bind_requirements(path, specifier=specifier)
 
 
-def uri_validator(x):
+def uri_validator(x) -> bool:  # noqa: MAN001
 	# Based on https://stackoverflow.com/a/38020041
 	# By https://stackoverflow.com/users/1668293/alemol and https://stackoverflow.com/users/953553/andilabs
 	result = urlparse(x)
 	return all([result.scheme, result.netloc, result.path])
 
 
-def test_get_pypi_releases(data_regression: DataRegressionFixture, module_cassette):
+@pytest.mark.usefixtures("module_cassette")
+def test_get_pypi_releases(advanced_data_regression: AdvancedDataRegressionFixture):
 	releases = get_pypi_releases("octocheese")
 	assert isinstance(releases, dict)
 
@@ -166,10 +174,11 @@ def test_get_pypi_releases(data_regression: DataRegressionFixture, module_casset
 		assert isinstance(url, str)
 		assert uri_validator(url)
 
-	data_regression.check(release_url_list)
+	advanced_data_regression.check(release_url_list)
 
 
-def test_get_releases_with_digests(data_regression: DataRegressionFixture, module_cassette):
+@pytest.mark.usefixtures("module_cassette")
+def test_get_releases_with_digests(advanced_data_regression: AdvancedDataRegressionFixture):
 	releases = get_releases_with_digests("octocheese")
 	assert isinstance(releases, dict)
 
@@ -180,10 +189,13 @@ def test_get_releases_with_digests(data_regression: DataRegressionFixture, modul
 		print(url)
 		assert isinstance(url, dict)
 
-	data_regression.check(release_url_list)
+	advanced_data_regression.check(release_url_list)
 
 
-def test_get_file_from_pypi(data_regression: DataRegressionFixture, tmp_pathplus):
+def test_get_file_from_pypi(
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		tmp_pathplus: PathPlus,
+		):
 	url = (
 			"https://files.pythonhosted.org/packages/fa/fb"
 			"/d301018af3f22bdbf34b624037e851561914c244a26add8278e4e7273578/octocheese-0.0.2.tar.gz"
@@ -229,46 +241,49 @@ def test_get_file_from_pypi(data_regression: DataRegressionFixture, tmp_pathplus
 
 	with tarfile.open(the_file, "r:gz") as tar:
 		assert {f.name for f in tar.getmembers()} == listing
-		data_regression.check(sorted({f.name for f in tar.getmembers()}))
+		advanced_data_regression.check(sorted({f.name for f in tar.getmembers()}))
 
 
-def test_get_latest(module_cassette):
+@pytest.mark.usefixtures("module_cassette")
+def test_get_latest():
 	assert get_latest("octocheese") == "0.2.1"
 
 
-def test_get_metadata(module_cassette, data_regression):
-	data_regression.check(get_metadata("octocheese"))
+@pytest.mark.usefixtures("module_cassette")
+def test_get_metadata(advanced_data_regression: AdvancedDataRegressionFixture):
+	advanced_data_regression.check(get_metadata("octocheese"))
 
 
-def test_metadata_nonexistant(cassette):
+@pytest.mark.usefixtures("cassette")
+def test_metadata_nonexistant():
 	with pytest.raises(InvalidRequirement, match="No such project 'FizzBuzz'"):
 		get_metadata("FizzBuzz")
 
 
-def _param(name, version):
+def _param(name: str, version: Union[str, Version]):  # noqa: MAN002
 	return pytest.param(name, version, id=name)
 
 
 @pytest.mark.parametrize("name, version", [_param("greppy", "0.0.0"), _param("domdf_python_tools", "1.2.3")])
-def test_get_sdist_url_no_version(name, version):
+def test_get_sdist_url_no_version(name: str, version: Union[str, Version]):
 	with pytest.raises(InvalidRequirement, match="Cannot find version .* on PyPI."):
 		get_sdist_url(name, version)
 
 
 @pytest.mark.parametrize("name, version", [_param("domdf_python_toolsz", "1.2.3")])
-def test_get_sdist_url_no_project(name, version):
+def test_get_sdist_url_no_project(name: str, version: Union[str, Version]):
 	with pytest.raises(InvalidRequirement, match="No such project .*"):
 		get_sdist_url(name, version)
 
 
 @pytest.mark.parametrize("name, version", [_param("microsoft", "0.0.1")])
-def test_get_sdist_url_no_files(name, version):
+def test_get_sdist_url_no_files(name: str, version: Union[str, Version]):
 	with pytest.raises(ValueError, match="Version 0.0.1 has no files on PyPI."):
 		get_sdist_url(name, version)
 
 
 @pytest.mark.parametrize("name, version", [_param("protobuf", "3.12.0")])
-def test_get_sdist_url_no_sdist(name, version):
+def test_get_sdist_url_no_sdist(name: str, version: Union[str, Version]):
 	with pytest.raises(ValueError, match="Version 3.12.0 has no sdist on PyPI."):
 		get_sdist_url(name, version, strict=True)
 
@@ -286,7 +301,11 @@ def test_get_sdist_url_no_sdist(name, version):
 				_param("numpy", Version("1.20.3")),
 				]
 		)
-def test_get_sdist_url(name, version, advanced_file_regression: AdvancedFileRegressionFixture):
+def test_get_sdist_url(
+		name: str,
+		version: Union[str, Version],
+		advanced_file_regression: AdvancedFileRegressionFixture,
+		):
 	advanced_file_regression.check(get_sdist_url(name, version))
 
 
@@ -298,24 +317,28 @@ def test_get_sdist_url(name, version, advanced_file_regression: AdvancedFileRegr
 				_param("shippinglabel", Version("0.12.0")),
 				]
 		)
-def test_get_wheel_url(name, version, advanced_file_regression: AdvancedFileRegressionFixture):
+def test_get_wheel_url(
+		name: str,
+		version: Union[str, Version],
+		advanced_file_regression: AdvancedFileRegressionFixture,
+		):
 	advanced_file_regression.check(get_wheel_url(name, version))
 
 
 @pytest.mark.parametrize("name, version", [_param("greppy", "0.0.0"), _param("domdf_python_tools", "1.2.3")])
-def test_get_wheel_url_no_version(name, version):
+def test_get_wheel_url_no_version(name: str, version: Union[str, Version]):
 	with pytest.raises(InvalidRequirement, match="Cannot find version .* on PyPI."):
 		get_wheel_url(name, version)
 
 
 @pytest.mark.parametrize("name, version", [_param("domdf_python_toolsz", "1.2.3")])
-def test_get_wheel_url_no_project(name, version):
+def test_get_wheel_url_no_project(name: str, version: Union[str, Version]):
 	with pytest.raises(InvalidRequirement, match="No such project .*"):
 		get_wheel_url(name, version)
 
 
 @pytest.mark.parametrize("name, version", [_param("microsoft", "0.0.1")])
-def test_get_wheel_url_no_files(name, version):
+def test_get_wheel_url_no_files(name: str, version: Union[str, Version]):
 	with pytest.raises(ValueError, match=f"Version {version} has no files on PyPI."):
 		get_wheel_url(name, version)
 
@@ -342,13 +365,17 @@ def test_get_wheel_url_no_wheels():
 				_param("numpy", Version("1.20.3")),
 				]
 		)
-def test_get_wheel_tag_mapping(name, version, advanced_data_regression: AdvancedDataRegressionFixture):
+def test_get_wheel_tag_mapping(
+		name: str,
+		version: Union[Version, str],
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		):
 	tag_url_map, non_wheel_urls = get_wheel_tag_mapping(name, version)
-	tag_url_map = dict(sorted((str(k), v) for k, v in tag_url_map.items()))  # type: ignore
-	advanced_data_regression.check((tag_url_map, non_wheel_urls))
+	tag_url_map_2 = dict(sorted((str(k), v) for k, v in tag_url_map.items()))
+	advanced_data_regression.check((tag_url_map_2, non_wheel_urls))
 
 
 @pytest.mark.parametrize("name, version", [_param("microsoft", "0.0.1")])
-def test_get_wheel_tag_mapping_no_files(name, version):
+def test_get_wheel_tag_mapping_no_files(name: str, version: Union[str, Version]):
 	with pytest.raises(ValueError, match=f"Version {version} has no files on PyPI."):
 		get_wheel_tag_mapping(name, version)

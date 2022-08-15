@@ -92,7 +92,7 @@ class ComparableRequirement(Requirement):
 					return False
 		return True
 
-	def __eq__(self, other) -> bool:
+	def __eq__(self, other) -> bool:  # noqa: MAN001
 
 		if isinstance(other, str):
 			try:
@@ -113,7 +113,7 @@ class ComparableRequirement(Requirement):
 		else:  # pragma: no cover
 			return NotImplemented
 
-	def __lt__(self, other) -> bool:
+	def __lt__(self, other) -> bool:  # noqa: MAN001
 		if isinstance(other, Requirement):
 			if self.name != other.name:
 				return self.name < other.name
@@ -128,21 +128,21 @@ class ComparableRequirement(Requirement):
 		else:  # pragma: no cover
 			return NotImplemented
 
-	def __le__(self, other) -> bool:
+	def __le__(self, other) -> bool:  # noqa: MAN001
 		if not isinstance(other, (Requirement, str)):  # pragma: no cover
 			return NotImplemented
 		if self < other or self == other:
 			return True
 		return False
 
-	def __ge__(self, other) -> bool:
+	def __ge__(self, other) -> bool:  # noqa: MAN001
 		if not isinstance(other, (Requirement, str)):  # pragma: no cover
 			return NotImplemented
 		if self > other or self == other:
 			return True
 		return False
 
-	def __gt__(self, other) -> bool:
+	def __gt__(self, other) -> bool:  # noqa: MAN001
 		if isinstance(other, Requirement):
 			if self.name != other.name:
 				return self.name > other.name
@@ -743,7 +743,7 @@ def parse_pyproject_extras(
 			}
 
 
-def _denormalize_ruamel(req: Requirement):
+def _denormalize_ruamel(req: Requirement) -> None:
 	if req.name in {"ruamel-yaml", "ruamel_yaml"}:
 		# Special case to work around issue with Poetry
 		req.name = "ruamel.yaml"

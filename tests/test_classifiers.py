@@ -1,5 +1,9 @@
+# stdlib
+from typing import List
+
 # 3rd party
 import pytest
+from coincidence.regressions import AdvancedDataRegressionFixture
 from consolekit.terminal_colours import Fore
 
 # this package
@@ -66,6 +70,9 @@ class TestValidateClassifiers:
 				pytest.param(["dulwich", "southwark"], id="dulwich_southwark"),
 				]
 		)
-def test_classifiers_from_requirements(tmp_pathplus, requirements, data_regression):
-	requirements = [ComparableRequirement(req) for req in requirements]
-	data_regression.check(list(classifiers_from_requirements(requirements)))
+def test_classifiers_from_requirements(
+		requirements: List[str],
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		):
+	requirements_list = [ComparableRequirement(req) for req in requirements]
+	advanced_data_regression.check(list(classifiers_from_requirements(requirements_list)))

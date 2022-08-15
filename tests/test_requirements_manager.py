@@ -3,6 +3,7 @@ import os
 from typing import List
 
 # 3rd party
+from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
 
 # this package
@@ -76,7 +77,7 @@ class DocRequirementsManager(RequirementsManager):
 		return comments
 
 
-def test_requirements_manager(tmp_pathplus):
+def test_requirements_manager(tmp_pathplus: PathPlus):
 
 	(tmp_pathplus / "requirements.txt").write_text('')
 	(tmp_pathplus / "doc-source").mkdir()
@@ -127,7 +128,7 @@ def test_requirements_manager(tmp_pathplus):
 			]
 
 
-def test_requirements_manager_extras(tmp_pathplus):
+def test_requirements_manager_extras(tmp_pathplus: PathPlus):
 
 	(tmp_pathplus / "requirements.txt").write_text("domdf_python_tools>=1.5.0")
 	(tmp_pathplus / "doc-source").mkdir()

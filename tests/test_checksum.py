@@ -82,7 +82,7 @@ def test_get_record_entry(reference_file_a: PathPlus):
 	assert entry == f"{os.path.basename(reference_file_a)},sha256=gwZe_e3TgdqUObhaJw6pYp8bpG2cfXsYWLtw5U1fZkw,154911"
 
 
-def test_checksum_from_pypi(tmp_pathplus):
+def test_checksum_from_pypi(tmp_pathplus: PathPlus):
 	for idx, (release, files) in enumerate(get_releases_with_digests("shippinglabel").items()):
 		for file in files:
 			get_file_from_pypi(file["url"], tmp_pathplus)

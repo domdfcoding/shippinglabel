@@ -21,8 +21,8 @@ from tests.test_requirements import min_38, only_36, only_37
 # @pytest.mark.parametrize("depth", [3])
 def test_list_requirements(
 		data_regression: DataRegressionFixture,
-		library,
-		depth,
-		py_version,
+		library: str,
+		depth: int,
+		py_version: str,
 		):
 	data_regression.check(list(list_requirements(library, depth=depth)))

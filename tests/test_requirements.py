@@ -9,6 +9,7 @@ from domdf_python_tools.paths import PathPlus
 from packaging.requirements import Requirement
 from packaging.specifiers import Specifier, SpecifierSet
 from pytest_regressions.data_regression import DataRegressionFixture
+from typing_extensions import Literal
 
 # this package
 from shippinglabel.requirements import (
@@ -27,7 +28,7 @@ from shippinglabel.requirements import (
 class TestComparableRequirement:
 
 	@pytest.fixture(scope="class")
-	def req(self):
+	def req(self) -> ComparableRequirement:
 		return ComparableRequirement('pytest==6.0.0; python_version <= "3.9"')
 
 	@pytest.mark.parametrize(
@@ -44,7 +45,7 @@ class TestComparableRequirement:
 					"pytest",
 					]
 			)
-	def test_eq(self, req, other):
+	def test_eq(self, req: ComparableRequirement, other: Union[str, ComparableRequirement]):
 		assert req == req
 		assert req == other
 
@@ -62,7 +63,11 @@ class TestComparableRequirement:
 					Requirement("pytest[extra]"),
 					]
 			)
-	def test_gt(self, req, other):
+	def test_gt(
+			self,
+			req: ComparableRequirement,
+			other: Union[str, ComparableRequirement],
+			):
 		assert req < other
 
 	@pytest.mark.parametrize(
@@ -75,7 +80,11 @@ class TestComparableRequirement:
 					Requirement("apeye==1.2.3"),
 					]
 			)
-	def test_lt(self, req, other):
+	def test_lt(
+			self,
+			req: ComparableRequirement,
+			other: Union[str, ComparableRequirement],
+			):
 		assert req > other
 
 	@pytest.mark.parametrize(
@@ -97,7 +106,11 @@ class TestComparableRequirement:
 					"pytest",
 					]
 			)
-	def test_ge(self, req, other):
+	def test_ge(
+			self,
+			req: ComparableRequirement,
+			other: Union[str, ComparableRequirement],
+			):
 		assert req <= other
 		assert req <= req
 
@@ -120,7 +133,11 @@ class TestComparableRequirement:
 					"pytest",
 					]
 			)
-	def test_le(self, req, other):
+	def test_le(
+			self,
+			req: ComparableRequirement,
+			other: Union[str, ComparableRequirement],
+			):
 		assert req >= other
 		assert req >= req
 
@@ -216,7 +233,10 @@ def test_combine_requirements_differing_precision():
 						),
 				]
 		)
-def test_combine_requirements_markers(reqs, combined):
+def test_combine_requirements_markers(
+		reqs: List[ComparableRequirement],
+		combined: List[ComparableRequirement],
+		):
 	assert combine_requirements(reqs) == combined
 
 
@@ -233,7 +253,7 @@ def test_combine_requirements_markers(reqs, combined):
 				([Specifier("<1.2.2"), Specifier(">2")], SpecifierSet("<1.2.2,>2")),
 				]
 		)
-def test_resolve_specifiers(specifiers, resolved):
+def test_resolve_specifiers(specifiers: List[Specifier], resolved: SpecifierSet):
 	assert resolve_specifiers(specifiers) == resolved
 
 
@@ -298,7 +318,7 @@ requirements_c = [
 				]
 		)
 def test_read_requirements(
-		tmp_pathplus,
+		tmp_pathplus: PathPlus,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		requirements: List[str],
 		):
@@ -361,7 +381,7 @@ def test_read_requirements_invalid(
 		"Ignored invalid requirement 'domdf-sphinx-theme!!!0.1.0'",
 		"Ignored invalid requirement 'https://bbc.co.uk'",
 		]):
-		assert record[idx].message.args[0] == warning  # type: ignore
+		assert record[idx].message.args[0] == warning  # type: ignore[union-attr]
 
 	advanced_data_regression.check([str(x) for x in sorted(requirements)])
 	assert comments == ["# another comment", "   # a comment"]
@@ -420,13 +440,13 @@ def test_comparable_requirement():
 	assert ComparableRequirement("foo") == ComparableRequirement("foo")
 	assert ComparableRequirement("foo>=1.2.3") == ComparableRequirement("foo >= 1.2.3")
 
-	def req_with_marker():
+	def req_with_marker() -> ComparableRequirement:
 		return ComparableRequirement('importlib-metadata>=1.5.0; python_version < "3.8"')
 
-	def req_without_marker():
+	def req_without_marker() -> ComparableRequirement:
 		return ComparableRequirement("importlib-metadata>=1.5.0")
 
-	def req_with_different_marker():
+	def req_with_different_marker() -> ComparableRequirement:
 		return ComparableRequirement('importlib-metadata>=1.5.0; python_version < "3.10"')
 
 	assert req_with_marker() == req_with_marker()
@@ -482,12 +502,12 @@ only_310 = pytest.param("3.10", marks=only_version((3, 10), reason="Output diffe
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
 # @pytest.mark.parametrize("depth", [3])
 def test_list_requirements(
-		data_regression: DataRegressionFixture,
-		library,
-		depth,
-		py_version,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		library: str,
+		depth: int,
+		py_version: str,
 		):
-	data_regression.check(list(list_requirements(library, depth=depth)))
+	advanced_data_regression.check(list(list_requirements(library, depth=depth)))
 
 
 @not_windows("Output differs on Windows")
@@ -500,14 +520,14 @@ def test_list_requirements(
 # @pytest.mark.parametrize("depth", [3])
 def test_list_requirements_pytest(
 		data_regression: DataRegressionFixture,
-		depth,
-		py_version,
+		depth: int,
+		py_version: str,
 		):
 	data_regression.check(list(list_requirements("pytest", depth=depth)))
 
 
 @pytest.fixture()
-def pyproject_toml(tmp_pathplus: PathPlus):
+def pyproject_toml(tmp_pathplus: PathPlus) -> PathPlus:
 
 	filename = (tmp_pathplus / "pyproject.toml")
 	filename.write_lines([
@@ -548,9 +568,9 @@ def pyproject_toml(tmp_pathplus: PathPlus):
 def test_parse_pyproject_dependencies(
 		pyproject_toml: PathPlus,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		flavour: str,
+		flavour: Literal["auto", "pep621", "flit"],
 		):
-	deps = parse_pyproject_dependencies(pyproject_toml, flavour)  # type: ignore
+	deps = parse_pyproject_dependencies(pyproject_toml, flavour)
 	advanced_data_regression.check(sorted(str(x) for x in deps))
 
 
@@ -558,7 +578,7 @@ def test_parse_pyproject_dependencies(
 def test_parse_pyproject_extras(
 		pyproject_toml: PathPlus,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		flavour: str,
+		flavour: Literal["auto", "pep621", "flit"],
 		):
-	extras = parse_pyproject_extras(pyproject_toml, flavour)  # type: ignore
+	extras = parse_pyproject_extras(pyproject_toml, flavour)
 	advanced_data_regression.check({k: sorted(str(x) for x in v) for k, v in extras.items()})

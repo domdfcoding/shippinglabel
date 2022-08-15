@@ -1,9 +1,10 @@
 # stdlib
-from typing import Callable, Type, TypeVar
+from typing import Callable, Iterator, Type, TypeVar
 
 # 3rd party
 import pytest
 from _pytest.fixtures import FixtureRequest
+from apeye.slumber_url import SlumberURL
 from apeye.url import URL
 from betamax import Betamax  # type: ignore
 from domdf_python_tools.paths import PathPlus
@@ -22,7 +23,7 @@ with Betamax.configure() as config:
 
 
 @pytest.fixture()
-def cassette(request: FixtureRequest):
+def cassette(request: FixtureRequest) -> Iterator[SlumberURL]:
 	"""
 	Provides a Betamax cassette scoped to the test function
 	which record and plays back interactions with the PyPI API.
@@ -35,7 +36,7 @@ def cassette(request: FixtureRequest):
 
 
 @pytest.fixture()
-def module_cassette(request: FixtureRequest):
+def module_cassette(request: FixtureRequest) -> Iterator[SlumberURL]:
 	"""
 	Provides a Betamax cassette scoped to the test module
 	which record and plays back interactions with the PyPI API.
@@ -50,7 +51,7 @@ def module_cassette(request: FixtureRequest):
 		yield PYPI_API
 
 
-def _representer_for(*data_type: Type):
+def _representer_for(*data_type: Type):  # noqa: MAN002
 
 	def deco(representer_fn: _C) -> _C:
 		for dtype in data_type:
@@ -62,5 +63,5 @@ def _representer_for(*data_type: Type):
 
 
 @_representer_for(URL, Tag)
-def _represent_sequences(dumper: RegressionYamlDumper, data):
+def _represent_sequences(dumper: RegressionYamlDumper, data):  # noqa: MAN001,MAN002
 	return dumper.represent_str(str(data))
