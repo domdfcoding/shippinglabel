@@ -60,8 +60,8 @@ shippinglabel
 		:workflow: mypy
 		:alt: mypy status
 
-	.. |requires| image:: https://dependency-dash.herokuapp.com/github/domdfcoding/shippinglabel/badge.svg
-		:target: https://dependency-dash.herokuapp.com/github/domdfcoding/shippinglabel/
+	.. |requires| image:: https://dependency-dash.repo-helper.uk/github/domdfcoding/shippinglabel/badge.svg
+		:target: https://dependency-dash.repo-helper.uk/github/domdfcoding/shippinglabel/
 		:alt: Requirements Status
 
 	.. |coveralls| coveralls-shield::
