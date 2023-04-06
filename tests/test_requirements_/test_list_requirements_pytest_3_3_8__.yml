@@ -1,7 +1,6 @@
 - attrs>=19.2.0
+- exceptiongroup>=1.0.0rc8; python_version < "3.11"
 - iniconfig
 - packaging
-- - pyparsing!=3.0.5,>=2.0.2
 - pluggy<2.0,>=0.12
-- py>=1.8.2
-- tomli>=1.0.0
+- tomli>=1.0.0; python_version < "3.11"
