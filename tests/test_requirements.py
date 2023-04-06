@@ -377,7 +377,8 @@ def test_read_requirements_invalid(
 	# check that the message matches
 
 	for idx, warning in enumerate([
-		"Creating a LegacyVersion has been deprecated and will be removed in the next major release",
+		# "Creating a LegacyVersion has been deprecated and will be removed in the next major release",
+		"Ignored invalid requirement 'autodocsumm>=apples'",
 		"Ignored invalid requirement 'domdf-sphinx-theme!!!0.1.0'",
 		"Ignored invalid requirement 'https://bbc.co.uk'",
 		]):
