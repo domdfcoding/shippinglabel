@@ -2,6 +2,6 @@
 - msgpack>=0.5.2
 - requests
 - - certifi>=2017.4.17
-  - charset-normalizer<3,>=2
+  - charset-normalizer<4,>=2
   - idna<4,>=2.5
   - urllib3<1.27,>=1.21.1

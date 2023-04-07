@@ -1,4 +1,5 @@
 # stdlib
+import sys
 from typing import List, Sequence, Union
 
 # 3rd party
@@ -352,6 +353,7 @@ def test_parse_requirements(
 	advanced_data_regression.check([str(x) for x in sorted(parse_requirements(requirements)[0])])
 
 
+@min_version("3.7", reason="Latest packaging is 3.7+")
 def test_read_requirements_invalid(
 		tmp_pathplus: PathPlus,
 		advanced_data_regression: AdvancedDataRegressionFixture,
@@ -374,14 +376,49 @@ def test_read_requirements_invalid(
 
 	# check that only one warning was raised
 	assert len(record) == 3
-	# check that the message matches
 
+	# check that the messages match
 	for idx, warning in enumerate([
-		# "Creating a LegacyVersion has been deprecated and will be removed in the next major release",
 		"Ignored invalid requirement 'autodocsumm>=apples'",
 		"Ignored invalid requirement 'domdf-sphinx-theme!!!0.1.0'",
 		"Ignored invalid requirement 'https://bbc.co.uk'",
-		]):
+	]):
+		assert record[idx].message.args[0] == warning  # type: ignore[union-attr]
+
+	advanced_data_regression.check([str(x) for x in sorted(requirements)])
+	assert comments == ["# another comment", "   # a comment"]
+
+
+@only_version("3.6", reason="Latest packaging is 3.7+")
+def test_read_requirements_invalid_py36(
+		tmp_pathplus: PathPlus,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		):
+	(tmp_pathplus / "requirements.txt").write_lines([
+			"# another comment",
+			"autodocsumm>=apples",
+			"default-value---0.2.0",
+			"domdf-sphinx-theme!!!0.1.0",
+			"0.2.0",
+			'',
+			'',
+			"https://bbc.co.uk",
+			"toctree-plus>=0.0.4",
+			"   # a comment",
+			])
+
+	with pytest.warns(UserWarning) as record:
+		requirements, comments = read_requirements(tmp_pathplus / "requirements.txt")
+
+	# check that only one warning was raised
+	assert len(record) == 3
+
+	# check that the messages match
+	for idx, warning in enumerate([
+		"Creating a LegacyVersion has been deprecated and will be removed in the next major release",
+		"Ignored invalid requirement 'domdf-sphinx-theme!!!0.1.0'",
+		"Ignored invalid requirement 'https://bbc.co.uk'",
+	]):
 		assert record[idx].message.args[0] == warning  # type: ignore[union-attr]
 
 	advanced_data_regression.check([str(x) for x in sorted(requirements)])
@@ -479,6 +516,7 @@ only_36 = pytest.param("3.6", marks=only_version((3, 6), reason="Output differs 
 only_37 = pytest.param("3.7", marks=only_version((3, 7), reason="Output differs on Python 3.7"))
 only_38 = pytest.param("3.8", marks=only_version((3, 8), reason="Output differs on Python 3.8"))
 min_38 = pytest.param("3.8+", marks=min_version((3, 8), reason="Output differs on Python 3.8+"))
+min_311 = pytest.param("3.11+", marks=min_version((3, 11), reason="Output differs on Python 3.11+"))
 only_39 = pytest.param("3.9", marks=only_version((3, 9), reason="Output differs on Python 3.9"))
 only_310 = pytest.param("3.10", marks=only_version((3, 10), reason="Output differs on Python 3.10"))
 
@@ -515,7 +553,8 @@ def test_list_requirements(
 @pytest.mark.parametrize("py_version", [
 		only_36,
 		only_37,
-		min_38,
+		pytest.param("3.8+", marks=pytest.mark.skipif(not ((3, 8) <= sys.version_info[:2] < (3, 11)), reason="Output differs on Python 3.8, 3.9, 3.10")),
+		min_311,
 		])
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
 # @pytest.mark.parametrize("depth", [3])

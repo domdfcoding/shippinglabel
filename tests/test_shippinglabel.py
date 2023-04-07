@@ -1,7 +1,7 @@
 # 3rd party
 import pytest
 from coincidence.regressions import AdvancedDataRegressionFixture
-from coincidence.selectors import min_version
+from coincidence.selectors import min_version, only_version
 from domdf_python_tools.paths import PathPlus
 
 # this package
@@ -87,12 +87,20 @@ def test_read_pyvenv(tmp_pathplus: PathPlus, advanced_data_regression: AdvancedD
 		"project",
 		[
 				"pip",
-				"packaging",
 				"domdf_python_tools",
 				"sphinx",
 				pytest.param(
 						"setuptools",
 						marks=min_version("3.7", reason="Latest setuptools requires Python 3.7+"),
+						),
+				pytest.param(
+						"packaging",
+						marks=min_version("3.7", reason="Latest setuptools requires Python 3.7+"),
+						),
+				pytest.param(
+						"packaging",
+						marks=only_version("3.6", reason="Latest setuptools requires Python 3.7+"),
+						id="packaging_py36"
 						),
 				"whey",
 				"numpy",
