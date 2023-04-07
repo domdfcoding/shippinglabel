@@ -2,7 +2,4 @@
 - colorama; sys_platform == "win32"
 - iniconfig
 - packaging
-- - pyparsing!=3.0.5,>=2.0.2
 - pluggy<2.0,>=0.12
-- py>=1.8.2
-- tomli>=1.0.0

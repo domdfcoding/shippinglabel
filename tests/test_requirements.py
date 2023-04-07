@@ -550,12 +550,21 @@ def test_list_requirements(
 
 
 @not_windows("Output differs on Windows")
-@pytest.mark.parametrize("py_version", [
-		only_36,
-		only_37,
-		pytest.param("3.8+", marks=pytest.mark.skipif(not ((3, 8) <= sys.version_info[:2] < (3, 11)), reason="Output differs on Python 3.8, 3.9, 3.10")),
-		min_311,
-		])
+@pytest.mark.parametrize(
+		"py_version",
+		[
+				only_36,
+				only_37,
+				pytest.param(
+						"3.8+",
+						marks=pytest.mark.skipif(
+								not ((3, 8) <= sys.version_info[:2] < (3, 11)),
+								reason="Output differs on Python 3.8, 3.9, 3.10"
+								)
+						),
+				min_311,
+				]
+		)
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
 # @pytest.mark.parametrize("depth", [3])
 def test_list_requirements_pytest(
