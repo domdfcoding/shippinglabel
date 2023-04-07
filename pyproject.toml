@@ -146,7 +146,7 @@ license-key = "MIT"
 additional-files = [ "recursive-include shippinglabel/_vendor *", "prune **/__pycache__",]
 
 [tool.mypy]
-python_version = "3.6"
+python_version = "3.8"
 namespace_packages = true
 check_untyped_defs = true
 warn_unused_ignores = true
