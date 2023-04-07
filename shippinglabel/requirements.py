@@ -36,6 +36,7 @@ from abc import ABC
 from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union, cast, overload
 
 # 3rd party
+import dist_meta
 import dom_toml
 from domdf_python_tools.compat import importlib_metadata
 from domdf_python_tools.doctools import prettify_docstrings
@@ -604,9 +605,11 @@ def list_requirements(name: str, depth: int = 1) -> Iterator[Union[str, List[str
 	req = ComparableRequirement(name)
 
 	try:
-		raw_deps = importlib_metadata.requires(req.name) or []
-	except importlib_metadata.PackageNotFoundError:
+		distro = dist_meta.distributions.get_distribution(req.name)
+	except dist_meta.distributions.DistributionNotFoundError:
 		return
+
+	raw_deps = distro.get_metadata().get_all("Requires-Dist") or []
 
 	for requirement in [ComparableRequirement(r) for r in sorted(raw_deps)]:
 		if requirement.marker:
