@@ -108,7 +108,7 @@ shippinglabel
 	:target: https://github.com/domdfcoding/shippinglabel/commit/master
 	:alt: GitHub last commit
 
-.. |maintained| image:: https://img.shields.io/maintenance/yes/2022
+.. |maintained| image:: https://img.shields.io/maintenance/yes/2023
 	:alt: Maintenance
 
 .. |pypi-downloads| image:: https://img.shields.io/pypi/dm/shippinglabel
@@ -132,17 +132,9 @@ To install with ``pip``:
 
 To install with ``conda``:
 
-	* First add the required channels
+.. code-block:: bash
 
-	.. code-block:: bash
-
-		$ conda config --add channels https://conda.anaconda.org/conda-forge
-
-	* Then install
-
-	.. code-block:: bash
-
-		$ conda install shippinglabel
+	$ conda install -c conda-forge shippinglabel
 
 .. end installation
 
