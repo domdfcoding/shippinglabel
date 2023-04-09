@@ -1,4 +1,3 @@
-- attrs>=19.2.0
 - iniconfig
 - packaging
 - pluggy<2.0,>=0.12
