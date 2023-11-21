@@ -1,5 +1,6 @@
-Bug Tracker: https://github.com/numpy/numpy/issues
-Documentation: https://numpy.org/doc/1.24
-Download: https://pypi.python.org/pypi/numpy
-Homepage: https://www.numpy.org
-Source Code: https://github.com/numpy/numpy
+Documentation: https://numpy.org/doc/
+Download: https://pypi.org/project/numpy/#files
+Homepage: https://numpy.org
+Release notes: https://numpy.org/doc/stable/release
+Source: https://github.com/numpy/numpy
+Tracker: https://github.com/numpy/numpy/issues
