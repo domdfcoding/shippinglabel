@@ -23,6 +23,12 @@
     - charset-normalizer~=2.0.0; python_version >= "3"
     - idna<4,>=2.5; python_version >= "3"
     - urllib3<1.27,>=1.21.1
+- deprecation-alias>=0.3.2
+- - deprecation>=2.1.0
+  - - packaging
+    - - pyparsing!=3.0.5,>=2.0.2
+  - packaging>=20.4
+  - - pyparsing!=3.0.5,>=2.0.2
 - dist-meta>=0.1.2
 - - domdf-python-tools>=3.1.0
   - - importlib-metadata>=3.6.0; python_version < "3.9"

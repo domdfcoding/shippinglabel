@@ -3,6 +3,9 @@
   - domdf-python-tools>=2.6.0
   - platformdirs>=2.3.0
   - requests>=2.24.0
+- deprecation-alias>=0.3.2
+- - deprecation>=2.1.0
+  - packaging>=20.4
 - dist-meta>=0.1.2
 - - domdf-python-tools>=3.1.0
   - handy-archives>=0.1.0
