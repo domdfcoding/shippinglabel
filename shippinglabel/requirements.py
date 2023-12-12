@@ -31,6 +31,7 @@ Utilities for working with :pep:`508` requirements.
 #
 
 # stdlib
+import copy
 import warnings
 from abc import ABC
 from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union, cast, overload
@@ -311,9 +312,9 @@ def combine_requirements(
 					other_req.specifier = resolve_specifiers(other_req.specifier)
 					break
 			else:
-				merged_requirements.append(req)
+				merged_requirements.append(copy.deepcopy(req))
 		else:
-			merged_requirements.append(req)
+			merged_requirements.append(copy.deepcopy(req))
 
 	return merged_requirements
 

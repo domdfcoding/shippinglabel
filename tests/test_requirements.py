@@ -158,6 +158,20 @@ def test_combine_requirements():
 	assert str(combine_requirements(reqs)[0].specifier) == "==3.2.1,==3.2.3,==3.2.5,>2.5"
 
 
+def test_combine_requirements_no_mutation():
+	# Input objects should not be mutated
+	reqs = [
+			ComparableRequirement("foo>2"),
+			ComparableRequirement("foo>2.5"),
+			]
+	assert combine_requirements(reqs) == [ComparableRequirement("foo>2.5")]
+
+	assert reqs == [
+			ComparableRequirement("foo>2"),
+			ComparableRequirement("foo>2.5"),
+			]
+
+
 def test_combine_requirements_duplicates():
 	reqs = [
 			ComparableRequirement('typing-extensions>=3.6.4; python_version < "3.8"'),
