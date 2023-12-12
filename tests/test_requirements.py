@@ -6,6 +6,7 @@ from typing import List, Sequence, Union
 import pytest
 from coincidence.regressions import AdvancedDataRegressionFixture
 from coincidence.selectors import min_version, not_windows, only_version
+from deprecation import fail_if_not_removed  # type: ignore[import]
 from domdf_python_tools.paths import PathPlus
 from packaging.requirements import Requirement
 from packaging.specifiers import Specifier, SpecifierSet
@@ -458,6 +459,7 @@ def test_sort_mixed_requirements():
 			]
 
 
+@fail_if_not_removed
 def test_check_dependencies(capsys):
 	deps = ["pytest", "domdf_python_tools", "madeup_module"]
 

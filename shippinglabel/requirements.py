@@ -37,9 +37,9 @@ from abc import ABC
 from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union, cast, overload
 
 # 3rd party
+import deprecation_alias
 import dist_meta
 import dom_toml
-from domdf_python_tools.compat import importlib_metadata
 from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.iterative import natmax, natmin
 from domdf_python_tools.paths import PathPlus
@@ -51,7 +51,7 @@ from packaging.specifiers import BaseSpecifier, Specifier, SpecifierSet
 from typing_extensions import Literal
 
 # this package
-from shippinglabel import normalize
+from shippinglabel import __version__, normalize
 
 __all__ = [
 		"ComparableRequirement",
@@ -631,6 +631,7 @@ def list_requirements(name: str, depth: int = 1) -> Iterator[Union[str, List[str
 				yield deps
 
 
+@deprecation_alias.deprecated(deprecated_in="1.6.0", removed_in="2.0", current_version=__version__)
 def check_dependencies(dependencies: Iterable[str], prt: bool = True) -> List[str]:
 	"""
 	Check whether one or more dependencies are available to be imported.
