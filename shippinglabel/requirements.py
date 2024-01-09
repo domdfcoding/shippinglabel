@@ -580,7 +580,11 @@ def marker_environment(extra: str) -> Dict[str, str]:
 	return env
 
 
-def list_requirements(name: str, depth: int = 1) -> Iterator[Union[str, List[str], List[Union[str, List]]]]:
+def list_requirements(
+		name: str,
+		depth: int = 1,
+		path: Optional[Iterable[PathLike]] = None,
+		) -> Iterator[Union[str, List[str], List[Union[str, List]]]]:
 	"""
 	Returns an iterator over the requirements of the given library, and the requirements of those requirements.
 
@@ -599,14 +603,18 @@ def list_requirements(name: str, depth: int = 1) -> Iterator[Union[str, List[str
 
 	:param name:
 	:param depth:
+	:param path: The directories entries to search for distributions in.
+		This can be used to search in a different (virtual) environment.
+	:default path: :py:data:`sys.path`
 
 	.. versionchanged:: 0.8.2  The requirements are now sorted alphabetically.
+	.. versionchanged:: 1.7.0  Added the ``path`` argument.
 	"""
 
 	req = ComparableRequirement(name)
 
 	try:
-		distro = dist_meta.distributions.get_distribution(req.name)
+		distro = dist_meta.distributions.get_distribution(req.name, path=path)
 	except dist_meta.distributions.DistributionNotFoundError:
 		return
 

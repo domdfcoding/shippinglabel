@@ -29,7 +29,7 @@ Utilities for handling packages.
 # stdlib
 import re
 import warnings
-from typing import Dict, Iterable, List
+from typing import Dict, Iterable, List, Optional
 
 # 3rd party
 import dist_meta.distributions
@@ -136,7 +136,10 @@ class ProjectLinks(MetadataMapping):
 	pass
 
 
-def get_project_links(project_name: str) -> MetadataMapping:
+def get_project_links(
+		project_name: str,
+		path: Optional[Iterable[PathLike]] = None,
+		) -> MetadataMapping:
 	"""
 	Returns the web links for the given project.
 
@@ -145,6 +148,9 @@ def get_project_links(project_name: str) -> MetadataMapping:
 	.. versionadded:: 0.12.0
 
 	:param project_name:
+	:param path: The directories entries to search for distributions in.
+		This can be used to search in a different (virtual) environment.
+	:default path: :py:data:`sys.path`
 
 	:rtype:
 
@@ -154,6 +160,8 @@ def get_project_links(project_name: str) -> MetadataMapping:
 
 		The :core-meta:`Home-Page` field from Python core metadata is included under the ``Homepage`` key, if present.
 		This matches the output parsed from PyPI for packages which are not installed.
+
+	.. versionchanged:: 1.7.0  Added the ``path`` argument.
 	"""
 
 	# this package
@@ -170,7 +178,7 @@ def get_project_links(project_name: str) -> MetadataMapping:
 	urls = ProjectLinks()
 
 	try:
-		dist = dist_meta.distributions.get_distribution(project_name)
+		dist = dist_meta.distributions.get_distribution(project_name, path=path)
 		meta = dist.get_metadata()
 		raw_urls = meta.get_all("Project-URL", default=())
 
