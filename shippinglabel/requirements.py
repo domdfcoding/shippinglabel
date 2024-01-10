@@ -634,7 +634,7 @@ def list_requirements(
 			yield str(requirement)
 
 		if depth != 0:
-			deps = list(list_requirements(str(requirement), depth=depth - 1))
+			deps = list(list_requirements(str(requirement), depth=depth - 1, path=path))
 			if deps:
 				yield deps
 
