@@ -1,4 +1,4 @@
 - colorama; sys_platform == "win32"
 - iniconfig
 - packaging
-- pluggy<2.0,>=0.12
+- pluggy<2.0,>=1.4
