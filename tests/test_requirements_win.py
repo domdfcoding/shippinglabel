@@ -1,10 +1,10 @@
 # stdlib
 import sys
-from coincidence.regressions import AdvancedDataRegressionFixture
 
 # 3rd party
 import pytest
 from coincidence import only_windows
+from coincidence.regressions import AdvancedDataRegressionFixture
 
 # this package
 from shippinglabel.requirements import list_requirements
