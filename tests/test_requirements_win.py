@@ -1,10 +1,10 @@
 # stdlib
 import sys
+from coincidence.regressions import AdvancedDataRegressionFixture
 
 # 3rd party
 import pytest
 from coincidence import only_windows
-from pytest_regressions.data_regression import DataRegressionFixture
 
 # this package
 from shippinglabel.requirements import list_requirements
@@ -29,8 +29,8 @@ from tests.test_requirements import min_311, only_36, only_37
 		)
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
 def test_list_requirements_pytest(
-		data_regression: DataRegressionFixture,
+		advanced_data_regression: AdvancedDataRegressionFixture,
 		depth: int,
 		py_version: str,
 		):
-	data_regression.check(list(list_requirements("pytest", depth=depth)))
+	advanced_data_regression.check(list(list_requirements("pytest", depth=depth)))

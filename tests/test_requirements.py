@@ -10,7 +10,6 @@ from deprecation import fail_if_not_removed  # type: ignore[import]
 from domdf_python_tools.paths import PathPlus
 from packaging.requirements import Requirement
 from packaging.specifiers import Specifier, SpecifierSet
-from pytest_regressions.data_regression import DataRegressionFixture
 from typing_extensions import Literal
 
 # this package
@@ -584,11 +583,11 @@ def test_list_requirements(
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
 # @pytest.mark.parametrize("depth", [3])
 def test_list_requirements_pytest(
-		data_regression: DataRegressionFixture,
+		advanced_data_regression: AdvancedDataRegressionFixture,
 		depth: int,
 		py_version: str,
 		):
-	data_regression.check(list(list_requirements("pytest", depth=depth)))
+	advanced_data_regression.check(list(list_requirements("pytest", depth=depth)))
 
 
 @pytest.fixture()
