@@ -12,7 +12,7 @@
   - packaging>=20.9
 - dom-toml>=0.2.2
 - - domdf-python-tools>=2.8.0
-  - toml>=0.10.2
+  - tomli>=1.2.3
 - domdf-python-tools>=3.1.0
 - - importlib-metadata>=3.6.0; python_version < "3.9"
   - natsort>=7.0.1
