@@ -31,13 +31,12 @@ classifiers = [
 ]
 dynamic = [ "dependencies",]
 
+[project.license]
+file = "LICENSE"
+
 [[project.authors]]
 name = "Dominic Davis-Foster"
 email = "dominic@davis-foster.co.uk"
-
-
-[project.license]
-file = "LICENSE"
 
 [project.urls]
 Homepage = "https://github.com/domdfcoding/shippinglabel"
@@ -156,6 +155,16 @@ show_error_codes = true
 [tool.snippet-fmt]
 directives = [ "code-block",]
 
+[tool.snippet-fmt.languages.python]
+reformat = true
+
+[tool.snippet-fmt.languages.TOML]
+reformat = true
+
+[tool.snippet-fmt.languages.ini]
+
+[tool.snippet-fmt.languages.json]
+
 [tool.vendoring]
 destination = "shippinglabel/_vendor/"
 requirements = "shippinglabel/_vendor/requirements.txt"
@@ -177,13 +186,3 @@ include = false
 [tool.dependency-dash."doc-source/requirements.txt"]
 order = 30
 include = false
-
-[tool.snippet-fmt.languages.python]
-reformat = true
-
-[tool.snippet-fmt.languages.TOML]
-reformat = true
-
-[tool.snippet-fmt.languages.ini]
-
-[tool.snippet-fmt.languages.json]
