@@ -575,7 +575,7 @@ class RequirementsManager(ABC):
 
 
 def marker_environment(extra: str) -> Dict[str, str]:
-	env: Dict[str, str] = default_environment()
+	env: Dict[str, str] = default_environment()  # type: ignore[assignment]
 	env["extra"] = extra
 	return env
 
