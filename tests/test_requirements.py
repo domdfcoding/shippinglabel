@@ -6,7 +6,6 @@ from typing import List, Sequence, Union
 import pytest
 from coincidence.regressions import AdvancedDataRegressionFixture
 from coincidence.selectors import min_version, not_windows, only_version
-from deprecation import fail_if_not_removed  # type: ignore[import]
 from domdf_python_tools.paths import PathPlus
 from packaging.requirements import Requirement
 from packaging.specifiers import Specifier, SpecifierSet
@@ -15,7 +14,6 @@ from typing_extensions import Literal
 # this package
 from shippinglabel.requirements import (
 		ComparableRequirement,
-		check_dependencies,
 		combine_requirements,
 		list_requirements,
 		parse_pyproject_dependencies,
@@ -456,36 +454,6 @@ def test_sort_mixed_requirements():
 			ComparableRequirement("six==1.15.0"),
 			"urllib3",
 			]
-
-
-@fail_if_not_removed
-def test_check_dependencies(capsys):
-	deps = ["pytest", "domdf_python_tools", "madeup_module"]
-
-	missing_deps = check_dependencies(deps, False)
-	assert isinstance(missing_deps, list)
-	assert len(missing_deps) == 1
-	assert missing_deps == ["madeup_module"]
-
-	missing_deps = check_dependencies(deps)
-	captured = capsys.readouterr()
-	stdout = captured.out.split('\n')
-	assert stdout[0] == "The following modules are missing:"
-	assert stdout[1] == "['madeup_module']"
-	assert stdout[2] == "Please check the documentation."
-	assert stdout[3] == ''
-	assert isinstance(missing_deps, list)
-	assert len(missing_deps) == 1
-	assert missing_deps == ["madeup_module"]
-
-	missing_deps = check_dependencies(["pytest"])
-	captured = capsys.readouterr()
-	stdout = captured.out.split('\n')
-	assert stdout[0] == "All modules installed"
-	assert stdout[1] == ''
-	assert isinstance(missing_deps, list)
-	assert len(missing_deps) == 0
-	assert missing_deps == []
 
 
 def test_comparable_requirement():

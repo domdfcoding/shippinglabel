@@ -5,14 +5,7 @@ from coincidence.selectors import min_version, only_version
 from domdf_python_tools.paths import PathPlus
 
 # this package
-from shippinglabel import (
-		get_project_links,
-		no_dev_versions,
-		no_pre_versions,
-		normalize,
-		normalize_keep_dot,
-		read_pyvenv
-		)
+from shippinglabel import no_dev_versions, no_pre_versions, normalize, normalize_keep_dot, read_pyvenv
 
 
 @pytest.mark.parametrize(
@@ -81,30 +74,3 @@ def test_read_pyvenv(tmp_pathplus: PathPlus, advanced_data_regression: AdvancedD
 	assert venv_config["prompt"] == "(shippinglabel) "
 
 	advanced_data_regression.check(venv_config)
-
-
-@pytest.mark.parametrize(
-		"project",
-		[
-				"pip",
-				"domdf_python_tools",
-				"sphinx",
-				pytest.param(
-						"setuptools",
-						marks=min_version("3.7", reason="Latest setuptools requires Python 3.7+"),
-						),
-				pytest.param(
-						"packaging",
-						marks=min_version("3.7", reason="Latest setuptools requires Python 3.7+"),
-						),
-				pytest.param(
-						"packaging",
-						marks=only_version("3.6", reason="Latest setuptools requires Python 3.7+"),
-						id="packaging_py36"
-						),
-				"whey",
-				"numpy",
-				],
-		)
-def test_get_project_links(advanced_data_regression: AdvancedDataRegressionFixture, project: str):
-	advanced_data_regression.check(dict(get_project_links(project)))

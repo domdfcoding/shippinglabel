@@ -37,7 +37,6 @@ from abc import ABC
 from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union, cast, overload
 
 # 3rd party
-import deprecation_alias
 import dist_meta
 import dom_toml
 from domdf_python_tools.doctools import prettify_docstrings
@@ -637,39 +636,6 @@ def list_requirements(
 			deps = list(list_requirements(str(requirement), depth=depth - 1, path=path))
 			if deps:
 				yield deps
-
-
-@deprecation_alias.deprecated(deprecated_in="1.6.0", removed_in="2.0", current_version=__version__)
-def check_dependencies(dependencies: Iterable[str], prt: bool = True) -> List[str]:
-	"""
-	Check whether one or more dependencies are available to be imported.
-
-	:param dependencies: The list of dependencies to check the availability of.
-	:param prt: Whether the status should be printed to the terminal.
-
-	:return: A list of any missing modules.
-	"""
-
-	# stdlib
-	from pkgutil import iter_modules
-
-	modules = {x[1] for x in iter_modules()}
-	missing_modules = []
-
-	for requirement in dependencies:
-		if requirement not in modules:
-			missing_modules.append(requirement)
-
-	if prt:
-		if len(missing_modules) == 0:
-			print("All modules installed")
-		else:
-			print("The following modules are missing:")
-			print(missing_modules)
-			print("Please check the documentation.")
-		print('')
-
-	return missing_modules
 
 
 def parse_pyproject_dependencies(
