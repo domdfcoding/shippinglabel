@@ -44,7 +44,6 @@ __all__ = [
 		"normalize",
 		"normalize_keep_dot",
 		"read_pyvenv",
-		"get_project_links",
 		]
 
 __author__: str = "Dominic Davis-Foster"

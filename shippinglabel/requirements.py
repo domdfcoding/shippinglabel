@@ -25,10 +25,6 @@ Utilities for working with :pep:`508` requirements.
 #  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 #  OR OTHER DEALINGS IN THE SOFTWARE.
 #
-#  check_dependencies based on https://stackoverflow.com/a/29044693/3092681
-#  Copyright © 2015 TehTechGuy
-#  Licensed under CC-BY-SA
-#
 
 # stdlib
 import copy
@@ -59,7 +55,6 @@ __all__ = [
 		"read_requirements",
 		"RequirementsManager",
 		"list_requirements",
-		"check_dependencies",
 		"parse_requirements",
 		"parse_pyproject_dependencies",
 		"parse_pyproject_extras",
