@@ -74,3 +74,4 @@ tox_unmanaged:
 intersphinx_mapping:
  - "'requests': ('https://requests.readthedocs.io/en/latest/', None)"
  - "'pypi-json': ('https://pypi-json.readthedocs.io/en/latest/', None)"
+ - "'apeye': ('https://apeye.readthedocs.io/en/latest/', None)"
