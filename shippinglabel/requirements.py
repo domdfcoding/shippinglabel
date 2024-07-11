@@ -46,7 +46,7 @@ from packaging.specifiers import BaseSpecifier, Specifier, SpecifierSet
 from typing_extensions import Literal
 
 # this package
-from shippinglabel import __version__, normalize
+from shippinglabel import normalize
 
 __all__ = [
 		"ComparableRequirement",

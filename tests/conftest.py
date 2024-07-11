@@ -1,10 +1,7 @@
 # stdlib
-from typing import Callable, Iterator, Type, TypeVar
+from typing import Callable, Type, TypeVar
 
 # 3rd party
-import pytest
-from _pytest.fixtures import FixtureRequest
-from apeye.slumber_url import SlumberURL
 from apeye.url import URL
 from betamax import Betamax  # type: ignore
 from domdf_python_tools.paths import PathPlus

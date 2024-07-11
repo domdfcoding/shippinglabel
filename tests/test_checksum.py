@@ -1,8 +1,6 @@
 # stdlib
 import os
-import pathlib
 import tempfile
-import urllib.parse
 from typing import Iterator
 
 # 3rd party

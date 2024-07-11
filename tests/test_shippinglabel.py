@@ -1,7 +1,6 @@
 # 3rd party
 import pytest
 from coincidence.regressions import AdvancedDataRegressionFixture
-from coincidence.selectors import min_version, only_version
 from domdf_python_tools.paths import PathPlus
 
 # this package

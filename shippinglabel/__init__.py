@@ -28,11 +28,9 @@ Utilities for handling packages.
 
 # stdlib
 import re
-import warnings
-from typing import Dict, Iterable, List, Optional
+from typing import Dict, Iterable, List
 
 # 3rd party
-import dist_meta.distributions
 from dist_meta.metadata_mapping import MetadataMapping
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike

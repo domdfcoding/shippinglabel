@@ -2,7 +2,6 @@
 import pytest
 from coincidence.regressions import AdvancedDataRegressionFixture
 from packaging.utils import InvalidSdistFilename
-from pytest_regressions.data_regression import DataRegressionFixture
 
 # this package
 from shippinglabel.sdist import NotAnSdistError, parse_sdist_filename
