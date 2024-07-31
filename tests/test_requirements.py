@@ -395,7 +395,7 @@ def test_read_requirements_invalid(
 		"Ignored invalid requirement 'domdf-sphinx-theme!!!0.1.0'",
 		"Ignored invalid requirement 'https://bbc.co.uk'",
 	]):
-		assert record[idx].message.args[0] == warning  # type: ignore[union-attr]
+		assert record[idx].message.args[0] == warning  # type: ignore[index]  # Issue with "Self"
 
 	advanced_data_regression.check([str(x) for x in sorted(requirements)])
 	assert comments == ["# another comment", "   # a comment"]
@@ -431,7 +431,7 @@ def test_read_requirements_invalid_py36(
 		"Ignored invalid requirement 'domdf-sphinx-theme!!!0.1.0'",
 		"Ignored invalid requirement 'https://bbc.co.uk'",
 	]):
-		assert record[idx].message.args[0] == warning  # type: ignore[union-attr]
+		assert record[idx].message.args[0] == warning  # type: ignore[index]  # Issue with "Self"
 
 	advanced_data_regression.check([str(x) for x in sorted(requirements)])
 	assert comments == ["# another comment", "   # a comment"]
