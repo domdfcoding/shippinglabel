@@ -712,8 +712,7 @@ def parse_pyproject_extras(
 
 	return {
 			k: parse_requirements(v, include_invalid=True, normalize_func=normalize_func)[0]
-			for k,
-			v in dependencies.items()
+			for k, v in dependencies.items()
 			}
 
 
