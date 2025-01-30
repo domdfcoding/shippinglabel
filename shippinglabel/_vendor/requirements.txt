@@ -1,1 +1,1 @@
-trove-classifiers==2022.5.19
+trove-classifiers==2025.1.15.22

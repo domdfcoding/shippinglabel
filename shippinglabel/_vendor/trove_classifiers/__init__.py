@@ -58,6 +58,7 @@ sorted_classifiers: List[str] = [
     "Environment :: GPU :: NVIDIA CUDA :: 12 :: 12.3",
     "Environment :: GPU :: NVIDIA CUDA :: 12 :: 12.4",
     "Environment :: GPU :: NVIDIA CUDA :: 12 :: 12.5",
+    "Environment :: GPU :: NVIDIA CUDA :: 12 :: 12.6",
     "Environment :: Handhelds/PDA's",
     "Environment :: MacOS X",
     "Environment :: MacOS X :: Aqua",
@@ -126,8 +127,10 @@ sorted_classifiers: List[str] = [
     "Framework :: Django :: 4.0",
     "Framework :: Django :: 4.1",
     "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5",
     "Framework :: Django :: 5.0",
     "Framework :: Django :: 5.1",
+    "Framework :: Django :: 5.2",
     "Framework :: Django CMS",
     "Framework :: Django CMS :: 3.4",
     "Framework :: Django CMS :: 3.5",
@@ -139,6 +142,7 @@ sorted_classifiers: List[str] = [
     "Framework :: Django CMS :: 3.11",
     "Framework :: Django CMS :: 4.0",
     "Framework :: Django CMS :: 4.1",
+    "Framework :: Django CMS :: 4.2",
     "Framework :: FastAPI",
     "Framework :: Flake8",
     "Framework :: Flask",
@@ -286,6 +290,7 @@ sorted_classifiers: List[str] = [
     "License :: OSI Approved :: Blue Oak Model License (BlueOak-1.0.0)",
     "License :: OSI Approved :: Boost Software License 1.0 (BSL-1.0)",
     "License :: OSI Approved :: CEA CNRS Inria Logiciel Libre License, version 2.1 (CeCILL-2.1)",
+    "License :: OSI Approved :: CMU License (MIT-CMU)",
     "License :: OSI Approved :: Common Development and Distribution License 1.0 (CDDL-1.0)",
     "License :: OSI Approved :: Common Public License",
     "License :: OSI Approved :: Eclipse Public License 1.0 (EPL-1.0)",
@@ -311,11 +316,8 @@ sorted_classifiers: List[str] = [
     "License :: OSI Approved :: Historical Permission Notice and Disclaimer (HPND)",
     "License :: OSI Approved :: IBM Public License",
     "License :: OSI Approved :: ISC License (ISCL)",
-    "License :: OSI Approved :: Intel Open Source License",
-    "License :: OSI Approved :: Jabber Open Source License",
     "License :: OSI Approved :: MIT License",
     "License :: OSI Approved :: MIT No Attribution License (MIT-0)",
-    "License :: OSI Approved :: MITRE Collaborative Virtual Workspace License (CVW)",
     "License :: OSI Approved :: MirOS License (MirOS)",
     "License :: OSI Approved :: Motosoto License",
     "License :: OSI Approved :: Mozilla Public License 1.0 (MPL)",
@@ -334,14 +336,12 @@ sorted_classifiers: List[str] = [
     "License :: OSI Approved :: Ricoh Source Code Public License",
     "License :: OSI Approved :: SIL Open Font License 1.1 (OFL-1.1)",
     "License :: OSI Approved :: Sleepycat License",
-    "License :: OSI Approved :: Sun Industry Standards Source License (SISSL)",
     "License :: OSI Approved :: Sun Public License",
     "License :: OSI Approved :: The Unlicense (Unlicense)",
     "License :: OSI Approved :: Universal Permissive License (UPL)",
     "License :: OSI Approved :: University of Illinois/NCSA Open Source License",
     "License :: OSI Approved :: Vovida Software License 1.0",
     "License :: OSI Approved :: W3C License",
-    "License :: OSI Approved :: X.Net License",
     "License :: OSI Approved :: Zero-Clause BSD (0BSD)",
     "License :: OSI Approved :: Zope Public License",
     "License :: OSI Approved :: zlib/libpng License",
@@ -732,6 +732,7 @@ sorted_classifiers: List[str] = [
     "Topic :: Scientific/Engineering :: Medical Science Apps.",
     "Topic :: Scientific/Engineering :: Oceanography",
     "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Quantum Computing",
     "Topic :: Scientific/Engineering :: Visualization",
     "Topic :: Security",
     "Topic :: Security :: Cryptography",
@@ -872,6 +873,17 @@ classifiers: Set[str] = set(sorted_classifiers)
 # A mapping from the deprecated classifier name to a list of zero or more valid
 # classifiers that should replace it
 deprecated_classifiers: Dict[str, List[str]] = {
+    "License :: OSI Approved :: Intel Open Source License": [],
+    "License :: OSI Approved :: Jabber Open Source License": [],
+    "License :: OSI Approved :: MITRE Collaborative Virtual Workspace License (CVW)": [],
+    "License :: OSI Approved :: Sun Industry Standards Source License (SISSL)": [],
+    "License :: OSI Approved :: X.Net License": [],
     "Natural Language :: Ukranian": ["Natural Language :: Ukrainian"],
     "Topic :: Communications :: Chat :: AOL Instant Messenger": [],
 }
+
+
+# All classifiers, including deprecated classifiers
+all_classifiers: List[str] = sorted(
+    sorted_classifiers + list(deprecated_classifiers.keys())
+)
