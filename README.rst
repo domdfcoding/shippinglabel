@@ -100,7 +100,7 @@ shippinglabel
 .. |language| image:: https://img.shields.io/github/languages/top/domdfcoding/shippinglabel
 	:alt: GitHub top language
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/shippinglabel/v2.1.0
+.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/shippinglabel/v2.2.0
 	:target: https://github.com/domdfcoding/shippinglabel/pulse
 	:alt: GitHub commits since tagged version
 
