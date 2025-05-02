@@ -142,7 +142,7 @@ sorted_classifiers: List[str] = [
     "Framework :: Django CMS :: 3.11",
     "Framework :: Django CMS :: 4.0",
     "Framework :: Django CMS :: 4.1",
-    "Framework :: Django CMS :: 4.2",
+    "Framework :: Django CMS :: 5.0",
     "Framework :: FastAPI",
     "Framework :: Flake8",
     "Framework :: Flask",
@@ -200,6 +200,7 @@ sorted_classifiers: List[str] = [
     "Framework :: Plone :: 5.3",
     "Framework :: Plone :: 6.0",
     "Framework :: Plone :: 6.1",
+    "Framework :: Plone :: 6.2",
     "Framework :: Plone :: Addon",
     "Framework :: Plone :: Core",
     "Framework :: Plone :: Distribution",
@@ -212,6 +213,7 @@ sorted_classifiers: List[str] = [
     "Framework :: Pydantic :: 1",
     "Framework :: Pydantic :: 2",
     "Framework :: Pylons",
+    "Framework :: Pyodide",
     "Framework :: Pyramid",
     "Framework :: Pytest",
     "Framework :: Review Board",
@@ -238,6 +240,7 @@ sorted_classifiers: List[str] = [
     "Framework :: Wagtail :: 4",
     "Framework :: Wagtail :: 5",
     "Framework :: Wagtail :: 6",
+    "Framework :: Wagtail :: 7",
     "Framework :: ZODB",
     "Framework :: Zope",
     "Framework :: Zope2",
@@ -873,6 +876,7 @@ classifiers: Set[str] = set(sorted_classifiers)
 # A mapping from the deprecated classifier name to a list of zero or more valid
 # classifiers that should replace it
 deprecated_classifiers: Dict[str, List[str]] = {
+    "Framework :: Django CMS :: 4.2": ["Framework :: Django CMS :: 5.0"],
     "License :: OSI Approved :: Intel Open Source License": [],
     "License :: OSI Approved :: Jabber Open Source License": [],
     "License :: OSI Approved :: MITRE Collaborative Virtual Workspace License (CVW)": [],
@@ -887,3 +891,10 @@ deprecated_classifiers: Dict[str, List[str]] = {
 all_classifiers: List[str] = sorted(
     sorted_classifiers + list(deprecated_classifiers.keys())
 )
+
+__all__ = [
+    "all_classifiers",
+    "classifiers",
+    "deprecated_classifiers",
+    "sorted_classifiers",
+]
