@@ -1,5 +1,6 @@
 - colorama; sys_platform == "win32"
 - exceptiongroup>=1.0.0rc8; python_version < "3.11"
+- - typing-extensions>=4.6.0; python_version < "3.13"
 - iniconfig
 - packaging
 - pluggy<2,>=1.5
