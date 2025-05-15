@@ -1,4 +1,5 @@
 - exceptiongroup>=1.0.0rc8; python_version < "3.11"
+- - typing-extensions>=4.6.0; python_version < "3.13"
 - importlib-metadata>=0.12; python_version < "3.8"
 - - typing-extensions>=3.6.4; python_version < "3.8"
   - zipp>=0.5
