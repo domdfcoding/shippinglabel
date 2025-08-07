@@ -46,7 +46,7 @@ from packaging.specifiers import BaseSpecifier, Specifier, SpecifierSet
 from typing_extensions import Literal
 
 # this package
-from shippinglabel import normalize
+from shippinglabel import normalize, normalize_keep_dot
 
 __all__ = [
 		"ComparableRequirement",
@@ -615,6 +615,7 @@ def list_requirements(
 	raw_deps = distro.get_metadata().get_all("Requires-Dist") or []
 
 	for requirement in [ComparableRequirement(r) for r in sorted(raw_deps)]:
+		requirement.name = normalize_keep_dot(requirement.name)
 		if requirement.marker:
 			if req.extras:
 				extras = list(req.extras)[0]
