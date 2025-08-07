@@ -8,7 +8,7 @@ from coincidence.regressions import AdvancedDataRegressionFixture
 
 # this package
 from shippinglabel.requirements import list_requirements
-from tests.test_requirements import min_311, only_36, only_37
+from tests.test_requirements import min_311, only_36, only_37, only_38
 
 
 @only_windows("Output differs on Windows")
@@ -17,11 +17,12 @@ from tests.test_requirements import min_311, only_36, only_37
 		[
 				only_36,
 				only_37,
+				only_38,
 				pytest.param(
-						"3.8+",
+						"3.9+",
 						marks=pytest.mark.skipif(
-								not ((3, 8) <= sys.version_info[:2] < (3, 11)),
-								reason="Output differs on Python 3.8, 3.9, 3.10"
+								not ((3, 9) <= sys.version_info[:2] < (3, 11)),
+								reason="Output differs on Python 3.9, 3.10"
 								)
 						),
 				min_311,
