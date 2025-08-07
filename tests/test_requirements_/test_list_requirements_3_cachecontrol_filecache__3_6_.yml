@@ -1,7 +1,0 @@
-- lockfile>=0.9; extra == "filecache"
-- msgpack>=0.5.2
-- requests
-- - certifi>=2017.4.17
-  - charset-normalizer~=2.0.0; python_version >= "3"
-  - idna<4,>=2.5; python_version >= "3"
-  - urllib3<1.27,>=1.21.1
