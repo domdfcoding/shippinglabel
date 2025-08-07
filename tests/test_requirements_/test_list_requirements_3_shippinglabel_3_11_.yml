@@ -1,10 +1,13 @@
 - dist-meta>=0.1.2
 - - domdf-python-tools>=3.1.0
+  - - natsort>=7.0.1
+    - typing-extensions>=3.7.4.1
   - handy-archives>=0.1.0
   - packaging>=20.9
 - dom-toml>=0.2.2
 - - domdf-python-tools>=2.8.0
-  - tomli>=1.2.3; python_version < "3.11"
+  - - natsort>=7.0.1
+    - typing-extensions>=3.7.4.1
 - domdf-python-tools>=3.1.0
 - - natsort>=7.0.1
   - typing-extensions>=3.7.4.1

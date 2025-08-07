@@ -1,0 +1,7 @@
+- filelock>=3.8.0; extra == "filecache"
+- msgpack<2.0.0,>=0.5.2
+- requests>=2.16.0
+- - certifi>=2017.4.17
+  - charset-normalizer<4,>=2
+  - idna<4,>=2.5
+  - urllib3<3,>=1.21.1

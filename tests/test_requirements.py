@@ -502,6 +502,7 @@ min_38 = pytest.param("3.8+", marks=min_version((3, 8), reason="Output differs o
 min_311 = pytest.param("3.11+", marks=min_version((3, 11), reason="Output differs on Python 3.11+"))
 only_39 = pytest.param("3.9", marks=only_version((3, 9), reason="Output differs on Python 3.9"))
 only_310 = pytest.param("3.10", marks=only_version((3, 10), reason="Output differs on Python 3.10"))
+min_311 = pytest.param("3.11", marks=min_version((3, 10), reason="Output differs on Python 3.11"))
 
 
 @not_windows("Output differs on Windows")
@@ -511,6 +512,7 @@ only_310 = pytest.param("3.10", marks=only_version((3, 10), reason="Output diffe
 		only_38,
 		only_39,
 		only_310,
+		min_311,
 		])
 @pytest.mark.parametrize(
 		"library", [
