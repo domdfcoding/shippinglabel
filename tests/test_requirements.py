@@ -502,7 +502,7 @@ min_38 = pytest.param("3.8+", marks=min_version((3, 8), reason="Output differs o
 min_311 = pytest.param("3.11+", marks=min_version((3, 11), reason="Output differs on Python 3.11+"))
 only_39 = pytest.param("3.9", marks=only_version((3, 9), reason="Output differs on Python 3.9"))
 only_310 = pytest.param("3.10", marks=only_version((3, 10), reason="Output differs on Python 3.10"))
-min_311 = pytest.param("3.11", marks=min_version((3, 10), reason="Output differs on Python 3.11"))
+min_311 = pytest.param("3.11", marks=min_version((3, 11), reason="Output differs on Python 3.11"))
 
 
 @not_windows("Output differs on Windows")
@@ -540,11 +540,12 @@ def test_list_requirements(
 		[
 				only_36,
 				only_37,
+				only_38,
 				pytest.param(
-						"3.8+",
+						"3.9+",
 						marks=pytest.mark.skipif(
-								not ((3, 8) <= sys.version_info[:2] < (3, 11)),
-								reason="Output differs on Python 3.8, 3.9, 3.10"
+								not ((3, 9) <= sys.version_info[:2] < (3, 11)),
+								reason="Output differs on Python 3.9, 3.10"
 								)
 						),
 				min_311,
