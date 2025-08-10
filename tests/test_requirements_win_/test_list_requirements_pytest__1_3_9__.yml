@@ -1,4 +1,4 @@
-- colorama; sys_platform == "win32"
+- colorama>=0.4; sys_platform == "win32"
 - exceptiongroup>=1; python_version < "3.11"
 - - typing-extensions>=4.6.0; python_version < "3.13"
 - iniconfig>=1
