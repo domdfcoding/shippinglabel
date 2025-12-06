@@ -541,13 +541,8 @@ def test_list_requirements(
 				only_36,
 				only_37,
 				only_38,
-				pytest.param(
-						"3.9+",
-						marks=pytest.mark.skipif(
-								not ((3, 9) <= sys.version_info[:2] < (3, 11)),
-								reason="Output differs on Python 3.9, 3.10"
-								)
-						),
+				only_39,
+				only_310,
 				min_311,
 				]
 		)

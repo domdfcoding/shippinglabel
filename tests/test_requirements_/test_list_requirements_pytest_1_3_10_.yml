@@ -1,0 +1,6 @@
+- exceptiongroup>=1; python_version < "3.11"
+- iniconfig>=1.0.1
+- packaging>=22
+- pluggy<2,>=1.5
+- pygments>=2.7.2
+- tomli>=1; python_version < "3.11"
