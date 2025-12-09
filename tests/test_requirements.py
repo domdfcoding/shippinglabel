@@ -535,17 +535,14 @@ def test_list_requirements(
 
 
 @not_windows("Output differs on Windows")
-@pytest.mark.parametrize(
-		"py_version",
-		[
-				only_36,
-				only_37,
-				only_38,
-				only_39,
-				only_310,
-				min_311,
-				]
-		)
+@pytest.mark.parametrize("py_version", [
+		only_36,
+		only_37,
+		only_38,
+		only_39,
+		only_310,
+		min_311,
+		])
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
 # @pytest.mark.parametrize("depth", [3])
 def test_list_requirements_pytest(
