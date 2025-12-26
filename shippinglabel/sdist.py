@@ -54,8 +54,12 @@ __all__ = ["NotAnSdistError", "ParsedSdistFilename", "parse_sdist_filename"]
 class NotAnSdistError(ValueError):
 	"""
 	Raised when something other than a source distribution is passed to :func:`~.parse_sdist_filename`.
+
+	:param filename: The problem file.
+	:param msg:
 	"""
 
+	#:  The problem file.
 	filename: str
 
 	def __init__(self, filename: PathLike, msg: str = '') -> None:

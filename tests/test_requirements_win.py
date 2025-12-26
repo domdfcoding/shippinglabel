@@ -1,6 +1,3 @@
-# stdlib
-import sys
-
 # 3rd party
 import pytest
 from coincidence import only_windows

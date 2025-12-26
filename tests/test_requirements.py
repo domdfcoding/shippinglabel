@@ -1,5 +1,4 @@
 # stdlib
-import sys
 from typing import List, Sequence, Union
 
 # 3rd party
@@ -205,29 +204,23 @@ def test_combine_requirements_differing_precision():
 	assert combine_requirements(reqs) == [Requirement("lockfile>=0.12.2")]
 
 
+# The output is the same as the input; save deduplicating.
+_numpy_windows_not_windows = [
+		ComparableRequirement('numpy==1.19.3; platform_system == "Windows"'),
+		ComparableRequirement('numpy>=1.19.1; platform_system != "Windows"'),
+		]
+
+_numpy_windows = [
+		ComparableRequirement('numpy==1.19.3; platform_system == "Windows"'),
+		ComparableRequirement("numpy>=1.19.1"),
+		]
+
+
 @pytest.mark.parametrize(
 		"reqs, combined",
 		[
-				(
-						[
-								ComparableRequirement('numpy==1.19.3; platform_system == "Windows"'),
-								ComparableRequirement('numpy>=1.19.1; platform_system != "Windows"')
-								],
-						[
-								ComparableRequirement('numpy==1.19.3; platform_system == "Windows"'),
-								ComparableRequirement('numpy>=1.19.1; platform_system != "Windows"')
-								],
-						),
-				(
-						[
-								ComparableRequirement('numpy==1.19.3; platform_system == "Windows"'),
-								ComparableRequirement("numpy>=1.19.1"),
-								],
-						[
-								ComparableRequirement('numpy==1.19.3; platform_system == "Windows"'),
-								ComparableRequirement("numpy>=1.19.1"),
-								],
-						),
+				(_numpy_windows_not_windows, _numpy_windows_not_windows),
+				(_numpy_windows, _numpy_windows),
 				(
 						[ComparableRequirement("numpy==1.19.3"), ComparableRequirement("numpy>=1.19.1")],
 						[ComparableRequirement("numpy==1.19.3")],

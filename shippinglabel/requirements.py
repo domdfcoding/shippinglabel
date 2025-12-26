@@ -272,14 +272,14 @@ def combine_requirements(
 		*requirements: _Requirement,
 		normalize_func: Callable[[str], str] = normalize
 		) -> List[ComparableRequirement]:
-	"""
+	r"""
 	Combine duplicated requirements in a list.
 
 	.. versionchanged:: 0.2.1  Added the ``normalize_func`` keyword-only argument.
 	.. versionchanged:: 0.3.1  Requirements are no longer combined if their markers differ.
 
 	:param requirement: A single requirement, or an iterable of requirements.
-	:param requirements: Additional requirements.
+	:param \*requirements: Additional requirements.
 	:param normalize_func: Function to use to normalize the names of requirements.
 	"""
 
