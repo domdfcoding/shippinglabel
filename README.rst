@@ -112,7 +112,7 @@ shippinglabel
 	:alt: Maintenance
 
 .. |pypi-downloads| image:: https://img.shields.io/pypi/dm/shippinglabel
-	:target: https://pypi.org/project/shippinglabel/
+	:target: https://pypistats.org/packages/shippinglabel
 	:alt: PyPI - Downloads
 
 .. end shields
