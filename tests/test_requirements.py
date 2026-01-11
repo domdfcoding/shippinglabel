@@ -41,7 +41,7 @@ class TestComparableRequirement:
 					Requirement("pytest"),
 					Requirement("pytest[extra]"),
 					"pytest",
-					]
+					],
 			)
 	def test_eq(self, req: ComparableRequirement, other: Union[str, ComparableRequirement]):
 		assert req == req
@@ -59,7 +59,7 @@ class TestComparableRequirement:
 					ComparableRequirement("pytest[extra]"),
 					Requirement("pytest"),
 					Requirement("pytest[extra]"),
-					]
+					],
 			)
 	def test_gt(
 			self,
@@ -76,7 +76,7 @@ class TestComparableRequirement:
 					ComparableRequirement("apeye==1.2.3"),
 					Requirement("apeye"),
 					Requirement("apeye==1.2.3"),
-					]
+					],
 			)
 	def test_lt(
 			self,
@@ -102,7 +102,7 @@ class TestComparableRequirement:
 					Requirement("pytest"),
 					Requirement("pytest[extra]"),
 					"pytest",
-					]
+					],
 			)
 	def test_ge(
 			self,
@@ -129,7 +129,7 @@ class TestComparableRequirement:
 					Requirement("pytest"),
 					Requirement("pytest[extra]"),
 					"pytest",
-					]
+					],
 			)
 	def test_le(
 			self,
@@ -237,7 +237,7 @@ _numpy_windows = [
 						[ComparableRequirement("numpy>1.2.3"), ComparableRequirement("numpy>=1.2.2")],
 						[ComparableRequirement("numpy>1.2.3")],
 						),
-				]
+				],
 		)
 def test_combine_requirements_markers(
 		reqs: List[ComparableRequirement],
@@ -257,7 +257,7 @@ def test_combine_requirements_markers(
 				([Specifier("<1.2.2"), Specifier("<=1.2.3")], SpecifierSet("<1.2.2")),
 				([Specifier("<=1.2.3"), Specifier(">2")], SpecifierSet("<=1.2.3,>2")),
 				([Specifier("<1.2.2"), Specifier(">2")], SpecifierSet("<1.2.2,>2")),
-				]
+				],
 		)
 def test_resolve_specifiers(specifiers: List[Specifier], resolved: SpecifierSet):
 	assert resolve_specifiers(specifiers) == resolved
@@ -321,7 +321,7 @@ requirements_c = [
 				pytest.param(requirements_a, id='a'),
 				pytest.param(requirements_b, id='b'),
 				pytest.param(requirements_c, id='c'),
-				]
+				],
 		)
 def test_read_requirements(
 		tmp_pathplus: PathPlus,
@@ -349,7 +349,7 @@ def test_read_requirements(
 				pytest.param(tuple(requirements_a), id="tuple(a)"),
 				pytest.param(tuple(requirements_b), id="tuple(b)"),
 				pytest.param(tuple(requirements_c), id="tuple(c)"),
-				]
+				],
 		)
 def test_parse_requirements(
 		advanced_data_regression: AdvancedDataRegressionFixture,
@@ -499,22 +499,26 @@ min_311 = pytest.param("3.11", marks=min_version((3, 11), reason="Output differs
 
 
 @not_windows("Output differs on Windows")
-@pytest.mark.parametrize("py_version", [
-		only_36,
-		only_37,
-		only_38,
-		only_39,
-		only_310,
-		min_311,
-		])
 @pytest.mark.parametrize(
-		"library", [
+		"py_version",
+		[
+				only_36,
+				only_37,
+				only_38,
+				only_39,
+				only_310,
+				min_311,
+				],
+		)
+@pytest.mark.parametrize(
+		"library",
+		[
 				"shippinglabel",
 				"apeye",
 				"cachecontrol[filecache]",
 				"domdf-python-tools",
 				"domdf_python_tools",
-				]
+				],
 		)
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
 # @pytest.mark.parametrize("depth", [3])
@@ -528,14 +532,17 @@ def test_list_requirements(
 
 
 @not_windows("Output differs on Windows")
-@pytest.mark.parametrize("py_version", [
-		only_36,
-		only_37,
-		only_38,
-		only_39,
-		only_310,
-		min_311,
-		])
+@pytest.mark.parametrize(
+		"py_version",
+		[
+				only_36,
+				only_37,
+				only_38,
+				only_39,
+				only_310,
+				min_311,
+				],
+		)
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
 # @pytest.mark.parametrize("depth", [3])
 def test_list_requirements_pytest(

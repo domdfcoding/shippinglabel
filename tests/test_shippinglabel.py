@@ -16,7 +16,7 @@ from shippinglabel import no_dev_versions, no_pre_versions, normalize, normalize
 				("baz-extensions", "baz-extensions"),
 				("baz_extensions", "baz-extensions"),
 				("baz.extensions", "baz-extensions"),
-				]
+				],
 		)
 def test_normalize(name: str, expected: str):
 	assert normalize(name) == expected
@@ -31,7 +31,7 @@ def test_normalize(name: str, expected: str):
 				("baz-extensions", "baz-extensions"),
 				("baz_extensions", "baz-extensions"),
 				("baz.extensions", "baz.extensions"),
-				]
+				],
 		)
 def test_normalize_keep_dot(name: str, expected: str):
 	assert normalize_keep_dot(name) == expected
@@ -66,7 +66,7 @@ def test_read_pyvenv(tmp_pathplus: PathPlus, advanced_data_regression: AdvancedD
 					"base-executable = /usr/bin/python3",
 					"prompt = (shippinglabel) ",
 					"repo_helper_devenv = 0.3.0",
-					])
+					]),
 			)
 
 	venv_config = read_pyvenv(tmp_pathplus)
