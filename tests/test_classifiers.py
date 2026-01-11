@@ -68,7 +68,7 @@ class TestValidateClassifiers:
 				pytest.param(["dulwich"], id="dulwich"),
 				pytest.param(["gitpython"], id="gitpython"),
 				pytest.param(["dulwich", "southwark"], id="dulwich_southwark"),
-				]
+				],
 		)
 def test_classifiers_from_requirements(
 		requirements: List[str],
