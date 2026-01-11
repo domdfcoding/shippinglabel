@@ -39,7 +39,7 @@ from shippinglabel.sdist import NotAnSdistError, parse_sdist_filename
 				"dulwich-0.20.15.tar.gz",
 				"tox-pip-version-0.0.7.tar.gz",
 				"numpy-1.16.5.zip",
-				]
+				],
 		)
 def test_parse_sdist_filename(filename: str, advanced_data_regression: AdvancedDataRegressionFixture):
 	parsed_filename = parse_sdist_filename(filename)

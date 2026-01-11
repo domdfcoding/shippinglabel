@@ -94,7 +94,7 @@ class ParsedSdistFilename(NamedTuple):
 SDIST_FILENAME_CRGX = re.compile(
 		r'(?P<project>[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?(-stubs)?)'
 		r'-(?P<version>[A-Za-z0-9_.!+]+)'
-		r'(?P<extension>.tar.gz|.tar.bz2|.zip)'
+		r'(?P<extension>.tar.gz|.tar.bz2|.zip)',
 		)
 
 

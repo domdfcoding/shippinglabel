@@ -270,7 +270,7 @@ def resolve_specifiers(specifiers: Iterable[BaseSpecifier]) -> SpecifierSet:
 def combine_requirements(
 		requirement: Union[_Requirement, Iterable[_Requirement]],
 		*requirements: _Requirement,
-		normalize_func: Callable[[str], str] = normalize
+		normalize_func: Callable[[str], str] = normalize,
 		) -> List[ComparableRequirement]:
 	r"""
 	Combine duplicated requirements in a list.
@@ -323,7 +323,7 @@ def read_requirements(
 		req_file: PathLike,
 		include_invalid: Literal[True],
 		*,
-		normalize_func: Callable[[str], str] = ...
+		normalize_func: Callable[[str], str] = ...,
 		) -> _read_requirements_ret_invalid: ...
 
 
@@ -332,7 +332,7 @@ def read_requirements(
 		req_file: PathLike,
 		include_invalid: Literal[False] = ...,
 		*,
-		normalize_func: Callable[[str], str] = ...
+		normalize_func: Callable[[str], str] = ...,
 		) -> _read_requirements_ret_valid: ...
 
 
@@ -340,7 +340,7 @@ def read_requirements(
 		req_file: PathLike,
 		include_invalid: bool = False,
 		*,
-		normalize_func: Callable[[str], str] = normalize
+		normalize_func: Callable[[str], str] = normalize,
 		) -> _read_requirements_ret:
 	"""
 	Reads :pep:`508` requirements from the given file.
@@ -369,7 +369,7 @@ def parse_requirements(
 		requirements: Iterable[str],
 		*,
 		include_invalid: Literal[True],
-		normalize_func: Callable[[str], str] = ...
+		normalize_func: Callable[[str], str] = ...,
 		) -> _read_requirements_ret_invalid: ...
 
 
@@ -378,7 +378,7 @@ def parse_requirements(
 		requirements: Iterable[str],
 		*,
 		include_invalid: Literal[False] = ...,
-		normalize_func: Callable[[str], str] = ...
+		normalize_func: Callable[[str], str] = ...,
 		) -> _read_requirements_ret_valid: ...
 
 
@@ -386,7 +386,7 @@ def parse_requirements(
 		requirements: Iterable[str],
 		*,
 		include_invalid: bool = False,
-		normalize_func: Callable[[str], str] = normalize
+		normalize_func: Callable[[str], str] = normalize,
 		) -> _read_requirements_ret:
 	"""
 	Parse the given strings as :pep:`508` requirements.
@@ -638,7 +638,7 @@ def parse_pyproject_dependencies(
 		pyproject_file: PathLike,
 		flavour: Literal["pep621", "flit", "auto"] = "auto",
 		*,
-		normalize_func: Callable[[str], str] = normalize
+		normalize_func: Callable[[str], str] = normalize,
 		) -> Set[ComparableRequirement]:
 	"""
 	Parse the project's dependencies from its ``pyproject.toml`` file.
@@ -680,7 +680,7 @@ def parse_pyproject_extras(
 		pyproject_file: PathLike,
 		flavour: Literal["pep621", "flit", "auto"] = "auto",
 		*,
-		normalize_func: Callable[[str], str] = normalize
+		normalize_func: Callable[[str], str] = normalize,
 		) -> Dict[str, Set[ComparableRequirement]]:
 	"""
 	Parse the project's extra dependencies from its ``pyproject.toml`` file.

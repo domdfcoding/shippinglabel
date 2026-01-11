@@ -9,14 +9,17 @@ from tests.test_requirements import min_311, only_36, only_37, only_38, only_39,
 
 
 @only_windows("Output differs on Windows")
-@pytest.mark.parametrize("py_version", [
-		only_36,
-		only_37,
-		only_38,
-		only_39,
-		only_310,
-		min_311,
-		])
+@pytest.mark.parametrize(
+		"py_version",
+		[
+				only_36,
+				only_37,
+				only_38,
+				only_39,
+				only_310,
+				min_311,
+				],
+		)
 @pytest.mark.parametrize("depth", [-1, 0, 1, 2, 3])
 def test_list_requirements_pytest(
 		advanced_data_regression: AdvancedDataRegressionFixture,
