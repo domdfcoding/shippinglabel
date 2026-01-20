@@ -44,11 +44,6 @@ Homepage = "https://github.com/domdfcoding/shippinglabel"
 "Source Code" = "https://github.com/domdfcoding/shippinglabel"
 Documentation = "https://shippinglabel.readthedocs.io/en/latest"
 
-[tool.mkrecipe]
-conda-channels = [ "conda-forge", "domdfcoding",]
-extras = "all"
-license-key = "MIT"
-
 [tool.sphinx-pyproject]
 github_username = "domdfcoding"
 github_repository = "shippinglabel"
