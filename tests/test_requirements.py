@@ -26,7 +26,8 @@ from shippinglabel.requirements import (
 class TestComparableRequirement:
 
 	@pytest.fixture(scope="class")
-	def req(self) -> ComparableRequirement:
+	@classmethod
+	def req(cls) -> ComparableRequirement:
 		return ComparableRequirement('pytest==6.0.0; python_version <= "3.9"')
 
 	@pytest.mark.parametrize(
