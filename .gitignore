@@ -86,3 +86,5 @@ Pipfile.lock
 .pyre/
 _metadata.py
 demo.py
+shippinglabel/_vendor/bin/*
+shippinglabel/_vendor/bin.pyi
