@@ -193,8 +193,9 @@ exclude = [
     "doc-source",
 ]
 
-[tool.hatch.build.sdist]
-include = [ "shippinglabel", "requirements.txt",]
+[tool.hatch.build.targets.sdist]
+include = [ "shippinglabel", "requirements.txt", "tests", "tox.ini",]
+exclude = []
 
 [tool.hatch.build.wheel]
 include = [ "shippinglabel",]
